@@ -1,0 +1,55 @@
+#!/bin/bash
+
+main() {
+	[[ $# == 0 ]] && usage
+
+	subcommand="$1"
+
+	case "$subcommand" in
+		get)
+			"$subcommand"
+			;;
+		set)
+			"$subcommand" "${@:2}"
+			;;
+		*)
+			error "unknown argument: $subcommand"
+			;;
+	esac
+}
+
+usage() {
+	script_command="$(readlink -f "$0")"
+	script_name="$(basename "$script_command")"
+
+	echo "Usage: $script_name <command>"
+	echo "Available commands: get, set [path]"
+	exit 0
+}
+
+error() {
+	echo "$1"
+	exit 1
+}
+
+get() {
+	file=$(gsettings get org.gnome.desktop.background picture-uri)
+	echo "${file/'file://'/''}"
+}
+
+set() {
+	WALLPAPERS="$HOME/Pictures/wallpapers"
+
+	# resolve wallpaper from arguments or choose one randomly
+	[[ $# > 0 ]] && wallpaper=$(realpath $1)
+	[[ ! -f "$wallpaper" ]] && wallpaper=$(find $WALLPAPERS -type f -not -path "*/.git/*" | shuf -n 1)
+
+	# set wallpaper
+	gsettings set org.gnome.desktop.background picture-uri "file://$wallpaper"
+	gsettings set org.gnome.desktop.background picture-options "stretched"
+
+	# pywal: apply colorscheme
+	~/.local/bin/wal -i "$wallpaper" -n
+}
+
+main "$@"
