@@ -21,13 +21,11 @@ export PATH
 # User specific environment and startup programs
 
 # Default programs:
-export EDITOR="nvim"
 export BROWSER="firefox"
+export EDITOR="nvim"
+export TERMINAL="st"
 
 # Clean up ~:
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_CACHE_HOME="$HOME/.cache"
 export GNUPGHOME="$XDG_DATA_HOME/gnupg"
 
 #
@@ -37,7 +35,7 @@ export GNUPGHOME="$XDG_DATA_HOME/gnupg"
 # ( ) # Hide shell job control messages.
 (cat ~/.cache/wal/sequences &)
 # To add support for TTYs this line can be optionally added.
-source ~/.cache/wal/colors-tty.sh
+source "${XDG_CACHE_HOME:-$HOME/.cache}/wal/colors-tty.sh"
 
 # custom prompt:
 export PS1="\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w \$\[\033[00m\] "
