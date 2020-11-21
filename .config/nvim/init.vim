@@ -144,6 +144,7 @@ endif
 
 set colorcolumn=80
 set guifont=FuraCode\ Regular\ Nerd\ Font
+colorscheme solarized
 
 " }}}
 

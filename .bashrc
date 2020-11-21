@@ -28,6 +28,9 @@ export TERMINAL="st"
 # Clean up ~:
 export GNUPGHOME="$XDG_DATA_HOME/gnupg"
 
+# Secrets
+[[ -f $HOME/.bash_secrets ]] && source $HOME/.bash_secrets
+
 #
 # pywal
 # Import colorscheme from 'wal' asynchronously

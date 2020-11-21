@@ -9,7 +9,7 @@
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# to use, copy, MODify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
 #
@@ -28,108 +28,82 @@ import os
 import subprocess
 from typing import List  # noqa: F401
 
-from libqtile import bar, hook, layout, widget
+from libqtile import hook, layout
 from libqtile.command import lazy
-from libqtile.config import Click, Drag, Group, Key, Screen
+from libqtile.config import Click, Drag, Group, Key
 
-mod = "mod4"    # Sets mod key to SUPER/WINDOWS
-term = "st"     # Terminal of choice
+import gnome_qtile
+import layouts
+import screens
+
+MOD = "mod4"    # sets MOD key to SUPER/WINDOWS
+TERM = "st"     # termimal of choice
 
 keys = [
     # Switch between windows in current stack pane
-    Key([mod], "k", lazy.layout.down()),
-    Key([mod], "j", lazy.layout.up()),
+    Key([MOD], "j", lazy.layout.down()),
+    Key([MOD], "k", lazy.layout.up()),
 
     # Move windows up or down in current stack
-    Key([mod, "control"], "j", lazy.layout.shuffle_down()),
-    Key([mod, "control"], "k", lazy.layout.shuffle_up()),
+    Key([MOD, "control"], "j", lazy.layout.shuffle_down()),
+    Key([MOD, "control"], "k", lazy.layout.shuffle_up()),
 
     # Switch window focus to other pane(s) of stack
-    Key([mod], "space", lazy.layout.next()),
+    Key([MOD], "space", lazy.layout.next()),
 
     # Swap panes of split stack
-    Key([mod, "shift"], "space", lazy.layout.rotate()),
+    Key([MOD, "shift"], "space", lazy.layout.rotate()),
 
     # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
     # multiple stack panes
-    Key([mod, "shift"], "Return", lazy.layout.toggle_split()),
-    Key([mod], "Return", lazy.spawn(term)),
+    Key([MOD, "shift"], "Return", lazy.layout.toggle_split()),
+    Key([MOD], "Return", lazy.spawn(TERM)),
 
     # Toggle between different layouts as defined below
-    Key([mod], "Tab", lazy.next_layout()),
-    Key([mod], "w", lazy.window.kill()),
+    Key([MOD], "Tab", lazy.next_layout()),
+    Key([MOD], "w", lazy.window.kill()),
 
-    Key([mod, "control"], "r", lazy.restart()),
-    Key([mod, "control"], "q", lazy.shutdown()),
-    Key([mod], "r", lazy.spawncmd()),
+    Key([MOD, "control"], "r", lazy.restart()),
+    Key([MOD, "control"], "q", lazy.shutdown()),
+    Key([MOD], "r", lazy.spawncmd()),
+
+    Key([MOD, 'control'], 'l', lazy.spawn('gnome-screensaver-command -l')),
+    Key([MOD, 'control'], 'q', lazy.spawn('gnome-session-quit --logout --no-prompt')),
+    Key([MOD, 'shift', 'control'], 'q', lazy.spawn('gnome-session-quit --power-off')),
 ]
 
 groups = [Group(i) for i in "asdfuiop"]
 
 for i in groups:
     keys.extend([
-        # mod1 + letter of oup = switch to group
-        Key([mod], i.name, lazy.group[i.name].toscreen()),
+        # MOD1 + letter of oup = switch to group
+        Key([MOD], i.name, lazy.group[i.name].toscreen()),
 
-        # mod1 + shift + letter of group = switch to & move focused window to group
-        Key([mod, "shift"], i.name, lazy.window.togroup(i.name)),
+        # MOD1 + shift + letter of group = switch to & move focused window to group
+        Key([MOD, "shift"], i.name, lazy.window.togroup(i.name)),
     ])
 
-layout_theme = {
-        "border_width": 2,
-        "margin": 6,
-        "border_focus": "e1acff",
-        "border_normal": "1D2330"
-        }
-
-layouts = [
-    layout.Max(**layout_theme),
-    layout.Stack(num_stacks=2)
-]
+layouts = layouts.get()
 
 widget_defaults = dict(
-    font='sans',
-    fontsize=12,
+    font='Hack Bold',
+    foreground='808080',
+    fontsize=14,
     padding=3,
 )
 extension_defaults = widget_defaults.copy()
 
-screens = [
-    Screen(
-        top=bar.Bar(
-            [
-                widget.GroupBox(),
-                widget.Prompt(),
-                widget.WindowName(),
-                widget.Systray(),
-                widget.Clock(format='%Y-%m-%d %a %I:%M %p'),
-            ],
-            24,
-        ),
-    ),
-    Screen(
-        top=bar.Bar(
-            [
-                widget.GroupBox(),
-                widget.Prompt(),
-                widget.WindowName(),
-                widget.Systray(),
-                widget.Clock(format='%Y-%m-%d %a %I:%M %p'),
-            ],
-            24,
-        ),
-    ),
-]
+screens = screens.get()
 
 # Drag floating layouts.
 mouse = [
-    Drag([mod], "Button1", lazy.window.set_position_floating(),
+    Drag([MOD], "Button1", lazy.window.set_position_floating(),
          start=lazy.window.get_position()),
-    Drag([mod], "Button3", lazy.window.set_size_floating(),
+    Drag([MOD], "Button3", lazy.window.set_size_floating(),
          start=lazy.window.get_size()),
-    Click([mod], "Button2", lazy.window.bring_to_front())
+    Click([MOD], "Button2", lazy.window.bring_to_front())
 ]
 
 dgroups_key_binder = None
@@ -161,6 +135,10 @@ focus_on_window_activation = "smart"
 def start_once():
     config = os.getenv("XDG_CONFIG_HOME", os.environ["HOME"] + '/.config')
     subprocess.call([config + '/qtile/autostart.sh'])
+
+@hook.subscribe.startup
+def gnome_session():
+    gnome_qtile.dbus_register()
 
 # XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
 # string besides java UI toolkits; you can see several discussions on the
