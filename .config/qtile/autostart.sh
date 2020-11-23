@@ -1,4 +1,5 @@
 #!/bin/sh
 
 picom &
-$HOME/.fehbg
+light-locker &
+${XDG_CONFIG_HOME:-$HOME/.config/}/fehbg

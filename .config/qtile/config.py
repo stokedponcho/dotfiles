@@ -36,6 +36,7 @@ import gnome_qtile
 import layouts
 import screens
 
+ALT = "mod1"
 MOD = "mod4"    # sets MOD key to SUPER/WINDOWS
 TERM = "st"     # termimal of choice
 
@@ -44,37 +45,30 @@ keys = [
     Key([MOD], "j", lazy.layout.down()),
     Key([MOD], "k", lazy.layout.up()),
 
-    # Move windows up or down in current stack
-    Key([MOD, "control"], "j", lazy.layout.shuffle_down()),
-    Key([MOD, "control"], "k", lazy.layout.shuffle_up()),
+    # Switch window focus to other screen
+    Key([MOD], "Tab", lazy.next_screen()),
 
-    # Switch window focus to other pane(s) of stack
-    Key([MOD], "space", lazy.layout.next()),
-
-    # Swap panes of split stack
-    Key([MOD, "shift"], "space", lazy.layout.rotate()),
-
-    # Toggle between split and unsplit sides of stack.
-    # Split = all windows displayed
-    # Unsplit = 1 window displayed, like Max layout, but still with
-    # multiple stack panes
-    Key([MOD, "shift"], "Return", lazy.layout.toggle_split()),
     Key([MOD], "Return", lazy.spawn(TERM)),
 
     # Toggle between different layouts as defined below
-    Key([MOD], "Tab", lazy.next_layout()),
+    Key([MOD, "shift"], "Tab", lazy.next_layout()),
     Key([MOD], "w", lazy.window.kill()),
+
+    Key([MOD], "r", lazy.spawn("dmenu_run")),
+    # Customised dmenu_launch script for flatpak applications
+    Key([MOD, "shift"], "r", lazy.spawn("dmenu_launch")),
 
     Key([MOD, "control"], "r", lazy.restart()),
     Key([MOD, "control"], "q", lazy.shutdown()),
-    Key([MOD], "r", lazy.spawncmd()),
 
-    Key([MOD, 'control'], 'l', lazy.spawn('gnome-screensaver-command -l')),
-    Key([MOD, 'control'], 'q', lazy.spawn('gnome-session-quit --logout --no-prompt')),
-    Key([MOD, 'shift', 'control'], 'q', lazy.spawn('gnome-session-quit --power-off')),
+    Key([MOD], "l", lazy.spawn("light-locker-command -l")),
+
+    # Key([MOD, 'control'], 'l', lazy.spawn('gnome-screensaver-command -l')),
+    # Key([MOD, 'control'], 'q', lazy.spawn('gnome-session-quit --logout --no-prompt')),
+    # Key([MOD, 'shift', 'control'], 'q', lazy.spawn('gnome-session-quit --power-off')),
 ]
 
-groups = [Group(i) for i in "asdfuiop"]
+groups = [Group(i) for i in "asdf"]
 
 for i in groups:
     keys.extend([

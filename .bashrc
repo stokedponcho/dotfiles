@@ -41,4 +41,5 @@ export GNUPGHOME="$XDG_DATA_HOME/gnupg"
 source "${XDG_CACHE_HOME:-$HOME/.cache}/wal/colors-tty.sh"
 
 # custom prompt:
-export PS1="\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w \$\[\033[00m\] "
+#export PS1="\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w \$\[\033[00m\] "
+export PS1="\[\033[01;34m\]\w \[\033[01;32m\]\$\[\033[00m\] "

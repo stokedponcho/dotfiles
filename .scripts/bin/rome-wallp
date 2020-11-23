@@ -51,12 +51,9 @@ set() {
 	[[ ! -f "$wallpaper" ]] && wallpaper=$(find $WALLPAPERS -type f -not -path "*/.git/*" | shuf -n 1)
 
 	# set wallpaper
-	if [[ "$GDMSESSION" == "gnome" ]]; then
-		gsettings set org.gnome.desktop.background picture-uri "file://$wallpaper"
-		gsettings set org.gnome.desktop.background picture-options "stretched"
-	else
-		feh --bg-fill "$wallpaper"
-	fi
+	gsettings set org.gnome.desktop.background picture-uri "file://$wallpaper"
+	gsettings set org.gnome.desktop.background picture-options "stretched"
+	feh --bg-fill "$wallpaper" && mv "$HOME/.fehbg" "${XDG_CONFIG_HOME:-$HOME/.config}/fehbg"
 
 	# pywal: apply colorscheme
 	~/.local/bin/wal -i "$wallpaper" -n
