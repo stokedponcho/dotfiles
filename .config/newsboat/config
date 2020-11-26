@@ -1,0 +1,6 @@
+browser "qutebrowser %u &"
+
+bind-key j down
+bind-key k up
+bind-key g home
+bind-key G end
