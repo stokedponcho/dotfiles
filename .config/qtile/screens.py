@@ -1,14 +1,15 @@
 '''
 Custom screens configuration.
 '''
-import os
-import socket
-
 from libqtile import bar, widget
 from libqtile.config import Screen
 
+import arcobattery
+import env
+
 MONITOR_COUNT = 2
 ICON_THEME_PATH = "/usr/share/icons/AwOkenDark/clear/24x24/status/"
+BATTERY_ICONS = f"{env.CONFIG_HOME}/qtile/icons/battery_icons_horiz"
 
 def get():
     '''
@@ -18,8 +19,6 @@ def get():
 
 
 def _get_default_screen():
-    prompt = "{0}@{1}: ".format(os.environ["USER"], socket.gethostname())
-
     return Screen(
         top=bar.Bar(
             [
@@ -41,14 +40,25 @@ def _get_default_screen():
                 widget.Notify(),
                 widget.Systray(),
                 widget.TextBox(text='🌡', padding=2),
-                widget.ThermalSensor(treshold=70, foreground='808080', update_interval=5),
+                widget.ThermalSensor(
+                    treshold=70,
+                    foreground='808080',
+                    update_interval=5),
                 widget.TextBox(text='🖬'),
                 widget.Memory(update_interval=5.0),
                 widget.Volume(theme_path=ICON_THEME_PATH),
-                widget.BatteryIcon(theme_path=ICON_THEME_PATH),
+                # widget.BatteryIcon(theme_path=ICON_THEME_PATH),
                 widget.Clock(format='%A, %B %d %H:%M'),
+                arcobattery.BatteryIcon(
+                    padding=0,
+                    scale=0.6,
+                    y_poss=3,
+                    update_interval=60,
+                    theme_path=BATTERY_ICONS,
+                    ),
             ],
             30,
+            opacity=0.8
         ),
     )
 

@@ -24,7 +24,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import os
 import subprocess
 from typing import List  # noqa: F401
 
@@ -32,6 +31,7 @@ from libqtile import hook, layout
 from libqtile.command import lazy
 from libqtile.config import Click, Drag, Group, Key
 
+import env
 import gnome_qtile
 import layouts
 import screens
@@ -55,7 +55,7 @@ keys = [
     Key([MOD], "w", lazy.window.kill()),
 
     Key([MOD], "r", lazy.spawn("dmenu_run")),
-    # Customised dmenu_launch script for flatpak applications
+    # Customised dmenu_launch script for .desktop applications (includes flatpaks)
     Key([MOD, "shift"], "r", lazy.spawn("dmenu_launch")),
 
     Key([MOD, "control"], "r", lazy.restart()),
@@ -125,9 +125,10 @@ floating_layout = layout.Floating(float_rules=[
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 
+
 @hook.subscribe.startup_once
 def start_once():
-    config = os.getenv("XDG_CONFIG_HOME", os.environ["HOME"] + '/.config')
+    config = env.CONFIG_HOME
     subprocess.call([config + '/qtile/autostart.sh'])
 
 @hook.subscribe.startup
