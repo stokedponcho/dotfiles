@@ -24,7 +24,6 @@ def _get_default_screen():
             [
                 widget.Sep(linewidth=0, padding=6),
                 widget.GroupBox(
-                    font="Hack Bold",
                     margin_y=3,
                     margin_x=0,
                     padding_y=5,
@@ -33,20 +32,19 @@ def _get_default_screen():
                     rounded=False,
                     highlight_method="line",
                 ),
+                widget.Sep(linewidth=0, padding=6),
                 widget.CurrentLayoutIcon(scale=0.5),
                 widget.CurrentLayout(),
                 widget.Sep(linewidth=0, padding=40),
                 widget.WindowName(),
                 widget.Notify(),
                 widget.Systray(),
-                widget.TextBox(text='🌡', padding=2),
                 widget.ThermalSensor(
                     treshold=70,
                     foreground='808080',
                     update_interval=5),
-                widget.TextBox(text='🖬'),
                 widget.Memory(update_interval=5.0),
-                widget.Volume(theme_path=ICON_THEME_PATH),
+                # widget.Volume(),
                 # widget.BatteryIcon(theme_path=ICON_THEME_PATH),
                 widget.Clock(format='%A, %B %d %H:%M'),
                 arcobattery.BatteryIcon(

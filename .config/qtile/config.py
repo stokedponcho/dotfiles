@@ -32,7 +32,6 @@ from libqtile.command import lazy
 from libqtile.config import Click, Drag, Group, Key
 
 import env
-import gnome_qtile
 import layouts
 import screens
 
@@ -42,8 +41,12 @@ TERM = "st"     # termimal of choice
 
 keys = [
     # Switch between windows in current stack pane
-    Key([MOD], "j", lazy.layout.down()),
     Key([MOD], "k", lazy.layout.up()),
+    Key([MOD], "j", lazy.layout.down()),
+
+    Key([MOD, "shift"], "space", lazy.layout.flip()),
+    Key([MOD, "shift"], "k", lazy.layout.shuffle_up()),
+    Key([MOD, "shift"], "j", lazy.layout.shuffle_down()),
 
     # Switch window focus to other screen
     Key([MOD], "Tab", lazy.next_screen()),
@@ -54,27 +57,22 @@ keys = [
     Key([MOD, "shift"], "Tab", lazy.next_layout()),
     Key([MOD], "w", lazy.window.kill()),
 
+    # Key([MOD], "r", lazy.spawn("rofi")),
     Key([MOD], "r", lazy.spawn("dmenu_run")),
     # Customised dmenu_launch script for .desktop applications (includes flatpaks)
-    Key([MOD, "shift"], "r", lazy.spawn("dmenu_launch")),
+    Key([MOD, "shift"], "r", lazy.spawn("rofi -show combi")),
 
+    Key([MOD, "control"], "l", lazy.spawn("slock")),
     Key([MOD, "control"], "r", lazy.restart()),
     Key([MOD, "control"], "q", lazy.shutdown()),
-
-    Key([MOD], "l", lazy.spawn("light-locker-command -l")),
-
-    # Key([MOD, 'control'], 'l', lazy.spawn('gnome-screensaver-command -l')),
-    # Key([MOD, 'control'], 'q', lazy.spawn('gnome-session-quit --logout --no-prompt')),
-    # Key([MOD, 'shift', 'control'], 'q', lazy.spawn('gnome-session-quit --power-off')),
 ]
 
-groups = [Group(i) for i in "asdf"]
+groups = [Group(i) for i in "12345678"]
 
 for i in groups:
     keys.extend([
         # MOD1 + letter of oup = switch to group
         Key([MOD], i.name, lazy.group[i.name].toscreen()),
-
         # MOD1 + shift + letter of group = switch to & move focused window to group
         Key([MOD, "shift"], i.name, lazy.window.togroup(i.name)),
     ])
@@ -130,10 +128,6 @@ focus_on_window_activation = "smart"
 def start_once():
     config = env.CONFIG_HOME
     subprocess.call([config + '/qtile/autostart.sh'])
-
-@hook.subscribe.startup
-def gnome_session():
-    gnome_qtile.dbus_register()
 
 # XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
 # string besides java UI toolkits; you can see several discussions on the

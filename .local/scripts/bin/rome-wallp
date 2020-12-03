@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 main() {
 	[[ $# == 0 ]] && usage
@@ -7,10 +7,10 @@ main() {
 
 	case "$command" in
 		get)
-			"$command"
+			getbg
 			;;
 		set)
-			"$command" "${@:2}"
+			setbg "${@:2}"
 			;;
 		*)
 			error "unknown argument: $command"
@@ -32,18 +32,18 @@ error() {
 	exit 1
 }
 
-get() {
+getbg() {
 
 	if [[ "$GDMSESSION" == "gnome" ]]; then
 		file=$(gsettings get org.gnome.desktop.background picture-uri)
 	else
-		file=$(awk '{print $4}' .fehbg)
+		file=$(awk '{print $4}' "$XDG_CONFIG_HOME/fehbg")
 	fi
 
 	echo "${file/'file://'/''}"
 }
 
-set() {
+setbg() {
 	WALLPAPERS="${XDG_PICTURES_DIR:-$HOME/Pictures}/wallpapers"
 
 	# resolve wallpaper from arguments or choose one randomly
@@ -56,7 +56,7 @@ set() {
 	feh --bg-fill "$wallpaper" && mv "$HOME/.fehbg" "${XDG_CONFIG_HOME:-$HOME/.config}/fehbg"
 
 	# pywal: apply colorscheme
-	~/.local/bin/wal -i "$wallpaper" -n
+	wal -i "$wallpaper" -n
 }
 
 main "$@"

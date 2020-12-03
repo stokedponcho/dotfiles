@@ -10,6 +10,7 @@ alias rm="rm -vI"
 alias mkdir="mkdir -pv"
 
 cdls() { builtin cd $@ && ls; }
+sc() { du -a ~/.config/ ~/.local/scripts/ | awk '{print $2}' | sk -q "$1" | xargs -r $EDITOR; }
 
 alias vim=nvim
 alias top=htop

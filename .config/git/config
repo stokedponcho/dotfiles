@@ -4,8 +4,8 @@
 #	name =
 #	email =
 [core]
-    pager = delta --plus-color="#012800" --minus-color="#340001" --theme='Monokai Extended'
-	hooksPath = ~/.config/git/hooks
+		pager = delta --plus-color="#012800" --minus-color="#340001" --theme='Monokai Extended'
+		hooksPath = ~/.config/git/hooks
 
 [interactive]
     diffFilter = delta --color-only
