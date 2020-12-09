@@ -1,9 +1,9 @@
 #! /bin/sh
 
-pgrep picom || picom &
-pgrep redshift || redshift &
-pgrep dunst || dunst &
-mullvad connect &
+pgrep picom || /usr/bin/picom &
+pgrep redshift || /usr/bin/redshift &
+pgrep dunst || /usr/bin/dunst &
+pgrep mullvad || /usr/bin/mullvad connect &
 
 $XDG_CONFIG_HOME/fehbg &
 $XDG_CONFIG_HOME/polybar/launch.sh

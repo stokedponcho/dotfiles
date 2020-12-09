@@ -6,11 +6,9 @@ export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
 
 # Adds `~/.local/script/bin` to $PATH
+! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]] && export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+! [[ "$PATH" =~ "$HOME/.local/share/cargo/bin" ]] && export PATH="$HOME/.local/share/cargo/bin:$PATH"
 export PATH="$PATH:$(du "$HOME/.local/scripts/bin" | cut -f2 | paste -sd ':')"
-
-
-[[ -f ~/.bashrc ]] && . ~/.bashrc
-[[ -f ~/.config/profile_secrets ]] && . ~/.config/profile_secrets
 
 # Default programs:
 export BROWSER="firefox"
@@ -41,6 +39,12 @@ export XSERVERRC="$XDG_CONFIG_HOME/X11/xserverrc"
 # other
 export QT_QPA_PLATFORMTHEME="gtk3"
 export SKIM_DEFAULT_OPTIONS="--height 40% --reverse"
+export _Z_DATA="$XDG_CACHE_HOME/z"
+
+[ -f ~/.bashrc ] && . ~/.bashrc
+[ -f ~/.config/profile_secrets ] && . ~/.config/profile_secrets
+[ -f /usr/share/z/z.sh ] && . /usr/share/z/z.sh
+
 
 # Start WM
 if [[ "$(tty)" = "/dev/tty1" ]]; then

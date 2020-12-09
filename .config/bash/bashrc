@@ -6,13 +6,6 @@ if [ -f /etc/bashrc ]; then
 fi
 
 # User specific environment
-! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]] && PATH="$HOME/.local/bin:$HOME/bin:$PATH"
-! [[ "$PATH" =~ "$HOME/.local/share/cargo/bin" ]] && PATH="$HOME/.local/share/cargo/bin:$PATH"
-
-export PATH
-
-# Uncomment the following line if you don't like systemctl's auto-paging feature:
-# export SYSTEMD_PAGER=
 
 # User specific aliases and functions
 [[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/bash/bash_aliases" ]] && source "${XDG_CONFIG_HOME:-$HOME/.config}/bash/bash_aliases"
