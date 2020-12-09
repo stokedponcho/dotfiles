@@ -41,10 +41,10 @@ export QT_QPA_PLATFORMTHEME="gtk3"
 export SKIM_DEFAULT_OPTIONS="--height 40% --reverse"
 export _Z_DATA="$XDG_CACHE_HOME/z"
 
-[ -f ~/.bashrc ] && . ~/.bashrc
-[ -f ~/.config/profile_secrets ] && . ~/.config/profile_secrets
+[ -f $HOME/.bashrc ] && . $HOME/.bashrc
 [ -f /usr/share/z/z.sh ] && . /usr/share/z/z.sh
-
+[ -f "$XDG_CONFIG_HOME/profile_secrets" ] && . $XDG_CONFIG_HOME/profile_secrets
+[ -f "$XDG_CONFIG_HOME/lf/icons.sh" ] && . $XDG_CONFIG_HOME/lf/icons.sh
 
 # Start WM
 if [[ "$(tty)" = "/dev/tty1" ]]; then
