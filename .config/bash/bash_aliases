@@ -10,12 +10,6 @@ alias rm="rm -vI"
 alias mkdir="mkdir -pv"
 
 cdls() { builtin cd $@ && ls; }
-sc() { du -a ~/.config/ ~/.local/scripts/ | awk '{print $2}' | sk -q "$1" | xargs -r $EDITOR; }
-
-alias vim=nvim
-alias top=htop
-alias diff=colordiff
-alias tmux="tmux -f ${XDG_CONFIG_HOME:-$HOME/.config}/tmux/tmux.conf"
 
 alias sensors="watch -n 1 sensors"
 alias nvidia-smi-watch="watch -n 1 nvidia-smi"
@@ -30,3 +24,15 @@ alias mix="toolbox --container elixir run mix"
 
 # dotfiles
 alias dotfiles="/usr/bin/git --git-dir=$HOME/Projects/dotfiles --work-tree=$HOME"
+
+# frequent use programs
+alias vim=nvim
+alias top=htop
+alias diff=colordiff
+alias tmux="tmux -f ${XDG_CONFIG_HOME:-$HOME/.config}/tmux/tmux.conf"
+
+s() { du -a ~/.config/ ~/.local/scripts/ | awk '{print $2}' | sk -q "$1" | xargs -r $EDITOR; }
+
+alias df="dotfiles"
+alias dfa="dotfiles add"
+alias dfs="dotfiles status"

@@ -7,8 +7,8 @@ killall -q polybar
 while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 
 # Launch Polybar, using default config location ~/.config/polybar/config
-#polybar default &
+MONITOR=$(polybar --list-monitors | grep -i primary | cut -d":" -f1) polybar --reload primary &
 
-for m in $(polybar --list-monitors | cut -d":" -f1); do
-    MONITOR=$m polybar --reload default &
+for m in $(polybar --list-monitors | grep -iv primary | cut -d":" -f1); do
+    MONITOR=$m polybar --reload secondary &
 done

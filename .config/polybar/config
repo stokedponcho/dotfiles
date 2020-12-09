@@ -28,7 +28,7 @@ primary = #ffb52a
 secondary = #e60053
 alert = #bd2c40
 
-[bar/default]
+[bar/primary]
 monitor = ${env:MONITOR}
 width = 100%
 height = 30
@@ -37,12 +37,14 @@ height = 30
 ;fixed-center = true
 wm-restack = bspwm
 override-redirect = true
-
+enable-ipc = true
 
 background = ${colors.background}
 foreground = ${colors.foreground}
 line-size = 0
 line-color = #666
+dim-value = ${xrdb:alpha:0.8}
+pseudo-transparency = true
 
 border-size = 0
 border-color = #00000000
@@ -50,14 +52,15 @@ border-color = #00000000
 padding-left = 0
 padding-right = 2
 module-margin-left = 1
-module-margin-right = 2
+module-margin-right = 1
 
-font-0 = Hack:pixelsize=11:style=Bold;2
-font-1 = HackNerdFont:fontformat=truetype:size=16:antialias=true;3
+font-0 = Fira Code:pixelsize=11:style=Bold;2
+font-1 = Font Awesome 5 Free Solid:size=11:;antialias=true;2
+;font-2 = HackNerdFont:size=16:antialias=true;3
 
 modules-left = bspwm xwindow
 modules-center =
-modules-right = temperature memory cpu pulseaudio wlan eth battery datetime powermenu
+modules-right = packages temperature memory cpu pulseaudio microphone wlan eth battery datetime powermenu
 
 tray-position = right
 tray-padding = 2
@@ -65,6 +68,10 @@ tray-padding = 2
 
 cursor-click = pointer
 cursor-scroll = ns-resize
+
+[bar/secondary]
+inherit = bar/primary
+tray-position = none
 
 [module/xwindow]
 type = internal/xwindow
@@ -79,9 +86,9 @@ label-tiled = " "
 label-fullscreen = " "
 label-floating = " "
 label-pseudotiled = " "
-label-locked = ""
-label-sticky = ""
-label-private =  " "
+label-locked = " "
+label-sticky = " "
+label-private =  " "
 label-focused = %index%
 label-focused-background = ${colors.background-alt}
 label-focused-padding = 1
@@ -96,38 +103,67 @@ label-empty-padding = 1
 scroll-up = bspwm-desknext
 scroll-down = bspwm-deskprev
 
+[module/packages]
+type = custom/ipc
+hook-0 = packages
+initial = 1
+
+[module/datetime]
+type = custom/script
+interval = 60
+exec = datetime
+click-left = org.mozilla.Thunderbird
+
+[module/pulseaudio]
+type = internal/pulseaudio
+format-volume = <ramp-volume> <label-volume>
+label-volume = "%percentage%%"
+;label-volume = " %percentage%%"
+label-volume-foreground = ${root.foreground}
+label-muted = " %percentage%%"
+;label-muted = "  0%"
+label-muted-foreground = #999
+ramp-volume-0 = ""
+ramp-volume-1 = ""
+ramp-volume-2 = ""
+ramp-volume-3 = ""
+
+[module/microphone]
+type = custom/script
+tail = true
+exec = microphone --listen
+click-left = microphone --toggle
+click-right = exec pavucontrol &
+
 [module/cpu]
 type = internal/cpu
-interval = 2
-format-prefix = " "
+interval = 5
+format-prefix = " "
 ;format-prefix-foreground = ${colors.foreground-alt}
 ;format-underline = #f90000
 label = %percentage:2%%
 
 [module/memory]
 type = internal/memory
-interval = 2
-;format-prefix = " "
-format-prefix = " "
-;format-prefix-foreground = ${colors.foreground-alt}
-;format-underline = #4bffdc
+interval = 5
+format-prefix = " "
 label = %percentage_used%%
 
 [module/wlan]
 type = internal/network
 interface = wlp59s0
-interval = 3.0
+interval = 15.0
 
 ;format-connected = <ramp-signal> <label-connected>
 format-connected = <label-connected>
 ;format-connected-underline = #9f78e1
-label-connected = 直
+label-connected = " %signal%%"
 
 format-disconnected = <label-disconnected>
 ;format-disconnected = <label-disconnected>
 ;format-disconnected-underline = ${self.format-connected-underline}
 ;label-disconnected = %ifname% disconnected
-label-disconnected = 睊
+label-disconnected = "睊"
 ;label-disconnected-foreground = ${colors.foreground-alt}
 
 ;ramp-signal-0 = 
@@ -137,39 +173,21 @@ label-disconnected = 睊
 ;ramp-signal-4 = 
 ;ramp-signal-foreground = ${colors.foreground-alt}
 
-[module/eth]
-type = internal/network
-interface = net0
-interval = 3.0
+;[module/eth]
+;type = internal/network
+;interface = net0
+;interval = 3.0
 
-format-connected-underline = #55aa55
-format-connected-prefix = " "
-format-connected-prefix-foreground = ${colors.foreground-alt}
-label-connected = %local_ip%
+;format-connected-underline = #55aa55
+;format-connected-prefix = " "
+;format-connected-prefix-foreground = ${colors.foreground-alt}
+;label-connected = %local_ip%
 
-format-disconnected =
+;format-disconnected =
 ;format-disconnected = <label-disconnected>
 ;format-disconnected-underline = ${self.format-connected-underline}
 ;label-disconnected = %ifname% disconnected
 ;label-disconnected-foreground = ${colors.foreground-alt}
-
-[module/datetime]
-type = custom/script
-interval = 60
-format-prefix = " "
-exec = date "+%A %d %B %Y %H:%M"
-click-left = org.mozilla.Thunderbird
-
-[module/pulseaudio]
-type = internal/pulseaudio
-format-volume = <label-volume>
-label-volume = " %percentage%%"
-;label-volume = " %percentage%%"
-label-volume-foreground = ${root.foreground}
-label-muted = "  0%"
-;label-muted = "  0%"
-label-muted-foreground = #999
-click-right = pavucontrol
 
 [module/battery]
 type = internal/battery
@@ -178,22 +196,22 @@ adapter = AC
 full-at = 99
 
 ;format-charging = <animation-charging> <label-charging>
-format-charging = <ramp-capacity> <label-charging>
+format-charging = " <label-charging>"
 ;format-charging-underline =
 
 ;format-discharging = <animation-discharging> <label-discharging>
 format-discharging = <ramp-capacity> <label-discharging>
 ;format-discharging-underline = ${self.format-charging-underline}
 
-format-full-prefix = " "
+format-full-prefix = " "
 ;format-full-prefix-foreground = ${colors.foreground-alt}
 ;format-full-underline = ${self.format-charging-underline}
 
-ramp-capacity-0 = 
-ramp-capacity-1 = 
-ramp-capacity-2 = 
-ramp-capacity-3 = 
-ramp-capacity-4 = 
+ramp-capacity-0 = ""
+ramp-capacity-1 = ""
+ramp-capacity-2 = ""
+ramp-capacity-3 = ""
+ramp-capacity-4 = ""
 ;ramp-capacity-foreground = ${colors.foreground-alt}
 
 ;animation-charging-0 = 
@@ -210,7 +228,8 @@ ramp-capacity-4 = 
 
 [module/temperature]
 type = internal/temperature
-hwmon-path = /sys/devices/platform/coretemp.0/hwmon/hwmon6/temp1_input
+thermal-zone = 5
+;hwmon-path = /sys/devices/platform/coretemp.0/hwmon/hwmon6/temp1_input
 interval = 5
 base-temperature = 40
 warn-temperature = 75
@@ -225,7 +244,7 @@ label-warn-foreground = ${colors.secondary}
 type = custom/menu
 expand-right = true
 format-spacing = 1
-label-open = "⏻"
+label-open = ""
 label-close = cancel
 label-close-foreground = ${colors.secondary}
 label-separator = |

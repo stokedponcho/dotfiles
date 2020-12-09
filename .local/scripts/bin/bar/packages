@@ -1,0 +1,4 @@
+#!/bin/dash
+
+packages=$(yay -Qu | wc -l)
+[ $packages -gt 0 ] && echo -n " $packages"
