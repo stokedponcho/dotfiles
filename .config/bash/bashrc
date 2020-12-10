@@ -5,20 +5,22 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 
-# User specific environment
-
 # User specific aliases and functions
 [[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/bash/bash_aliases" ]] && source "${XDG_CONFIG_HOME:-$HOME/.config}/bash/bash_aliases"
+[[ -f /usr/share/z/z.sh ]] && . /usr/share/z/z.sh
 
 # CHANGE TITLE OF TERMINALS
 case ${TERM} in
-	xterm*|rxvt*|Eterm*|aterm|kterm|gnome*|alacritty|st*|konsole*)
-		PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\007"'
-		;;
-	screen*)
-		PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\033\\"'
-		;;
+  xterm*|rxvt*|Eterm*|aterm|kterm|gnome*|alacritty|st*|konsole*)
+    PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\007"'
+    ;;
+  screen*)
+    PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\033\\"'
+    ;;
 esac
+
+set -o vi
+
 
 #
 # pywal
@@ -27,7 +29,7 @@ esac
 # ( ) # Hide shell job control messages.
 (cat ~/.cache/wal/sequences &)
 # To add support for TTYs this line can be optionally added.
-source "${XDG_CACHE_HOME:-$HOME/.cache}/wal/colors-tty.sh"
+#source "${XDG_CACHE_HOME:-$HOME/.cache}/wal/colors-tty.sh"
 
 # custom prompt:
 #export PS1="\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w \$\[\033[00m\] "

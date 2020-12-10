@@ -20,7 +20,7 @@ alias notebook="~/Documents/Projects/resources/notebook/notebook.sh"
 alias exercism="~/Documents/Projects/exercism/exercism.sh"
 
 # toolboxes comands
-alias mix="toolbox --container elixir run mix"
+#alias mix="toolbox --container elixir run mix"
 
 # dotfiles
 alias dotfiles="/usr/bin/git --git-dir=$HOME/Projects/dotfiles --work-tree=$HOME"

@@ -26,8 +26,11 @@ export GOPATH="$XDG_DATA_HOME/go"
 export GNUPGHOME="$XDG_DATA_HOME/gnupg"
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc"
 export HISTFILE="$XDG_DATA_HOME/bash/history"
+export INPUTRC="${XDG_CONFIG_HOME}/bash/inputrc"
 export _JAVA_OPTIONS="-Djava.util.prefs.userRoot=$XDG_CONFIG_HOME/java"
 export LESSHISTFILE=-
+export MIX_HOME="$XDG_DATA_HOME/mix"
+export NPM_CONFIG_USERCONFIG=$XDG_CONFIG_HOME/npm/npmrc
 export PYLINTHOME="$XDG_CACHE_HOME/pylint"
 export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
 export VSCODE_PORTABLE="$XDG_DATA_HOME/vscode"
@@ -39,10 +42,9 @@ export XSERVERRC="$XDG_CONFIG_HOME/X11/xserverrc"
 # other
 export QT_QPA_PLATFORMTHEME="gtk3"
 export SKIM_DEFAULT_OPTIONS="--height 40% --reverse"
-export _Z_DATA="$XDG_CACHE_HOME/z"
+export _Z_DATA="$XDG_DATA_HOME/z"
 
 [ -f $HOME/.bashrc ] && . $HOME/.bashrc
-[ -f /usr/share/z/z.sh ] && . /usr/share/z/z.sh
 [ -f "$XDG_CONFIG_HOME/profile_secrets" ] && . $XDG_CONFIG_HOME/profile_secrets
 [ -f "$XDG_CONFIG_HOME/lf/icons.sh" ] && . $XDG_CONFIG_HOME/lf/icons.sh
 

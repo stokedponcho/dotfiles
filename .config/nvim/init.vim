@@ -21,9 +21,12 @@ set showcmd           " show any commands
 set mouse=a           " enable mouse (selection, resizing windows)
 set iskeyword+=-      " treat dash separated words as a word text object
 
-set tabstop=2         " Softtabs or die! use 2 spaces for tabs.
 set shiftwidth=2      " Number of spaces to use for each step of (auto)indent.
-"set expandtab         " insert tab with right amount of spacing
+set tabstop=2         " Softtabs or die! use 2 spaces for tabs.
+set softtabstop=4     " number of spaces that a tab counts for
+set expandtab         " insert tab with right amount of spacing
+set autoindent        " copy indent from current line when starting a new line
+set smartindent       " smarter than autoident
 set shiftround        " Round indent to multiple of 'shiftwidth'
 set hidden            " enable hidden unsaved buffers
 
@@ -73,12 +76,6 @@ if get(g:, 'elite_mode')
   nnoremap <Right> :vertical resize -2<CR>
 endif
 
-" Quicker window movement
-nnoremap <A-j> <C-w>j
-nnoremap <A-k> <C-w>k
-nnoremap <A-h> <C-w>h
-nnoremap <A-l> <C-w>l
-
 " Navigate neovim + neovim terminal emulator with alt+direction
 tnoremap <A-h> <C-\><C-N><C-w>h
 tnoremap <A-j> <C-\><C-N><C-w>j
@@ -106,13 +103,13 @@ vnoremap <S-Tab> <gv
 
 "
 " vim-plug installation if necessary
-let plugins_install = 0
-if ! filereadable(system('echo -n "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/plug.vim"'))
-	echo "Downloading junegunn/vim-plug to manage plugins..."
-	silent !mkdir -p ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/
-	silent !curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" > ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/plug.vim
-	let plugins_install = 1
-endif
+"let plugins_install = 0
+"if ! filereadable(system('echo -n "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/plug.vim"'))
+	"echo "Downloading junegunn/vim-plug to manage plugins..."
+	"silent !mkdir -p ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/
+	"silent !curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" > ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/plug.vim
+	"let plugins_install = 1
+"endif
 
 "
 " Specify a directory for plugins
@@ -131,19 +128,17 @@ endfor
 
 call plug#end()
 
-if plugins_install == 1
-    echo "Installing plugins..."
-    silent! PlugInstall
-    echo "Done!"
-    q
-endif
+"if plugins_install == 1
+    "echo "Installing plugins..."
+    "silent! PlugInstall
+    "echo "Done!"
+    "q
+"endif
 
 " }}}
 
 " UI Customisations -------------------------------- {{{
 
-set colorcolumn=80
-set guifont=FuraCode\ Regular\ Nerd\ Font
 colorscheme solarized
 
 " }}}

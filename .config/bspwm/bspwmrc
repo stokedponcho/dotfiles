@@ -1,11 +1,11 @@
 #! /bin/sh
 
 pgrep picom || /usr/bin/picom &
-pgrep redshift || /usr/bin/redshift &
+pgrep redshift-gtk || /usr/bin/redshift-gtk &
 pgrep dunst || /usr/bin/dunst &
 pgrep mullvad || /usr/bin/mullvad connect &
 
-$XDG_CONFIG_HOME/fehbg &
+feh --bg-fill --no-fehbg $XDG_CONFIG_HOME/wallpaper
 $XDG_CONFIG_HOME/polybar/launch.sh
 $XDG_CONFIG_HOME/sxhkd/launch.sh
 

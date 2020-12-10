@@ -33,14 +33,7 @@ error() {
 }
 
 getbg() {
-
-	if [[ "$GDMSESSION" == "gnome" ]]; then
-		file=$(gsettings get org.gnome.desktop.background picture-uri)
-	else
-		file=$(awk '{print $4}' "$XDG_CONFIG_HOME/fehbg")
-	fi
-
-	echo "${file/'file://'/''}"
+	echo $(readlink "${XDG_CONFIG_HOME:-$HOME/.config}/wallpaper")
 }
 
 setbg() {
@@ -50,13 +43,9 @@ setbg() {
 	[[ $# > 0 ]] && wallpaper=$(realpath $1)
 	[[ ! -f "$wallpaper" ]] && wallpaper=$(find $WALLPAPERS -type f -not -path "*/.git/*" | shuf -n 1)
 
-	# set wallpaper
-	gsettings set org.gnome.desktop.background picture-uri "file://$wallpaper"
-	gsettings set org.gnome.desktop.background picture-options "stretched"
-	feh --bg-fill "$wallpaper" && mv "$HOME/.fehbg" "${XDG_CONFIG_HOME:-$HOME/.config}/fehbg"
-
-	# pywal: apply colorscheme
-	wal -i "$wallpaper" -n
+	feh --bg-fill --no-fehbg $wallpaper
+	wal -i "$wallpaper" -n # pywal: apply colorscheme
+	ln -sfT "$wallpaper" "${XDG_CONFIG_HOME:-$HOME/.config}/wallpaper"
 }
 
 main "$@"
