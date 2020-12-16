@@ -3,7 +3,7 @@
 pgrep picom || /usr/bin/picom &
 pgrep redshift-gtk || /usr/bin/redshift-gtk &
 pgrep dunst || /usr/bin/dunst &
-pgrep mullvad || /usr/bin/mullvad connect &
+/usr/bin/mullvad connect &
 
 feh --bg-fill --no-fehbg $XDG_CONFIG_HOME/wallpaper
 $XDG_CONFIG_HOME/polybar/launch.sh

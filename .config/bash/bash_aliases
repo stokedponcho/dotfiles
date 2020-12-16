@@ -1,5 +1,9 @@
 # .bash_aliases
 
+# To temporarily bypass an alias, we preceed the command with a \
+# EG:  the ls command is aliased, but to use the normal ls command you would
+# type \ls
+
 # Verbosity
 alias ls="ls -hNA --color=auto --group-directories-first"
 alias ll="ls -lhFA --color=auto --group-directories-first"
@@ -11,19 +15,15 @@ alias mkdir="mkdir -pv"
 
 cdls() { builtin cd $@ && ls; }
 
-alias sensors="watch -n 1 sensors"
-alias nvidia-smi-watch="watch -n 1 nvidia-smi"
-alias nvidia-settings="nvidia-settings --config=$XDG_CONFIG_HOME/nvidia/settings"
-
 # working environments
 alias notebook="~/Documents/Projects/resources/notebook/notebook.sh"
 alias exercism="~/Documents/Projects/exercism/exercism.sh"
 
-# toolboxes comands
-#alias mix="toolbox --container elixir run mix"
-
 # dotfiles
 alias dotfiles="/usr/bin/git --git-dir=$HOME/Projects/dotfiles --work-tree=$HOME"
+alias dof="dotfiles"
+alias dofa="dotfiles add"
+alias dofs="dotfiles status"
 
 # frequent use programs
 alias vim=nvim
@@ -33,6 +33,15 @@ alias tmux="tmux -f ${XDG_CONFIG_HOME:-$HOME/.config}/tmux/tmux.conf"
 
 s() { du -a ~/.config/ ~/.local/scripts/ | awk '{print $2}' | sk -q "$1" | xargs -r $EDITOR; }
 
-alias df="dotfiles"
-alias dfa="dotfiles add"
-alias dfs="dotfiles status"
+alias sensors="watch -n 1 sensors"
+alias nvidia-smi-watch="watch -n 1 nvidia-smi"
+alias nvidia-settings="nvidia-settings --config=$XDG_CONFIG_HOME/nvidia/settings"
+
+# git
+alias gs="git status"
+alias ga="git add"
+alias gpl="git pull"
+alias gps="git push"
+
+# toolboxes comands
+#alias mix="toolbox --container elixir run mix"

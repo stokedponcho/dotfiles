@@ -1,16 +1,18 @@
 " General settings
 set 						encoding=UTF-8
+set             title
 scriptencoding 	utf-16      " allow emojis in vimrc
 filetype 				plugin indent on
+
+let $RTP=split(&runtimepath, ',')[0]
+let $RC=$MYVIMRC
 
 "  Behavior Modification ----------------------  {{{
 
 " Enable Elite mode, No ARRRROWWS!!!!
 let g:elite_mode=1
-"set leader key
-let g:mapleader=","
 
-set backspace=2       " Backspace deletes like most programs in insert mode
+set backspace=indent,eol,start     " Backspace deletes like most programs in insert mode
 set ruler             " show the cursor position all the time
 set showcmd           " display incomplete commands
 set laststatus=2      " Always display the status line
@@ -20,7 +22,6 @@ set smartcase         " use case sensitive if capital letter present or \C
 set showcmd           " show any commands
 set mouse=a           " enable mouse (selection, resizing windows)
 set iskeyword+=-      " treat dash separated words as a word text object
-
 set shiftwidth=2      " Number of spaces to use for each step of (auto)indent.
 set tabstop=2         " Softtabs or die! use 2 spaces for tabs.
 set softtabstop=4     " number of spaces that a tab counts for
@@ -29,21 +30,17 @@ set autoindent        " copy indent from current line when starting a new line
 set smartindent       " smarter than autoident
 set shiftround        " Round indent to multiple of 'shiftwidth'
 set hidden            " enable hidden unsaved buffers
-
 set ttyfast           " should make scrolling faster
 set lazyredraw        " should make scrolling faster
-
 set visualbell        " visual bell for errors
 set number            " line numbers
-
 set foldmethod=manual " set folds by syntax of current language
+set diffopt+=vertical " Always use vertical diffs
+set noswapfile
 
 " Open new split panes to right and bottom, which feels more natural
 set splitbelow
 set splitright
-
-" Always use vertical diffs
-set diffopt+=vertical
 
 "  }}}
 
@@ -56,9 +53,14 @@ augroup END
 
 "  Key Mappings -------------------------------------------------- {{{
 
-inoremap <C-c> <Esc>
-vnoremap <C-c> <Esc>
-tnoremap <C-c> <Esc>
+" set leader key
+let g:mapleader=","
+
+nnoremap ; :
+
+inoremap jj <Esc>
+"vnoremap jj <Esc>
+tnoremap jj <Esc>
 
 " command typo mapping
 cnoremap W w
