@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/dash
 
 script="${SCRIPTS:-$HOME/.local/scripts}/quote_of_the_day.py"
 

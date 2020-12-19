@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/bin/dash
 
 main() {
-	[[ $# == 0 ]] && usage
+	[ $# -eq 0 ] && usage
 
 	command="$1"
 
@@ -10,7 +10,7 @@ main() {
 			getbg
 			;;
 		set)
-			setbg "${@:2}"
+			setbg $@[:2]
 			;;
 		*)
 			error "unknown argument: $command"
@@ -40,8 +40,8 @@ setbg() {
 	WALLPAPERS="${XDG_PICTURES_DIR:-$HOME/Pictures}/wallpapers"
 
 	# resolve wallpaper from arguments or choose one randomly
-	[[ $# > 0 ]] && wallpaper=$(realpath $1)
-	[[ ! -f "$wallpaper" ]] && wallpaper=$(find $WALLPAPERS -type f -not -path "*/.git/*" | shuf -n 1)
+	[ $# -gt 0 ] && wallpaper=$(realpath $1)
+	[ ! -f "$wallpaper" ] && wallpaper=$(find $WALLPAPERS -type f -not -path "*/.git/*" | shuf -n 1)
 
 	feh --bg-fill --no-fehbg $wallpaper
 	wal -i "$wallpaper" -n # pywal: apply colorscheme

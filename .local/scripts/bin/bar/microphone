@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/dash
+
 # Script to toggle microhpne mute/unmute and meant to run with polybar as follow:
 # [module/microphone]
 # type = custom/script
@@ -11,7 +12,7 @@
 
 defaultSource=$(pactl info | grep "Default Source" | cut -f3 -d" ")
 
-function output() {
+output() {
 	volume=$(pacmd list-sources | grep -A 10 $defaultSource | awk '/base volume/{ print $5 }')
 	muted=$(pacmd list-sources | grep -A 10 $defaultSource | awk '/muted/{ print $2 }')
 
@@ -22,12 +23,11 @@ function output() {
 	fi
 }
 
-function toggle() {
+toggle() {
 	pactl set-source-mute $defaultSource toggle
 }
 
-
-function listen() {
+listen() {
     local firstRun=0
 
     # Listen for changes and immediately create new output for the bar.
@@ -47,7 +47,7 @@ function listen() {
 												continue
 										fi
                 fi
-            } &>/dev/null
+            } >/dev/null 2>&1
             output
         done
     }
