@@ -1,6 +1,7 @@
 #! /bin/sh
 
 pgrep picom || /usr/bin/picom &
+pgrep nm-applet || /usr/bin/nm-applet &
 pgrep redshift-gtk || /usr/bin/redshift-gtk &
 pgrep dunst || /usr/bin/dunst &
 /usr/bin/mullvad connect &
