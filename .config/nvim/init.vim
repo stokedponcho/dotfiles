@@ -146,6 +146,13 @@ set background=dark
 "colorscheme solarized
 colorscheme wal
 
+function! SwapTheme()
+  colorscheme solarized
+  set termguicolors
+endfunction
+
+command! -nargs=0 SwapTheme :call SwapTheme()
+
 " }}}
 
 " Misceallenous ------------------------------------ {{{
@@ -155,6 +162,7 @@ colorscheme wal
 	autocmd BufWritepre * %s/\n\+\%$//e
 
 " }}}
+
 
 "
 " syntax highlighting - needs to be after plugins enabling language

@@ -40,11 +40,12 @@ setbg() {
 	WALLPAPERS="${XDG_PICTURES_DIR:-$HOME/Pictures}/wallpapers"
 
 	# resolve wallpaper from arguments or choose one randomly
-	[ $# -gt 0 ] && wallpaper=$(realpath $1)
+	[ -f $1 ] && wallpaper=$(realpath $1)
 	[ ! -f "$wallpaper" ] && wallpaper=$(find $WALLPAPERS -type f -not -path "*/.git/*" | shuf -n 1)
 
-	feh --bg-fill --no-fehbg $wallpaper
-	wal -i "$wallpaper" -n # pywal: apply colorscheme
+  notify-send -i "$wallpaper" "Setting wallpaper..."
+  feh --bg-fill --no-fehbg "$wallpaper"
+	wal -n -i "$wallpaper" >/dev/null 2>&1 # pywal: apply colorscheme
 	ln -sfT "$wallpaper" "${XDG_CONFIG_HOME:-$HOME/.config}/wallpaper"
 }
 

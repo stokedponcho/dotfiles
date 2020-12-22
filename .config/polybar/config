@@ -50,7 +50,7 @@ font-1 = Font Awesome 5 Free Solid:size=11:;antialias=true;2
 
 modules-left = bspwm xwindow
 modules-center =
-modules-right = packages temperature memory cpu pulseaudio microphone battery datetime powermenu
+modules-right = packages temperature memory cpu pulseaudio microphone xbacklight battery datetime powermenu
 
 tray-position = right
 tray-padding = 2
@@ -62,10 +62,6 @@ cursor-scroll = ns-resize
 [bar/secondary]
 inherit = bar/primary
 tray-position = none
-
-[module/xwindow]
-type = internal/xwindow
-label = %title:0:30:...%
 
 [module/bspwm]
 type = internal/bspwm
@@ -92,6 +88,10 @@ label-empty-foreground = ${colors.foreground-alt}
 label-empty-padding = 1
 scroll-up = bspwm-desknext
 scroll-down = bspwm-deskprev
+
+[module/xwindow]
+type = internal/xwindow
+label = %title:0:30:...%
 
 [module/packages]
 type = custom/ipc
@@ -136,6 +136,12 @@ interval = 2
 format-prefix = " "
 label = %percentage_used%%
 
+[module/xbacklight]
+type = internal/xbacklight
+format = <ramp> <label>
+label = %percentage%%
+ramp-0 = ""
+
 [module/battery]
 type = internal/battery
 battery = BAT0
@@ -164,22 +170,22 @@ label = %temperature-c%
 label-warn = " %temperature-c%"
 label-warn-foreground = ${colors.secondary}
 
-[module/powermenu]
-type = custom/menu
-expand-right = true
-format-spacing = 1
-label-open = ""
-label-close = ""
-label-close-foreground = ${colors.secondary}
-label-separator = |
-label-separator-foreground = ${colors.foreground-alt}
-menu-0-0 = reboot
-menu-0-0-exec = menu-open-1
-menu-0-1 = power off
-menu-0-1-exec = menu-open-2
-menu-1-0 = reboot
-menu-1-0-exec = sudo reboot
-menu-2-0 = power off
-menu-2-0-exec = sudo poweroff
+;[module/powermenu]
+;type = custom/menu
+;expand-right = true
+;format-spacing = 1
+;label-open = ""
+;label-close = ""
+;label-close-foreground = ${colors.secondary}
+;label-separator = |
+;label-separator-foreground = ${colors.foreground-alt}
+;menu-0-0 = reboot
+;menu-0-0-exec = menu-open-1
+;menu-0-1 = power off
+;menu-0-1-exec = menu-open-2
+;menu-1-0 = reboot
+;menu-1-0-exec = sudo reboot
+;menu-2-0 = power off
+;menu-2-0-exec = sudo poweroff
 
 ; vim:ft=dosini
