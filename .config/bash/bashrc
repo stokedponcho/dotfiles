@@ -10,7 +10,7 @@ export HISTCONTROL=ignoreboth # ignore same successive entries
 export HISTIGNORE="&:??:ls:ll:[ ]*:clear:exit:logout"
 
 # User specific aliases and functions
-[[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/bash/bash_aliases" ]] && . "${XDG_CONFIG_HOME:-$HOME/.config}/bash/bash_aliases"
+[[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/bash/aliases" ]] && . "${XDG_CONFIG_HOME:-$HOME/.config}/bash/aliases"
 
 # CHANGE TITLE OF TERMINALS
 case ${TERM} in
@@ -32,8 +32,6 @@ set -o vi
 # &   # Run the process in the background.
 # ( ) # Hide shell job control messages.
 (cat ~/.cache/wal/sequences &)
-# To add support for TTYs this line can be optionally added.
-#source "${XDG_CACHE_HOME:-$HOME/.cache}/wal/colors-tty.sh"
 
 # custom prompt - or starship
 #export PS1="\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w \$\[\033[00m\] "

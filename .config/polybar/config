@@ -11,30 +11,21 @@ margin-bottom = 0
 
 [settings]
 screenchange-reload = true
-;compositing-background = xor
-;compositing-background = screen
-;compositing-foreground = source
-;compositing-border = over
-;pseudo-transparency = false
+pseudo-transparency = true
 
 [colors]
-;background = ${xrdb:color0:#222}
-background = #222
-background-alt = #444
-;foreground = ${xrdb:color7:#222}
-foreground = #bfbfbf
-foreground-alt = #555
-primary = #ffb52a
-secondary = #e60053
-alert = #bd2c40
+background = ${xrdb:background:#222}
+background-alt = ${xrdb:color1:#444}
+foreground = ${xrdb:foreground:#bfbfbf}
+foreground-alt = ${xrdb:color8}
+primary = ${xrdb:color1:#ffb52a}
+secondary = ${xrdb:color2:#e60053}
+alert = ${xrdb:color3:#bd2c40}
 
 [bar/primary]
 monitor = ${env:MONITOR}
 width = 100%
 height = 30
-;offset-x = 1%
-;offset-y = 1%
-;fixed-center = true
 wm-restack = bspwm
 override-redirect = true
 enable-ipc = true
@@ -42,12 +33,12 @@ enable-ipc = true
 background = ${colors.background}
 foreground = ${colors.foreground}
 line-size = 0
-line-color = #666
+line-color = ${colors.background-alt:#666}
 dim-value = ${xrdb:alpha:0.8}
-pseudo-transparency = true
+pseudo-transparency = false
 
 border-size = 0
-border-color = #00000000
+border-color = ${colors.background-alt}
 
 padding-left = 0
 padding-right = 2
@@ -56,7 +47,6 @@ module-margin-right = 1
 
 font-0 = Fira Code:pixelsize=11:style=Bold;2
 font-1 = Font Awesome 5 Free Solid:size=11:;antialias=true;2
-;font-2 = HackNerdFont:size=16:antialias=true;3
 
 modules-left = bspwm xwindow
 modules-center =
@@ -64,7 +54,7 @@ modules-right = packages temperature memory cpu pulseaudio microphone battery da
 
 tray-position = right
 tray-padding = 2
-;tray-background = #0063ff
+tray-background = ${colors.background}
 
 cursor-click = pointer
 cursor-scroll = ns-resize
@@ -125,6 +115,7 @@ ramp-volume-0 = ""
 ramp-volume-1 = ""
 ramp-volume-2 = ""
 ramp-volume-3 = ""
+click-right = exec pavucontrol &
 
 [module/microphone]
 type = custom/script
@@ -137,8 +128,6 @@ click-right = exec pavucontrol &
 type = internal/cpu
 interval = 2
 format-prefix = " "
-;format-prefix-foreground = ${colors.foreground-alt}
-;format-underline = #f90000
 label = %percentage:2%%
 
 [module/memory]
@@ -152,30 +141,19 @@ type = internal/battery
 battery = BAT0
 adapter = AC
 full-at = 99
-
-;format-charging = <animation-charging> <label-charging>
 format-charging = " <label-charging>"
-;format-charging-underline =
-
-;format-discharging = <animation-discharging> <label-discharging>
 format-discharging = <ramp-capacity> <label-discharging>
-;format-discharging-underline = ${self.format-charging-underline}
-
 format-full-prefix = " "
-;format-full-prefix-foreground = ${colors.foreground-alt}
-;format-full-underline = ${self.format-charging-underline}
-
 ramp-capacity-0 = ""
 ramp-capacity-1 = ""
 ramp-capacity-2 = ""
 ramp-capacity-3 = ""
 ramp-capacity-4 = ""
-;ramp-capacity-foreground = ${colors.foreground-alt}
 
 [module/temperature]
 type = internal/temperature
-;thermal-zone = 5
-hwmon-path = /sys/devices/platform/coretemp.0/hwmon/hwmon6/temp1_input
+thermal-zone = 5
+;hwmon-path = /sys/devices/platform/coretemp.0/hwmon/hwmon6/temp1_input
 interval = 2
 base-temperature = 40
 warn-temperature = 75

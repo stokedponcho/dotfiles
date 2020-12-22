@@ -141,7 +141,10 @@ call plug#end()
 
 " UI Customisations -------------------------------- {{{
 
-colorscheme solarized
+set background=dark
+"set termguicolors
+"colorscheme solarized
+colorscheme wal
 
 " }}}
 

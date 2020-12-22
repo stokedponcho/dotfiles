@@ -34,7 +34,7 @@ alias tmux="tmux -f ${XDG_CONFIG_HOME:-$HOME/.config}/tmux/tmux.conf"
 s() { du -a ~/.config/ ~/.local/scripts/ | awk '{print $2}' | sk -q "$1" | xargs -r $EDITOR; }
 
 alias sensors="watch -n 1 sensors"
-alias nvidia-smi-watch="watch -n 1 nvidia-smi"
+alias nvidia-smi="watch -n 1 nvidia-smi"
 alias nvidia-settings="nvidia-settings --config=$XDG_CONFIG_HOME/nvidia/settings"
 
 # git

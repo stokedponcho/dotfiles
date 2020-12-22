@@ -4,10 +4,20 @@
 #	name =
 #	email =
 [core]
-		pager = delta --plus-color="#012800" --minus-color="#340001" --theme='Monokai Extended'
+		pager = delta
 		hooksPath = ~/.config/git/hooks
-
 [interactive]
     diffFilter = delta --color-only
 [pull]
 	rebase = false
+[diff]
+  colorMoved = default
+[delta]
+  features = decorations
+  side-by-side = true
+  line-numbers = true
+[delta "decorations"]
+  commit-decoration-style = bold yellow box ul
+  file-style = bold yellow ul
+  file-decoration-style = none
+  hunk-header-decoration-style = cyan box ul

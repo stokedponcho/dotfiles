@@ -10,7 +10,7 @@ main() {
 			getbg
 			;;
 		set)
-			setbg $@[:2]
+			setbg $2
 			;;
 		*)
 			error "unknown argument: $command"
