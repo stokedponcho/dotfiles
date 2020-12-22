@@ -15,11 +15,11 @@ export SCRIPTS="$HOME/.local/scripts"
 # Default programs:
 export BROWSER="firefox"
 export EDITOR="nvim"
+export LAUNCHER="dmenu_run"
+export LAUNCHER_ALT="rofi -show combi"
 export PAGER="less"
 export TERMINAL="st"
 export WM="bspwm"
-export LAUNCHER="dmenu_run"
-export LAUNCHER_ALT="rofi -show combi"
 
 # global program settings
 export QT_QPA_PLATFORMTHEME="gtk3"

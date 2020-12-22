@@ -1,30 +1,46 @@
-#!/bin/dash
+#!/bin/bash
 
-# Script to toggle microhpne mute/unmute and meant to run with polybar as follow:
+# Script to show/control microphone on polybar:
+#
 # [module/microphone]
 # type = custom/script
 # tail = true
-# exec = microphone --listen
-# click-left = microphone --toggle
+# exec = microphone listen
+# click-left = microphone toggle
+# scroll-up = microphone up
+# scroll-up = microphone down
 #
-# Credits to https://github.com/arcolinux/arcolinux-polybar/blob/master/etc/skel/.config/polybar/scripts/pavolume.sh
+# Credits to
+# https://github.com/arcolinux/arcolinux-polybar/blob/master/etc/skel/.config/polybar/scripts/pavolume.sh
+# https://github.com/marioortizmanero/polybar-pulseaudio-control
 #
+
+COLOR_MUTED="#999"
+STEP="1"
 
 defaultSource=$(pactl info | grep "Default Source" | cut -f3 -d" ")
 
 output() {
-	volume=$(pacmd list-sources | grep -A 10 $defaultSource | awk '/base volume/{ print $5 }')
+	volume=$(pacmd list-sources | grep -A 10 $defaultSource | awk -e '/volume/{ print $5 }' | head -n 1)
 	muted=$(pacmd list-sources | grep -A 10 $defaultSource | awk '/muted/{ print $2 }')
 
-	if [ $muted = "yes" ]; then
-		echo " $volume"
-	else
-		echo " $volume"
-	fi
+  if [ $muted = "yes" ]; then
+    echo "%{F$COLOR_MUTED} $volume%{F-}"
+  else
+    echo " $volume"
+  fi
 }
 
 toggle() {
 	pactl set-source-mute $defaultSource toggle
+}
+
+up() {
+  pactl set-source-volume $defaultSource "+$STEP%"
+}
+
+down() {
+  pactl set-source-volume $defaultSource "-$STEP%"
 }
 
 listen() {
@@ -53,11 +69,32 @@ listen() {
     }
 }
 
+while [[ "$1" == --* ]]; do
+  unset arg
+  unset val
+
+  arg="${1//=*/}"
+  val="${1//*=/}"
+  shift
+
+  case "$arg" in
+    --color-muted)
+      COLOR_MUTED="$val"
+      ;;
+  esac
+done
+
 case "$1" in
-    --toggle)
+    toggle)
         toggle
         ;;
-    --listen)
+    up)
+        up
+        ;;
+    down)
+        down
+        ;;
+    listen)
         # Listen for changes and immediately create new output for the bar
         # This is faster than having the script on an interval
         listen
