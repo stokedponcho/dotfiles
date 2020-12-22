@@ -42,9 +42,9 @@ export NPM_CONFIG_USERCONFIG=$XDG_CONFIG_HOME/npm/npmrc
 export PYLINTHOME="$XDG_CACHE_HOME/pylint"
 export PYTHONHISTORY="$XDG_DATA_HOME/python_history"
 export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
+export SSH_ASKPASS="/usr/lib/ssh/ssh-askpass"
 export VSCODE_PORTABLE="$XDG_DATA_HOME/vscode"
 export WGETRC="$XDG_CONFIG_HOME/wget/wgetrc"
-export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority" # This line will break some DMs.
 export XINITRC="$XDG_CONFIG_HOME/X11/xinitrc"
 export XSERVERRC="$XDG_CONFIG_HOME/X11/xserverrc"
 
