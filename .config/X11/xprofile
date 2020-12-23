@@ -1,0 +1,26 @@
+#!/bin/sh
+
+eval $(ssh-agent)
+
+xrandr --output eDP1 --primary --auto --mode 1920x1080 --rate 60.00 --output DP3 --auto --mode 1920x1080 --rate 60.00 --right-of eDP1
+xautolock -time 10 -locker slock &
+xsetroot -cursor_name left_ptr &
+
+pgrep picom || picom &                  # compositor for opacity
+pgrep dunst || dunst &                  # notification-daemons
+pgrep nm-applet || nm-applet &          # network applet
+pgrep redshift-gtk || redshift-gtk &    # colour temperate adjustment
+mullvad connect && mullvad-vpn &        # vpn connection
+wallp set $(readlink "$XDG_CONFIG_HOME/wallpaper") & # set wallpaper
+
+# Custom Key mappings
+# https://wiki.archlinux.org/index.php/Xorg/Keyboard_configuration
+
+# Increase key speed via a rate change
+xset r rate 300 50 &
+
+# Map the caps lock key to control.
+setxkbmap -option ctrl:nocaps &
+
+# When pressed aloned it works as escape.
+xcape -e 'Control_L=Escape'

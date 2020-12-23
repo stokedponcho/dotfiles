@@ -18,6 +18,6 @@
   line-numbers = true
 [delta "decorations"]
   commit-decoration-style = bold yellow box ul
-  file-style = bold yellow ul
+  file-style = bold cyan box ul
   file-decoration-style = none
-  hunk-header-decoration-style = cyan box ul
+  hunk-header-decoration-style = cyan ul

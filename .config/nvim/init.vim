@@ -42,6 +42,18 @@ set noswapfile
 set splitbelow
 set splitright
 
+" Display all matching files when we tab complete
+set path+=**
+set wildmenu
+
+" Tweaks for browsing
+let g:netrw_banner=0        " disable annoying banner
+let g:netrw_browse_split=4  " open in prior window
+let g:netrw_altv=1          " open splits to the right
+let g:netrw_liststyle=3     " tree view
+let g:netrw_list_hide=netrw_gitignore#Hide()
+let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
+
 "  }}}
 
 " Vim Script file settings ------------------------ {{{
@@ -59,7 +71,6 @@ let g:mapleader=","
 nnoremap ; :
 
 inoremap jj <Esc>
-"vnoremap jj <Esc>
 tnoremap jj <Esc>
 
 " command typo mapping
@@ -104,15 +115,8 @@ vnoremap <S-Tab> <gv
 "  Plugins -------------------------------------------------- {{{
 
 "
-" vim-plug installation if necessary
-"let plugins_install = 0
-"if ! filereadable(system('echo -n "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/plug.vim"'))
-	"echo "Downloading junegunn/vim-plug to manage plugins..."
-	"silent !mkdir -p ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/
-	"silent !curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" > ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/plug.vim
-	"let plugins_install = 1
-"endif
-
+" vim-plug installation
+" save https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim as nvim/autoload/plug.vim
 "
 " Specify a directory for plugins
 " - For Neovim: stdpath('data') . '/plugged'
@@ -129,13 +133,6 @@ for bundle in bundles
 endfor
 
 call plug#end()
-
-"if plugins_install == 1
-    "echo "Installing plugins..."
-    "silent! PlugInstall
-    "echo "Done!"
-    "q
-"endif
 
 " }}}
 

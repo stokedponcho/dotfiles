@@ -35,9 +35,10 @@ USERXSESSIONRC="$XDG_CACHE_HOME/x11/xsessionrc"
 ALTUSERXSESSION="$XDG_CACHE_HOME/x11/Xsession"
 ERRFILE="$XDG_CACHE_HOME/x11/xsession-errors"
 
-xrandr --output eDP1 --primary --pos 0x0 --output DP3 --pos 1920x0
-xautolock -time 10 -locker slock &
-xsetroot -cursor_name left_ptr &
-eval $(ssh-agent)
+if [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/X11/xprofile" ]; then
+        . "${XDG_CONFIG_HOME:-$HOME/.config}/X11/xprofile"
+else
+        . "$HOME/.xprofile"
+fi
 
 [[ "$WM" ]] && exec "$WM" || echo "No window manager is set: use 'export VM=window-manager'."
