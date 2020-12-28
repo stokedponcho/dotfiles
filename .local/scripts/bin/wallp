@@ -10,7 +10,7 @@ main() {
 			getbg
 			;;
 		set)
-			setbg $2
+			setbg "$2"
 			;;
 		*)
 			error "unknown argument: $command"
@@ -40,7 +40,7 @@ setbg() {
 	WALLPAPERS="${XDG_PICTURES_DIR:-$HOME/Pictures}/wallpapers"
 
 	# resolve wallpaper from arguments or choose one randomly
-	[ -f $1 ] && wallpaper=$(realpath $1)
+	[ -f "$1" ] && wallpaper=$(realpath $1)
 	[ ! -f "$wallpaper" ] && wallpaper=$(find $WALLPAPERS -type f -not -path "*/.git/*" | shuf -n 1)
 
   notify-send -i "$wallpaper" "Setting wallpaper..."
