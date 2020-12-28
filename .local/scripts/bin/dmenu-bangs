@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Credits to and inspiration from https://github.com/gotbletu/dotfiles_v2/blob/master/normal_user/rofi/.config/rofi/launchers/rofi-bangs
+
+declare -A COMMANDS
+
+COMMANDS["websearch(tor)"]="BROWSER=torbrowser dmenu-websearch"
+LABELS+=("websearch(tor)")
+COMMANDS["websearch(default)"]="dmenu-websearch"
+LABELS+=("websearch(default)")
+COMMANDS["applications"]="dmenu_run"
+LABELS+=("applications")
+
+menu() {
+  # a regular array 'LABELS' is used for conserving custom order
+  for key in ${LABELS[@]}; do echo $key; done
+}
+
+choice=$(menu | dmenu -p "dmenu-bangs: ")
+
+[[ -z ${choice} ]] && exit
+[[ ${COMMANDS[$choice]+isset} ]] && eval ${COMMANDS[$choice]} >> /dev/null

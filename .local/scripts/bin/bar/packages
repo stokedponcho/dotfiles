@@ -2,4 +2,4 @@
 
 sleep 1
 packages=$(yay -Qu | wc -l)
-[ $packages -gt 0 ] && echo -n " $packages"
+[ $packages -gt 0 ] && echo -n " $packages"

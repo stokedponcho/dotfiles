@@ -24,29 +24,45 @@ alias dotfiles="/usr/bin/git --git-dir=$HOME/Projects/dotfiles --work-tree=$HOME
 alias dof="dotfiles"
 alias dofa="dotfiles add"
 alias dofs="dotfiles status"
+alias dofc="dof commit"
+alias dofl="dof log"
+alias dofd="dof diff"
+alias dofds="dof diff --staged"
 
 # frequent use programs
 alias vim=nvim
+alias v=vim
 alias top=htop
 alias diff=colordiff
 alias tmux="tmux -f ${XDG_CONFIG_HOME:-$HOME/.config}/tmux/tmux.conf"
 
 # Search and...
-search() { du -a ~/.config/ ~/.local/scripts/ | awk '{print $2}' | sk -q "$2" | xargs -r "$1"; }
+search() { du -a ~/.config/ ~/.local/scripts/ ~/.w3m | awk '{print $2}' | sk -m -q "$2" | xargs -r "$1"; }
 sc() { search "cat" "$1"; }
 se() { search "$EDITOR" "$1"; }
 sp() { search "$PAGER" "$1"; }
 
 # git
+alias g="git"
 alias gs="git status"
 alias ga="git add"
 alias gpl="git pull"
 alias gps="git push"
+alias gc="git commit"
+alias gl="git log"
+alias gd="git diff"
+alias gds="git diff --staged"
+
+# youtube-dl
+alias ytdl="youtube-dl"
+alias ytdla="youtube-dl -x -format bestaudio[ext=m4a] --embed-thumbnail"
+
+play-yt() { mpv ytdl://ytsearch:"$*"; }
+play-yt-audio() { mpv --ytdl-format=bestaudio ytdl://ytsearch:"$*"; }
 
 # toolboxes comands
 #alias mix="toolbox --container elixir run mix"
 
 # other stuff
-alias sensors="watch -n 1 sensors"
 alias nvidia-smi="watch -n 1 nvidia-smi"
 alias nvidia-settings="nvidia-settings --config=$XDG_CONFIG_HOME/nvidia/settings"

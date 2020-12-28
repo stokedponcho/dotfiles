@@ -1,6 +1,6 @@
 configuration {
- modi: "window,drun,ssh,combi";
- font: "monospace 12";
- combi-modi: "window,drun,ssh";
+  font: "monospace 12";
+  combi-modi: "window,drun";
+  show-icons: true;
 }
 @import "~/.cache/wal/colors-rofi-dark"

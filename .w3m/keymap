@@ -1,0 +1,14 @@
+
+# remapping 'o' to be consistent with newsboat
+keymap o        GOTO_LINK
+keymap O        OPTIONS
+
+# EXTERN_LINK = under cursor
+# EXTERN      = current page
+
+# reload page in with readable
+keymap ,r       COMMAND "SHELL 'w3mr $W3M_URL > /tmp/readable.html' ; LOAD /tmp/readable.html"
+
+# yank url to clipboard
+keymap  yy      EXTERN_LINK 'printf %s | xsel -b'
+keymap  YY      EXTERN      'printf %s | xsel -b'

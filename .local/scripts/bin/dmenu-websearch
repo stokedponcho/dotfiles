@@ -1,0 +1,12 @@
+#!/bin/dash
+
+# Credits to and inspiration from https://github.com/gotbletu/dotfiles_v2/blob/master/normal_user/rofi/.config/rofi/launchers/rofi-surfraw-websearch
+
+surfraw $( \
+  sr -elvi \
+  | sed -e '0,/LOCAL/d' \
+  | awk -F'-' '{print $1}' \
+  | sed '/:/d' \
+  | awk '{ print $1 " " }' \
+  | dmenu -p "websearch ($BROWSER):" \
+)

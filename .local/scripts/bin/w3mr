@@ -1,0 +1,4 @@
+#!/bin/dash
+
+[ $# -eq 0 ] && exit
+readable "$1" -p html-title,html-content  | w3m -T text/html

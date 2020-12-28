@@ -13,7 +13,8 @@ export SCRIPTS="$HOME/.local/scripts"
 ! [[ "$PATH" =~ "$SCRIPTS/bin" ]] && export PATH="$PATH:$(du "$SCRIPTS/bin" | cut -f2 | paste -sd ':')"
 
 # Default programs:
-export BROWSER="firefox"
+export BROWSER="org.mozilla.firefox"
+export BROWSER_CLI="w3m"
 export EDITOR="nvim"
 export LAUNCHER="dmenu_run"
 export LAUNCHER_ALT="rofi -show combi"
@@ -48,9 +49,9 @@ export WGETRC="$XDG_CONFIG_HOME/wget/wgetrc"
 export XINITRC="$XDG_CONFIG_HOME/X11/xinitrc"
 export XSERVERRC="$XDG_CONFIG_HOME/X11/xserverrc"
 
-[ -f $HOME/.bashrc ] && . $HOME/.bashrc
-[ -f "$XDG_CONFIG_HOME/profile_secrets" ] && . $XDG_CONFIG_HOME/profile_secrets
-[ -f "$XDG_CONFIG_HOME/lf/icons.sh" ] && . $XDG_CONFIG_HOME/lf/icons.sh
+[ -f "$HOME/.bashrc" ] && . "$HOME/.bashrc"
+[ -f "$XDG_CONFIG_HOME/profile_secrets" ] && . "$XDG_CONFIG_HOME/profile_secrets"
+[ -f "$XDG_CONFIG_HOME/lf/icons.sh" ] && . "$XDG_CONFIG_HOME/lf/icons.sh"
 
 # Start WM
 if [[ "$(tty)" = "/dev/tty1" ]]; then
