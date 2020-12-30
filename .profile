@@ -18,7 +18,7 @@ export BROWSER_CLI="w3m"
 export EDITOR="nvim"
 export LAUNCHER="dmenu_run"
 export LAUNCHER_ALT="rofi -show combi"
-export PAGER="less"
+export PAGER="less --quit-if-one-screen"
 export TERMINAL="st"
 export WM="bspwm"
 

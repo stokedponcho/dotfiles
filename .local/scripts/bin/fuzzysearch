@@ -1,0 +1,36 @@
+#!/bin/bash
+
+usage() {
+  script_name="$(readlink -f "$0" | xargs basename)"
+  echo "Usage: $script_name <directories> [-q|i]"
+  echo "Arguments:"
+  echo "directories: directories to search into recusirvely"
+  echo "-q|--query: query to pre-fill fuzzy search with"
+  echo "-i|--inside: uses grep to search inside files"
+}
+
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    -q|--query)
+      query="$2"
+      shift # past argument
+      shift # past value
+      ;;
+    -i|--inside)
+      inside=1
+      shift
+      ;;
+    *)
+      directories+="$1 "
+      shift
+      ;;
+    esac
+done
+
+[[ -z "$directories" ]] && usage && exit 0
+
+if [[ $inside -eq 1 ]]; then
+  du -a $directories | awk '{print $2}' | sk --ansi -i -m -c 'grep -rI --color=always --line-number "{}" .' -q "$query"
+else
+  du -a $directories | awk '{print $2}' | sk -m -q "$query"
+fi

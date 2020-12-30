@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/dash
 #
 # elvis: invidious		-- Search YouTube using an invidious wrapper
 . surfraw || exit 1
@@ -14,6 +14,7 @@ EOF
 
 w3_config
 w3_parse_args "$@"
+
 if test -z "$w3_args"; then
     w3_browse_url "https://invidious.snopyta.org/"
 else

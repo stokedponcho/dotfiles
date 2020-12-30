@@ -1,0 +1,14 @@
+#!/bin/dash
+# elvis: archforums	-- Search the Arch Linux Forums
+
+. surfraw || exit 1
+
+w3_config
+w3_parse_args "$@"
+
+if [ -z "$w3_args" ]; then
+    w3_browse_url "https://bbs.archlinux.org/search.php"
+else
+    escaped_args=$(w3_url_of_arg $w3_args)
+    w3_browse_url "https://bbs.archlinux.org/search.php?action=search&keywords=${escaped_args}&search_in=0&sort_by=0&sort_dir=DESC&show_as=topics"
+fi

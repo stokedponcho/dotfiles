@@ -2,6 +2,8 @@ browser "$BROWSER_CLI %u"
 
 macro m set browser "setsid -f mpv %u >/dev/null 2>&1"; open-in-browser ; set browser "$BROWSER %u"
 macro l set browser "setsid -f $BROWSER %u >/dev/null 2>&1"; open-in-browser ; set browser "$BROWSER %u"
+macro t set browser "setsid -f torbrowser %u >/dev/null 2>&1"; open-in-browser ; set browser "$BROWSER %u"
+
 
 # unbind keys
 unbind-key j

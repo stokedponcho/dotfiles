@@ -1,4 +1,4 @@
-# .bash_aliases
+#!/bin/dash
 
 # To temporarily bypass an alias, we preceed the command with a \
 # EG:  the ls command is aliased,
@@ -15,9 +15,14 @@ alias mkdir="mkdir -pv"
 
 cdls() { builtin cd $@ && ls; }
 
-# working environments
-alias notebook="~/Documents/Projects/resources/notebook/notebook.sh"
-alias exercism="~/Documents/Projects/exercism/exercism.sh"
+# frequent use programs
+alias p="sudo pacman"
+alias vim=nvim
+alias v=vim
+alias top=htop
+alias diff=colordiff
+alias tmux="tmux -f ${XDG_CONFIG_HOME:-$HOME/.config}/tmux/tmux.conf"
+alias mpv="setsid -f mpv"
 
 # dotfiles
 alias dotfiles="/usr/bin/git --git-dir=$HOME/Projects/dotfiles --work-tree=$HOME"
@@ -28,19 +33,6 @@ alias dofc="dof commit"
 alias dofl="dof log"
 alias dofd="dof diff"
 alias dofds="dof diff --staged"
-
-# frequent use programs
-alias vim=nvim
-alias v=vim
-alias top=htop
-alias diff=colordiff
-alias tmux="tmux -f ${XDG_CONFIG_HOME:-$HOME/.config}/tmux/tmux.conf"
-
-# Search and...
-search() { du -a ~/.config/ ~/.local/scripts/ ~/.w3m | awk '{print $2}' | sk -m -q "$2" | xargs -r "$1"; }
-sc() { search "cat" "$1"; }
-se() { search "$EDITOR" "$1"; }
-sp() { search "$PAGER" "$1"; }
 
 # git
 alias g="git"
@@ -53,12 +45,28 @@ alias gl="git log"
 alias gd="git diff"
 alias gds="git diff --staged"
 
+# Search and...
+alias s="fuzzysearch"
+alias si="fuzzysearch --inside"
+
+search_and() { s ~/.config/ ~/.local/scripts/ ~/.w3m "${@:2}" | xargs -r -I % sh -c "$1 %"; }
+se() { search_and "$EDITOR" "${1}"; }
+sc() { search_and "$PAGER" "${1}"; }
+
+search_inside_and() { si ~/.config/ ~/.local/scripts/ ~/.w3m "${@:2}" | cut -d':' -f1 | xargs -r -I % sh -c "$1 %"; }
+sie() { search_inside_and "$EDITOR" "${1}"; }
+sic() { search_inside_and "$PAGER" "${1}"; }
+
 # youtube-dl
 alias ytdl="youtube-dl"
 alias ytdla="youtube-dl -x -format bestaudio[ext=m4a] --embed-thumbnail"
 
-play-yt() { mpv ytdl://ytsearch:"$*"; }
+play-yt() { setsid -f mpv ytdl://ytsearch:"$*"; }
 play-yt-audio() { mpv --ytdl-format=bestaudio ytdl://ytsearch:"$*"; }
+
+# working environments
+alias notebook="~/Projects/resources/notebook/notebook.sh"
+alias exercism="~/Projects/exercism/exercism.sh"
 
 # toolboxes comands
 #alias mix="toolbox --container elixir run mix"
