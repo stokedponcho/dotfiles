@@ -1,6 +1,3 @@
 #!/bin/dash
 
-calendar_icon=""
-clock_icon=""
-
-date "+ %A %d %B %Y  %H:%M"
+date "+ %a %d %b  %H:%M"

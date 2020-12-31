@@ -1,13 +1,15 @@
 #!/bin/dash
 
-# Warning: it is highly recommended to not use this to set Tor browser as the default browser, to prevent opening unwanted links from other applications into Tor browser as this could have privacy implications.
-# https://gitlab.torproject.org/legacy/trac/-/issues/15185#comment:2
-# "I believe the reason for disabling this by default is making foot-shooting harder for users. So keep that in mind."
+url="$1"
+id=$(xdotool search --name "Tor Browser" 2> /dev/null)
 
-# https://github.com/micahflee/torbrowser-launcher/issues/103
-# https://github.com/micahflee/torbrowser-launcher/pull/395
-
-LOGNAME="torbundleuser"
-browser="${XDG_DATA_HOME:-$HOME/.local/share}/torbrowser/tbb/x86_64/tor-browser_en-US/Browser/start-tor-browser"
-
- ${browser} -allow-remote $1
+if [ -z "$id" ]; then
+  torbrowser-launcher "$url"
+else
+  sleep 0.1 # needed when triggering the script from newsboat, will not open tab otherwise
+  xdotool windowactivate $id
+  xdotool key --window $id --clearmodifiers Ctrl+t
+  xdotool key --window $id --clearmodifiers Ctrl+L
+  xdotool type --window $id "$url"
+  xdotool key --window $id --clearmodifiers Return
+fi

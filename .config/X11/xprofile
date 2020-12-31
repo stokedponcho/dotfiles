@@ -10,6 +10,7 @@ pgrep picom || picom &                  # compositor for opacity
 pgrep dunst || dunst &                  # notification-daemons
 pgrep nm-applet || nm-applet &          # network applet
 pgrep redshift-gtk || redshift-gtk &    # colour temperate adjustment
+pgrep unclutter || unclutter &
 mullvad connect && mullvad-vpn &        # vpn connection
 wallp set $(readlink "$XDG_CONFIG_HOME/wallpaper") & # set wallpaper
 
