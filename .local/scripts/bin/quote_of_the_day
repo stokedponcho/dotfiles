@@ -1,5 +1,0 @@
-#!/bin/dash
-
-script="${SCRIPTS:-$HOME/.local/scripts}/quote_of_the_day.py"
-
-python "$script" | xargs --delimiter='\n' printf "%60s\n"

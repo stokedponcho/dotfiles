@@ -2,21 +2,28 @@
 
 # Credits to and inspiration from https://github.com/gotbletu/dotfiles_v2/blob/master/normal_user/rofi/.config/rofi/launchers/rofi-bangs
 
+name="$(basename $0)"
+websearch="${name}-websearch"
+
 declare -A COMMANDS
 
-COMMANDS["websearch(tor)"]="BROWSER=torbrowser dmenu-websearch"
+COMMANDS["websearch(tor)"]="BROWSER=torbrowser $websearch"
 LABELS+=("websearch(tor)")
-COMMANDS["websearch(default)"]="dmenu-websearch"
+COMMANDS["websearch(default)"]="$websearch"
 LABELS+=("websearch(default)")
-COMMANDS["applications"]="dmenu_run"
-LABELS+=("applications")
+COMMANDS["wiki"]="${SCRIPTS:-$HOME/.local/scripts}/scratchpad.sh wiki"
+LABELS+=("wiki")
+COMMANDS["diary"]="${SCRIPTS:-$HOME/.local/scripts}/scratchpad.sh wiki diary"
+LABELS+=("diary")
+COMMANDS["help"]="sxhkd-help"
+LABELS+=("help")
 
 menu() {
   # a regular array 'LABELS' is used for conserving custom order
   for key in ${LABELS[@]}; do echo $key; done
 }
 
-choice=$(menu | dmenu -p "dmenu-bangs: ")
+choice=$(menu | dmenu -p "$name: ")
 
 [[ -z ${choice} ]] && exit
 [[ ${COMMANDS[$choice]+isset} ]] && eval ${COMMANDS[$choice]} >> /dev/null

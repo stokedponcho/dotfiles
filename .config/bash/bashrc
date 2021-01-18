@@ -41,7 +41,7 @@ eval "$(starship init bash)"
 
 #
 # shell greeting
-[[ "$(tty)" != "/dev/tty1" ]] && quote_of_the_day
+[[ "$(tty)" != "/dev/tty1" ]] && "${SCRIPTS:-$HOME/.local/scripts}/quote_of_the_day.py"
 
 #
 # https://github.com/rupa/z/

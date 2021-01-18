@@ -1,0 +1,16 @@
+#!/bin/dash
+
+main() {
+  [ $# -eq 0 ] \
+    && nvim -c "VimwikiIndex" \
+    || $1
+}
+
+diary() {
+  nvim -c "VimwikiMakeDiaryNote" \
+    -c "norm Go## $(date +%H:%M)" \
+    -c "norm G2o" \
+    -c "norm zz"
+}
+
+main $@

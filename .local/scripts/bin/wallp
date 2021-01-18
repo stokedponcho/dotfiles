@@ -12,6 +12,9 @@ main() {
 		set)
 			setbg "$2"
 			;;
+    restore)
+      restore
+      ;;
 		*)
 			error "unknown argument: $command"
 			;;
@@ -23,7 +26,7 @@ usage() {
 	script_name="$(basename "$script_command")"
 
 	echo "Usage: $script_name <command>"
-	echo "Available commands: get, set [path]"
+	echo "Available commands: get, set [path], restore"
 	exit 0
 }
 
@@ -48,5 +51,10 @@ setbg() {
 	wal -n -i "$wallpaper" >/dev/null 2>&1 # pywal: apply colorscheme
 	ln -sfT "$wallpaper" "${XDG_CONFIG_HOME:-$HOME/.config}/wallpaper"
 }
+
+restore() {
+  setbg $(getbg)
+}
+
 
 main "$@"

@@ -16,13 +16,13 @@ alias mkdir="mkdir -pv"
 cdls() { builtin cd $@ && ls; }
 
 # frequent use programs
+alias diff=colordiff
+alias mpv="setsid -f mpv"
 alias p="sudo pacman"
+alias top=htop
+alias tmux="tmux -f ${XDG_CONFIG_HOME:-$HOME/.config}/tmux/tmux.conf"
 alias vim=nvim
 alias v=vim
-alias top=htop
-alias diff=colordiff
-alias tmux="tmux -f ${XDG_CONFIG_HOME:-$HOME/.config}/tmux/tmux.conf"
-alias mpv="setsid -f mpv"
 
 # dotfiles
 alias dotfiles="/usr/bin/git --git-dir=$HOME/Projects/dotfiles --work-tree=$HOME"

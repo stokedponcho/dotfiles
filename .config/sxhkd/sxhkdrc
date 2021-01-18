@@ -1,24 +1,35 @@
 #
 # wm independent hotkeys
 #
+#
+
+# make sxhkd reload its configuration files:
+super + Escape
+  pkill -USR1 -x sxhkd; notify-send 'sxhkd' 'Reload configuration.'
 
 # terminal emulator
 super + Return
 	$TERMINAL
 
-# program launcher
+# program launchers
 super + {_,shift +}r
   {$LAUNCHER, $LAUNCHER_ALT}
 
+# custom quick launch
 super + shift + Return
-  dmenu-bangs
+  quicklaunch
 
+# window explorer
 alt + Tab
   rofi -show window
 
-# make sxhkd reload its configuration files:
-super + Escape
-  pkill -USR1 -x sxhkd
+# slock
+ctrl + alt + l
+	slock
+
+# clipmenu
+alt + v
+  clipmenu
 
 #
 # System keys
@@ -57,11 +68,14 @@ super + y
 super + g
 	bspc node -s biggest.window
 
-#
-# slock
-#
-ctrl + alt + l
-	slock
+# rotate tree
+super + shift + {d,a}
+    bspc node @/ -C {forward,backward}
+
+# move current window to a pre-selected space
+super + shift + m
+    bspc node -n last.!automatic
+
 
 #
 # state/s

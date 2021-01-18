@@ -1,5 +1,5 @@
 #!/bin/dash
 
 sleep 1
-packages=$(yay -Qu | wc -l)
+packages=$(yay -Qu | wc -l 2>/dev/null)
 [ $packages -gt 0 ] && echo -n " $packages"

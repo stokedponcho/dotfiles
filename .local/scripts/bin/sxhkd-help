@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# dmenu help for defined sxhkd key bindings
+# it will not execute the selected line, this is just informational
+
+config="${XDG_CONFIG_HOME:-HOME/.config}/sxhkd/sxhkdrc"
+
+awk '/^[a-z]/ && last {print $0,"\t",last} {last=""} /^#/{last=$0}' "$config" \
+  | column -t -s $'\t' \
+  | dmenu -l 15 >/dev/null

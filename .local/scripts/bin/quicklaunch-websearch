@@ -10,3 +10,10 @@ surfraw $( \
   | awk '{ print $1 " " }' \
   | dmenu -p "websearch ($BROWSER):" \
 )
+
+#| rofi \
+  #-show-icons false \
+  #-kb-row-select "Tab" \
+  #-kb-row-tab "Control+space" \
+  #-dmenu -mesg ">>> Tab = Autocomplete" \
+  #-i -p "websearch ($BROWSER)")

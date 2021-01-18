@@ -13,7 +13,7 @@ export SCRIPTS="$HOME/.local/scripts"
 ! [[ "$PATH" =~ "$SCRIPTS/bin" ]] && export PATH="$PATH:$(du "$SCRIPTS/bin" | cut -f2 | paste -sd ':')"
 
 # Default programs:
-export BROWSER="org.mozilla.firefox"
+export BROWSER="firefox"
 export BROWSER_CLI="w3m"
 export EDITOR="nvim"
 export LAUNCHER="dmenu_run"
@@ -23,6 +23,7 @@ export TERMINAL="st"
 export WM="bspwm"
 
 # global program settings
+export CM_IGNORE_WINDOW="KeePassXC"
 export QT_QPA_PLATFORMTHEME="gtk3"
 export SKIM_DEFAULT_OPTIONS="--height 40% --reverse"
 export _Z_DATA="$XDG_DATA_HOME/z"

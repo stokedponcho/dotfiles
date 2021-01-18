@@ -110,6 +110,9 @@ tnoremap <Esc> <C-\><C-n>
 vnoremap <Tab> >gv
 vnoremap <S-Tab> <gv
 
+" Copy to system clipboard
+vnoremap <C-c> "+y
+
 " --------------------- Key Mappings ---------------------------- }}}
 
 "  Plugins -------------------------------------------------- {{{
