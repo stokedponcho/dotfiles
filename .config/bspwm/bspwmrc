@@ -18,6 +18,7 @@ bspc rule -a scratchpad sticky=on state=floating
 bspc rule -a firefox desktop='^6'
 bspc rule -a "Tor Browser" desktop='^6'
 bspc rule -a Emacs state=tiled
+bspc rule -a Virt-manager desktop='^7'
 
 # pywal
 # source the colors.

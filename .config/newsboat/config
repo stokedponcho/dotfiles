@@ -1,3 +1,4 @@
+prepopulate-query-feeds yes
 browser "$BROWSER_CLI %u"
 
 macro t set browser "setsid -f torbrowser %u > /dev/null"; open-in-browser ; set browser "$BROWSER_CLI %u"

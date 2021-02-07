@@ -1,6 +1,0 @@
-!#/bin/dash
-
-# To restore:
-# crontab .config/crontab.bak
-
-crontab -l > .config/crontab.bak

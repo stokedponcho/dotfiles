@@ -1,0 +1,2 @@
+33 */5 * * * DISPLAY=:0 ~/.local/scripts/bin/wallp set
+0 */4 * * * DISPLAY=:0 ~/.local/scripts/cron/todos

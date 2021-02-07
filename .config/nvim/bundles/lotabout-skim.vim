@@ -5,6 +5,8 @@ Plug 'lotabout/skim.vim'
 let g:fzf_buffers_jump = 1
 
 nnoremap <C-p> :Files<CR>
+nnoremap <C-b> :Buffers<CR>
+nnoremap <C-f> :Rg<CR>
 
 command! -bang ConfigFiles call fzf#vim#files('~/.config', <bang>0)
 command! -bang ScriptFiles call fzf#vim#files('~/.local/scripts', <bang>0)
