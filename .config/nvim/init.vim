@@ -1,41 +1,41 @@
 " General settings
-set 						encoding=UTF-8
-set             title
-scriptencoding 	utf-16      " allow emojis in vimrc
-filetype 				plugin indent on
+set							encoding=UTF-8
+set							title
+scriptencoding	utf-16	" allow emojis in vimrc
+filetype				plugin indent on
 
 let $RTP=split(&runtimepath, ',')[0]
 let $RC=$MYVIMRC
 
-"  Behavior Modification ----------------------  {{{
+" Behavior Modification ----------------------  {{{
 
 " Enable Elite mode, No ARRRROWWS!!!!
 let g:elite_mode=1
 
-set backspace=indent,eol,start     " Backspace deletes like most programs in insert mode
-set ruler             " show the cursor position all the time
-set showcmd           " display incomplete commands
-set laststatus=2      " Always display the status line
-set autowrite         " Automatically :write before running commands
-set ignorecase        " ignore case in searches
-set smartcase         " use case sensitive if capital letter present or \C
-set showcmd           " show any commands
-set mouse=a           " enable mouse (selection, resizing windows)
-set iskeyword+=-      " treat dash separated words as a word text object
-set shiftwidth=2      " Number of spaces to use for each step of (auto)indent.
-set tabstop=2         " Softtabs or die! use 2 spaces for tabs.
-set softtabstop=4     " number of spaces that a tab counts for
-set expandtab         " insert tab with right amount of spacing
-set autoindent        " copy indent from current line when starting a new line
-set smartindent       " smarter than autoident
-set shiftround        " Round indent to multiple of 'shiftwidth'
-set hidden            " enable hidden unsaved buffers
-set ttyfast           " should make scrolling faster
-set lazyredraw        " should make scrolling faster
-set visualbell        " visual bell for errors
-set number            " line numbers
-set foldmethod=manual " set folds by syntax of current language
-set diffopt+=vertical " Always use vertical diffs
+set noexpandtab
+set backspace=indent,eol,start      " Backspace deletes like most programs in insert mode
+set ruler                           " show the cursor position all the time
+set showcmd                         " display incomplete commands
+set laststatus=2                    " Always display the status line
+set autowrite                       " Automatically :write before running commands
+set ignorecase                      " ignore case in searches
+set smartcase                       " use case sensitive if capital letter present or \C
+set showcmd                         " show any commands
+set mouse=a                         " enable mouse (selection, resizing windows)
+set iskeyword+=-                    " treat dash separated words as a word text object
+set shiftwidth=2                    " Number of spaces to use for each step of (auto)indent.
+set tabstop=2                       " Softtabs or die! use 2 spaces for tabs.
+set softtabstop=4                   " number of spaces that a tab counts for
+set autoindent                      " copy indent from current line when starting a new line
+set smartindent                     " smarter than autoident
+set shiftround                      " Round indent to multiple of 'shiftwidth'
+set hidden                          " enable hidden unsaved buffers
+set ttyfast                         " should make scrolling faster
+set lazyredraw                      " should make scrolling faster
+set visualbell                      " visual bell for errors
+set number                          " line numbers
+set foldmethod=manual               " set folds by syntax of current language
+set diffopt+=vertical               " Always use vertical diffs
 set noswapfile
 
 " Open new split panes to right and bottom, which feels more natural
@@ -130,9 +130,9 @@ let bundles_path = stdpath('config').'/bundles'
 let bundles = split(globpath(bundles_path, '*.vim'), '\n')
 
 for bundle in bundles
-	if filereadable(expand(bundle))
-		execute 'source' bundle
-	endif
+  if filereadable(expand(bundle))
+    execute 'source' bundle
+  endif
 endfor
 
 call plug#end()
@@ -158,13 +158,12 @@ command! -nargs=0 SwapTheme :call SwapTheme()
 " Misceallenous ------------------------------------ {{{
 
 " Automatically deletes all trailing whitespace and newlines at end of file on save.
-	autocmd BufWritePre * %s/\s\+$//e
-	autocmd BufWritepre * %s/\n\+\%$//e
+  autocmd BufWritePre * %s/\s\+$//e
+  autocmd BufWritepre * %s/\n\+\%$//e
 
 " }}}
-
 
 "
 " syntax highlighting - needs to be after plugins enabling language
 " recognition if any (for example, elixir-lang/vim-elixir)
-syntax 				on
+syntax	on
