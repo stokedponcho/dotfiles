@@ -53,7 +53,7 @@ setbg() {
 }
 
 restore() {
-  setbg $(getbg)
+  feh --bg-fill --no-fehbg $(getbg)
 }
 
 

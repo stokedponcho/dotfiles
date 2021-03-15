@@ -8,7 +8,7 @@ surfraw $( \
   | awk -F'-' '{print $1}' \
   | sed '/:/d' \
   | awk '{ print $1 " " }' \
-  | dmenu -p "websearch ($BROWSER):" \
+  | dmenu -l 6 -g 4 -p "websearch ($BROWSER):" \
 )
 
 #| rofi \

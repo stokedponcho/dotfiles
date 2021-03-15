@@ -1,0 +1,31 @@
+#!/bin/dash
+
+# shutdown, reboot, suspend
+# Inspired by https://gitlab.com/dwt1/dmscripts/-/blob/master/dmlogout.
+
+choices() {
+	echo -n "Reboot\nShutdown\nSuspend\nCancel"
+}
+
+choice=$(choices | dmenu -p "Shutdown menu:")
+confirm="$(echo -n "No\nYes" | dmenu -p "${choice}?")"
+
+[ "$confirm" = "Yes" ] || exit 0
+
+case "$choice" in
+	Reboot)
+		systemctl reboot
+		;;
+	Shutdown)
+		systemctl poweroff
+		;;
+	Suspend)
+		systemctl suspend
+		;;
+	Cancel)
+		exit 0
+		;;
+	*)
+		exit 0
+		;;
+esac

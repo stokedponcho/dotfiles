@@ -17,6 +17,10 @@ COMMANDS["diary"]="${SCRIPTS:-$HOME/.local/scripts}/scratchpad.sh wiki diary"
 LABELS+=("diary")
 COMMANDS["snipshot"]="maim -s | xclip -selection clipboard -t image/png"
 LABELS+=("snipshot")
+COMMANDS["kill"]="${name}-kill"
+LABELS+=("kill")
+COMMANDS["exit"]="${name}-exit"
+LABELS+=("exit")
 COMMANDS["help"]="sxhkd-help"
 LABELS+=("help")
 
@@ -25,7 +29,7 @@ menu() {
   for key in ${LABELS[@]}; do echo $key; done
 }
 
-choice=$(menu | dmenu -p "$name: ")
+choice=$(menu | dmenu -l 3 -g 3 -p "$name: ")
 
 [[ -z ${choice} ]] && exit
 [[ ${COMMANDS[$choice]+isset} ]] && eval ${COMMANDS[$choice]} >> /dev/null

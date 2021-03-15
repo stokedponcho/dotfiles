@@ -1,0 +1,42 @@
+#!/bin/dash
+# ARCHIVE EXTRACTION
+
+main() {
+  [ $# -eq 0 ] && usage
+
+  fullpath="$PWD/$1"
+
+  if [ -f $1 ] ; then
+    case $1 in
+      *.tar.bz2)   command="tar xjf"   ;;
+      *.tar.gz)    command="tar xzf"   ;;
+      *.bz2)       command="bunzip2"   ;;
+      *.rar)       command="unrar x"   ;;
+      *.gz)        command="gunzip"    ;;
+      *.tar)       command="tar xf"    ;;
+      *.tbz2)      command="tar xjf"   ;;
+      *.tgz)       command="tar xzf"   ;;
+      *.zip)       command="unzip"     ;;
+      *.Z)         command="uncompress";;
+      *.7z)        command="7z x"      ;;
+      *.deb)       command="ar x"      ;;
+      *.tar.xz)    command="tar xf"    ;;
+      *.tar.zst)   command="unzstd"    ;;
+      *)           echo "'$1' cannot be extracted." && exit 1 ;;
+    esac
+  else
+    echo "'$1' is not a valid file." && exit 1
+  fi
+
+  command="$command $fullpath"
+  echo "Running '$command'"
+  eval "$command"
+}
+
+usage() {
+  name="$(basename $0)"
+  echo "Usage: $name <file>"
+  exit 0
+}
+
+main "$@"
