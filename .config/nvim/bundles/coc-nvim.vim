@@ -1,6 +1,11 @@
+" https://github.com/neoclide/coc.nvim
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-
+let g:coc_global_extensions = [
+			\'coc-elixir',
+			\'coc-python',
+			\'coc-rust-analyzer',
+\]
 
 " TextEdit might fail if hidden is not set.
 set hidden

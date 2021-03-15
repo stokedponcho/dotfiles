@@ -66,7 +66,7 @@ augroup END
 "  Key Mappings -------------------------------------------------- {{{
 
 " set leader key
-let g:mapleader=","
+"let g:mapleader=","
 
 nnoremap ; :
 

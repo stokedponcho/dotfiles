@@ -24,6 +24,7 @@ export WM="bspwm"
 
 # global program settings
 export CM_IGNORE_WINDOW="KeePassXC"
+export FZF_DEFAULT_OPTS="--height=40% --reverse"
 export QT_QPA_PLATFORMTHEME="gtk3"
 export SKIM_DEFAULT_OPTIONS="--height 40% --reverse"
 export _Z_DATA="$XDG_DATA_HOME/z"
@@ -40,7 +41,8 @@ export INPUTRC="$XDG_CONFIG_HOME/bash/inputrc"
 export _JAVA_OPTIONS="-Djava.util.prefs.userRoot=$XDG_CONFIG_HOME/java"
 export LESSHISTFILE=-
 export MIX_HOME="$XDG_DATA_HOME/mix"
-export NPM_CONFIG_USERCONFIG=$XDG_CONFIG_HOME/npm/npmrc
+export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
+export NVM_DIR="$XDG_DATA_HOME/nvm"
 export PYLINTHOME="$XDG_CACHE_HOME/pylint"
 export PYTHONHISTORY="$XDG_DATA_HOME/python_history"
 export RUSTUP_HOME="$XDG_DATA_HOME/rustup"

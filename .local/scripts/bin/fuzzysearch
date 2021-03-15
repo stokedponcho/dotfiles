@@ -30,7 +30,7 @@ done
 [[ -z "$directories" ]] && usage && exit 0
 
 if [[ $inside -eq 1 ]]; then
-  du -a $directories | awk '{print $2}' | sk --ansi -i -m -c 'grep -rI --color=always --line-number "{}" .' -q "$query"
+  du -a $directories | awk '{print $2}' | fzf --ansi -i -m -c 'grep -rI --color=always --line-number "{}" .' -q "$query"
 else
-  du -a $directories | awk '{print $2}' | sk -m -q "$query"
+  du -a $directories | awk '{print $2}' | fzf -m -q "$query"
 fi

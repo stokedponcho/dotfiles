@@ -6,8 +6,9 @@ set foldmethod=indent
 set nofoldenable
 
 let b:ale_linters = ['flake8', 'pylint']
-let b:ale_fixers = ['autopep8', 'isort' ]
-
-" Extra tools needed:
-" CocInstall coc-python
-" pip install jedi
+let b:ale_fixers = [
+    \'autopep8',
+    \'black',
+    \'isort',
+    \'add_blank_lines_for_python_control_statements'
+    \]
