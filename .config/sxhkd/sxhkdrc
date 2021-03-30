@@ -27,20 +27,14 @@ alt + Tab
 ctrl + alt + l
 	slock
 
-# clipmenu
-alt + v
-  clipmenu
-
 #
 # System keys
 #
 
 XF86MonBrightness{Up,Down}
 	xbacklight -{inc,dec} 5
-
 XF86Audio{Raise,Lower}Volume
 	pactl -- set-sink-volume 0 {+,-}5% > /dev/null
-
 XF86AudioMute
 	pactl -- set-sink-mute 0 toggle > /dev/null
 
@@ -52,9 +46,13 @@ XF86AudioMute
 super + ctrl + {q,r}
 	bspc {quit,wm -r}
 
-# close and kill
-super + {_,shift + }w
-	bspc node -{c,k}
+# close
+super + shift + w
+	bspc node -c
+
+#kill
+super + shift + k
+	bspc node -k
 
 # alternate between the tiled and monocle layout
 super + m
