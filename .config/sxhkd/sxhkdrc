@@ -20,12 +20,15 @@ super + shift + Return
   quicklaunch
 
 # window explorer
-alt + Tab
-  rofi -show window
+super + Tab
+	rofi -show window
 
 # slock
 ctrl + alt + l
 	slock
+
+super + o ; {e,w,m}
+	{emacs,firefox,thunderbird}
 
 #
 # System keys
@@ -107,12 +110,8 @@ super + {_,shift + }c
 super + bracket{left,right}
 	bspc desktop -f {prev,next}.local
 
-# focus the last node/desktop
-super + {grave,Tab}
-	bspc {node,desktop} -f last
-
 # focus the older or newer node in the focus history
-super + {o,i}
+super + ctrl + {p,n}
 	bspc wm -h off; \
 	bspc node {older,newer} -f; \
 	bspc wm -h on

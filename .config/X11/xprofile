@@ -2,8 +2,8 @@
 
 eval $(ssh-agent)
 
-xrandr --output eDP1 --primary --auto --mode 1920x1080 --rate 60.00 --output DP3 --auto --mode 1920x1080 --rate 60.00 --right-of eDP1
-xautolock -time 5 -locker slock &
+screens																	# set screens configuration
+xautolock -time 10 -locker $LOCKER &
 xsetroot -cursor_name left_ptr &
 
 pgrep picom || picom &                  # compositor for opacity
@@ -11,8 +11,7 @@ pgrep dunst || dunst &                  # notification-daemons
 pgrep nm-applet || nm-applet &          # network applet
 pgrep redshift-gtk || redshift-gtk &    # colour temperate adjustment
 pgrep unclutter || unclutter &          # hides mouse cursor when idle
-pgrep mullvad-vpn ||
-  mullvad connect && mullvad-vpn &      # vpn connection
+pgrep mullvad-vpn || mullvad-vpn &      # vpn connection
 wallp restore &                         # set wallpaper
 clipmenud &                             # clipmenu daemon
 remapkeys                               # set capslock as control/escape

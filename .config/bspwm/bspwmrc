@@ -2,11 +2,15 @@
 
 $XDG_CONFIG_HOME/polybar/launch.sh
 $XDG_CONFIG_HOME/sxhkd/launch.sh
+pgrep bspswallow || bspswallow &
+pgrep bspcleanfullscreen || bspcleanfullscreen &
 
-bspc monitor eDP1 -d I II III IV V
-bspc monitor DP3 -d VI VII VIII IX X
+bspc monitor eDP1 -d 1 2 3 4 5
+bspc monitor DP3 -d 6 7 8 9 10
 
-bspc config border_width         1
+bspc config automatic_scheme		alternate
+
+bspc config border_width         2
 bspc config window_gap           8
 bspc config top_padding         30
 
@@ -14,11 +18,17 @@ bspc config split_ratio          0.52
 bspc config borderless_monocle   true
 bspc config gapless_monocle      true
 
+bspc config remove_disabled_monitors		true
+bspc config remove_unplugged_monitors		true
+
 bspc rule -a scratchpad sticky=on state=floating
-bspc rule -a firefox desktop='^6'
-bspc rule -a "Tor Browser" desktop='^6'
 bspc rule -a Emacs state=tiled
+
+bspc rule -a firefox desktop='^6'
+bspc rule -a Firefox desktop='^6'
+bspc rule -a "Tor Browser" desktop='^6'
 bspc rule -a Virt-manager desktop='^7'
+bspc rule -a Thunderbird desktop='^8'
 
 # pywal
 # source the colors.
