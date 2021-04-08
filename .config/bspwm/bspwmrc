@@ -1,9 +1,8 @@
-#! /bin/sh
+#!/bin/sh
 
-$XDG_CONFIG_HOME/polybar/launch.sh
-$XDG_CONFIG_HOME/sxhkd/launch.sh
 pgrep bspswallow || bspswallow &
 pgrep bspcleanfullscreen || bspcleanfullscreen &
+$XDG_CONFIG_HOME/polybar/launch.sh
 
 bspc monitor eDP1 -d 1 2 3 4 5
 bspc monitor DP3 -d 6 7 8 9 10

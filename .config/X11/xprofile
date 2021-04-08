@@ -5,6 +5,7 @@ eval $(ssh-agent)
 screens																	# set screens configuration
 xautolock -time 10 -locker $LOCKER &
 xsetroot -cursor_name left_ptr &
+$XDG_CONFIG_HOME/sxhkd/launch.sh
 
 pgrep picom || picom &                  # compositor for opacity
 pgrep dunst || dunst &                  # notification-daemons

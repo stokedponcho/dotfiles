@@ -1,3 +1,5 @@
+#!/bin/sh
+
 #
 # wm independent hotkeys
 #
@@ -49,13 +51,9 @@ XF86AudioMute
 super + ctrl + {q,r}
 	bspc {quit,wm -r}
 
-# close
-super + shift + w
-	bspc node -c
-
-#kill
-super + shift + k
-	bspc node -k
+# close/kill node
+super + shift + {w,q}
+	bspc node -{c,k}
 
 # alternate between the tiled and monocle layout
 super + m
@@ -71,11 +69,11 @@ super + g
 
 # rotate tree
 super + shift + {d,a}
-    bspc node @/ -C {forward,backward}
+		bspc node @/ -C {forward,backward}
 
 # move current window to a pre-selected space
 super + shift + m
-    bspc node -n last.!automatic
+		bspc node -n last.!automatic
 
 
 #
