@@ -11,16 +11,16 @@ COMMANDS["websearch(tor)"]="BROWSER=torbrowser $websearch"
 LABELS+=("websearch(tor)")
 COMMANDS["websearch(default)"]="$websearch"
 LABELS+=("websearch(default)")
-COMMANDS["wiki"]="${SCRIPTS:-$HOME/.local/scripts}/scratchpad.sh wiki"
-LABELS+=("wiki")
-COMMANDS["diary"]="${SCRIPTS:-$HOME/.local/scripts}/scratchpad.sh wiki diary"
-LABELS+=("diary")
+COMMANDS["add-bookmark"]="${name}-bookmarks --add"
+LABELS+=("add-bookmark")
 COMMANDS["snipshot"]="maim -s | xclip -selection clipboard -t image/png"
 LABELS+=("snipshot")
 COMMANDS["kill"]="${name}-kill"
 LABELS+=("kill")
-COMMANDS["exit"]="${name}-exit"
-LABELS+=("exit")
+COMMANDS["reboot"]="confirm 'Reboot' && systemctl reboot"
+LABELS+=("reboot")
+COMMANDS["shutdown"]="confirm 'Shutdown' && systemctl poweroff"
+LABELS+=("shutdown")
 COMMANDS["help"]="sxhkd-help"
 LABELS+=("help")
 
@@ -30,6 +30,11 @@ menu() {
 }
 
 choice=$(menu | dmenu -l 3 -g 3 -p "$name: ")
+
+confirm () {
+  confirm="$(printf "No\nYes" | dmenu -p "${1}?")"
+  [ "$confirm" = "Yes" ] || exit 0
+}
 
 [[ -z ${choice} ]] && exit
 [[ ${COMMANDS[$choice]+isset} ]] && eval ${COMMANDS[$choice]} >> /dev/null

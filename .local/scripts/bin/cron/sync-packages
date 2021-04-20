@@ -15,4 +15,4 @@
 #Exec = /bin/dash -c 'polybar-msg hook packages 1'
 
 ping -q -c 1 example.org > /dev/null || exit
-yay -Syuw --noconfirm
+paru -Syuw --noconfirm

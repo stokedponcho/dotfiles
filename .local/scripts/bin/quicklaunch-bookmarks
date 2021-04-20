@@ -1,0 +1,25 @@
+#!/bin/bash
+
+bookmarks="${XDG_CONFIG_HOME:-HOME/.config}/bookmarks.txt"
+
+main () {
+	[ $# -eq 0 ] && open && exit
+	[ "$1" = "--add" ] && add && exit
+}
+
+open () {
+	url=$(awk 'BEGIN { FS = "|" } ; {print $2"\t"$1}' "$bookmarks" \
+			| column -t -s $'\t' \
+			| dmenu -l 15 -p "Open bookmark: " \
+			| awk '{print $NF}')
+
+	[ -z "$url" ] && exit
+
+	torbrowser "$url"
+}
+
+add () {
+	eval "scratchpad nvim $bookmarks" >> /dev/null
+}
+
+main $@

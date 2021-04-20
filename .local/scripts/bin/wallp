@@ -12,9 +12,9 @@ main() {
 		set)
 			setbg "$2"
 			;;
-    restore)
-      restore
-      ;;
+		restore)
+			restore
+			;;
 		*)
 			error "unknown argument: $command"
 			;;
@@ -46,14 +46,16 @@ setbg() {
 	[ -f "$1" ] && wallpaper=$(realpath $1)
 	[ ! -f "$wallpaper" ] && wallpaper=$(find $WALLPAPERS -type f -not -path "*/.git/*" | shuf -n 1)
 
-  notify-send -i "$wallpaper" "Setting wallpaper..."
-  feh --bg-fill --no-fehbg "$wallpaper"
+	notify-send -i "$wallpaper" "Setting wallpaper..."
+	feh --bg-fill --no-fehbg "$wallpaper"
 	wal -n -i "$wallpaper" >/dev/null 2>&1 # pywal: apply colorscheme
 	ln -sfT "$wallpaper" "${XDG_CONFIG_HOME:-$HOME/.config}/wallpaper"
 }
 
 restore() {
-  feh --bg-fill --no-fehbg $(getbg)
+	wallpaper=$(getbg)
+	wal -n -i "$wallpaper" >/dev/null 2>&1 # pywal: apply colorscheme
+	feh --bg-fill --no-fehbg "$wallpaper"
 }
 
 
