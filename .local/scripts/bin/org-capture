@@ -1,0 +1,27 @@
+#!/bin/dash
+
+# Taken from Doom Emacs
+#
+# Open an org-capture popup frame from the shell. This opens a temporary emacs
+# daemon if emacs isn't already running.
+#
+# Usage: org-capture
+# Examples:
+#   org-capture
+
+set -e
+
+cleanup() {
+  emacsclient --eval '(let (kill-emacs-hook) (kill-emacs))'
+}
+
+# If emacs isn't running, we start a temporary daemon, solely for this window.
+if ! emacsclient --suppress-output --eval nil; then
+  emacs --daemon
+  trap cleanup EXIT INT TERM
+  daemon=1
+fi
+
+emacsclient -a "" \
+  -c -F '((name . "capture") (width . 100) (height . 40) (alpha . 100) (transient . t))' \
+    -e "(my/org-capture-open-frame)"

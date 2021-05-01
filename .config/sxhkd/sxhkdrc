@@ -29,8 +29,8 @@ super + Tab
 ctrl + alt + l
 	slock
 
-super + o ; {e,w,b,m}
-	{emacs,quicklaunch-websearch,quicklaunch-bookmarks,thunderbird}
+super + o ; {e,c,w,b,m}
+	{emacs,org-capture,quicklaunch-websearch,quicklaunch-bookmarks,thunderbird}
 
 #
 # System keys

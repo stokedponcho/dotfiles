@@ -22,6 +22,8 @@ bspc config remove_unplugged_monitors		true
 
 bspc rule -a scratchpad sticky=on state=floating
 bspc rule -a Emacs state=tiled
+bspc rule -a Emacs:*:capture sticky=on state=floating
+
 bspc rule -a firefox desktop='^6'
 bspc rule -a Firefox desktop='^6'
 bspc rule -a "Tor Browser" desktop='^6'

@@ -7,20 +7,22 @@ websearch="${name}-websearch"
 
 declare -A COMMANDS
 
-COMMANDS["websearch(tor)"]="BROWSER=torbrowser $websearch"
-LABELS+=("websearch(tor)")
-COMMANDS["websearch(default)"]="$websearch"
-LABELS+=("websearch(default)")
-COMMANDS["add-bookmark"]="${name}-bookmarks --add"
-LABELS+=("add-bookmark")
+COMMANDS["web-search(tor)"]="BROWSER=torbrowser $websearch"
+LABELS+=("web-search(tor)")
+COMMANDS["web-search(default)"]="$websearch"
+LABELS+=("web-search(default)")
+COMMANDS["web-add-bookmark"]="${name}-bookmarks --add"
+LABELS+=("web-add-bookmark")
+COMMANDS["org-capture"]="org-capture"
+LABELS+=("org-capture")
 COMMANDS["snipshot"]="maim -s | xclip -selection clipboard -t image/png"
 LABELS+=("snipshot")
-COMMANDS["kill"]="${name}-kill"
-LABELS+=("kill")
-COMMANDS["reboot"]="confirm 'Reboot' && systemctl reboot"
-LABELS+=("reboot")
-COMMANDS["shutdown"]="confirm 'Shutdown' && systemctl poweroff"
-LABELS+=("shutdown")
+COMMANDS["system-kill"]="${name}-kill"
+LABELS+=("system-kill")
+COMMANDS["system-reboot"]="confirm 'Reboot' && systemctl reboot"
+LABELS+=("system-reboot")
+COMMANDS["system-shutdown"]="confirm 'Shutdown' && systemctl poweroff"
+LABELS+=("system-shutdown")
 COMMANDS["help"]="sxhkd-help"
 LABELS+=("help")
 
@@ -32,7 +34,7 @@ menu() {
 choice=$(menu | dmenu -l 3 -g 3 -p "$name: ")
 
 confirm () {
-  confirm="$(printf "No\nYes" | dmenu -p "${1}?")"
+  confirm="$(printf "Yes\nNo" | dmenu -p "${1}?")"
   [ "$confirm" = "Yes" ] || exit 0
 }
 

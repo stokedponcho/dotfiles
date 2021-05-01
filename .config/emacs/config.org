@@ -65,9 +65,9 @@
 		(defvar my/default-font "Fira Code Retina")
 		(defvar my/default-font-size 125)
 		(defvar my/config (expand-file-name "~/.config/emacs/config.org"))
-		(defvar my/org "~/Documents/org")
-		(defvar my/notes (concat (file-name-as-directory my/org) "notes.org"))
-		(defvar my/tasks (concat (file-name-as-directory my/org) "tasks.org"))
+		(defvar my/org-directory (file-name-as-directory "~/Documents/org"))
+		(defvar my/org-notes (concat my/org-directory "notes.org"))
+		(defvar my/bookmarks (concat (expand-file-name "~/.config/") "bookmarks.txt"))
 		(defvar my/projects-root "~/Projects/")
 		(defvar my/projects '("~/Documents/org" "~/Projects" "~/Projects/00_learning"))
 	#+end_src
@@ -315,7 +315,7 @@
 
 		 (defun my/search-org-files ()
 			 (interactive)
-			 (counsel-rg "" my/org nil "Search org-directory: "))
+			 (counsel-rg "" my/org-directory nil "Search org-directory: "))
 
 		 (use-package org
 			 :commands
@@ -324,7 +324,8 @@
 				my/search-org-files)
 			 :hook (org-mode . my/org-mode-setup)
 			 :custom
-			 (org-directory my/org)
+			 (org-directory my/org-directory)
+			 (org-default-notes-files my/org-notes)
 			 (org-startup-folded 'nofold)
 			 (org-catch-invisible-edits 'smart)
 			 (org-agenda-start-with-log-mode t)
@@ -400,20 +401,51 @@
 			 (setq org-capture-templates
 						 (doct `(("Task" :keys "t"
 											:icon ("checklist" :set "octicon" :color "green")
-											:file my/tasks
-											:prepend t
-											:headline "Inbox"
+											:file my/org-notes
+											:prepend nil
+											:headline "Tasks"
 											:type entry
 											:template ("* TODO %?"
 																 "%i %a"))
 										 ("Note" :keys "n"
 											:icon ("sticky-note-o" :set "faicon" :color "green")
-											:file my/notes
+											:file my/org-notes
 											:prepend t
-											:headline "Inbox"
+											:headline "Notes"
 											:type entry
 											:template ("* %?"
-																 "%i %a"))))))
+																 "%i %a"))
+										 ("Bookmark" :keys "b"
+											:file my/bookmarks
+											:prepend nil
+											:type plain
+											:template ("%?	| "))))))
+	 #+end_src
+
+	 Functions for running org-capture from shell and closing.
+
+	 [https://gist.github.com/progfolio/af627354f87542879de3ddc30a31adc1]
+
+	 #+begin_src emacs-lisp
+		 (defun my/org-capture-delete-frame (&rest _)
+			 "Delete frame with its name frame-parameter set to 'capture'."
+			 (if (equal "capture" (frame-parameter nil 'name))
+					 (delete-frame)))
+		 (advice-add 'org-capture-finalize :after #'my/org-capture-delete-frame)
+
+		 (defun my/org-capture-open-frame ()
+			 "Run org-capture in its own frame."
+			 (interactive)
+			 (require 'cl-lib)
+			 (select-frame-by-name "capture")
+			 (delete-other-windows)
+			 (cl-letf (((symbol-function 'switch-to-buffer-other-window) #'switch-to-buffer))
+				 (condition-case err
+						 (org-capture)
+					 ;; "q" signals (error "Abort") in 'org-capture'
+					 ;; delete the newly created frame in this scenario.
+					 (user-error (when (string= (cadr err) "Abort")
+												 (delete-frame))))))
 	 #+end_src
 
 ** Auto-tangle configuration files
@@ -577,7 +609,7 @@
 
 		 (with-eval-after-load 'projectile
 			 (projectile-discover-projects-in-directory my/projects-root)
-			 (projectile-discover-projects-in-directory my/org))
+			 (projectile-discover-projects-in-directory my/org-directory))
 
 		 (use-package counsel-projectile
 			 :after projectile
