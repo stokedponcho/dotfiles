@@ -137,14 +137,6 @@
 	("C-x b" . 'counsel-switch-buffer)
 	:config (counsel-mode 1))
 
-(use-package which-key
-	:defer 1
-	:demand t
-	:diminish which-key-mode
-	:config
-	(which-key-mode)
-	(setq which-key-idle-delay 0.3))
-
 (use-package helpful
 	:commands (helpful-callable helpful-variable helpful-command helpful-key)
 	:custom
@@ -159,15 +151,12 @@
 ;; Make ESC quit prompts
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
-(use-package general
+(global-set-key (kbd "C-M-u") 'universal-argument)
+
+(use-package undo-tree
 	:after evil
-	:config
-	(general-create-definer my/leader-key-def
-		:keymaps '(normal insert visual emacs)
-		:prefix "SPC"
-		:global-prefix "C-SPC")
-	(my/leader-key-def
-		"fde" '(lambda () (interactive) (find-file (expand-file-name my/config)))))
+	:init
+	(global-undo-tree-mode 1))
 
 (use-package evil
 	:demand t
@@ -175,6 +164,7 @@
 	(setq evil-want-integration t)
 	(setq evil-want-keybinding nil)
 	(setq evil-want-C-u-scroll t)
+	(setq evil-undo-system 'undo-tree)
 	(setq-default evil-shift-width tab-width)
 	:config
 	(evil-mode 1)
@@ -217,6 +207,25 @@
 	(advice-add 'evil-window-split :after 'counsel-switch-buffer)
 	(advice-add 'evil-window-vsplit :after 'counsel-switch-buffer))
 
+(use-package general
+	:after evil
+	:config
+	(general-evil-setup t)
+	(general-create-definer my/leader-key-def
+		:keymaps '(normal insert visual emacs)
+		:prefix "SPC"
+		:global-prefix "C-SPC")
+	(my/leader-key-def
+		"fde" '(lambda () (interactive) (find-file (expand-file-name my/config)))))
+
+(use-package which-key
+	:defer 1
+	:demand t
+	:diminish which-key-mode
+	:config
+	(which-key-mode)
+	(setq which-key-idle-delay 0.3))
+
 ;; Higlighting indentation
 (use-package highlight-indent-guides
 	:hook
@@ -234,10 +243,6 @@
 (defun my/org-mode-setup ()
 	(visual-line-mode 1))
 
-(defun my/search-org-files ()
-	(interactive)
-	(counsel-rg "" my/org-directory nil "Search org-directory: "))
-
 (use-package org
 	:commands
 	(org-capture
@@ -246,22 +251,15 @@
 	:hook (org-mode . my/org-mode-setup)
 	:custom
 	(org-directory my/org-directory)
-	(org-default-notes-files my/org-notes)
 	(org-startup-folded 'nofold)
-	(org-catch-invisible-edits 'smart)
-	(org-agenda-start-with-log-mode t)
-	(org-log-done 'time)
-	(org-log-into-drawer t)
-	(org-agenda-files (directory-files-recursively org-directory "\\.org$"))
-	(org-todo-keywords
-	 '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE"))))
+	(org-catch-invisible-edits 'smart))
 
 (with-eval-after-load 'org
 	(require 'org-tempo)
-	(add-to-list 'org-structure-template-alist '("sh". "src shell"))
-	(add-to-list 'org-structure-template-alist '("el". "src emacs-lisp"))
-	(add-to-list 'org-structure-template-alist '("py". "src python"))
-	(add-to-list 'org-structure-template-alist '("json". "src json"))
+	(add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+	(add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+	(add-to-list 'org-structure-template-alist '("py" . "src python"))
+	(add-to-list 'org-structure-template-alist '("json" . "src json"))
 	(add-to-list 'org-structure-template-alist '("yaml" . "src yaml")))
 
 (with-eval-after-load 'org
@@ -269,23 +267,33 @@
 	 'org-babel-load-languages
 	 '((emacs-lisp . t))))
 
-;; (with-eval-after-load 'org
-;; 	 (defun my/org-path (path)
-;; 		 (expand-file-name path org-directory))
-;; 	 (setq org-default-notes-file (my/org-path "Inbox.org"))
-;; 	 (setq org-agenda-custom-commands
-;; 				 `(("d" "Dashboard"
-;; 						((agenda "" ((org-deadline-warning-days 7)))
-;; 						 (tags-todo "+PRIORITY=\"A\""
-;; 												((org-agenda-overriding-header "High Priority")))
-;; 						 (tags-todo "+followup" ((org-agenda-overriding-header "Needs Follow Up")))
-;; 						 (todo "IN-PROGRESS"
-;; 									 (org-agenda-max-todos nil))
-;; 						(todo "WAITING"
-;; 									(org-agenda-max-todos nil))
-;; 						(todo "TODO"
-;; 									(org-agenda-files '(,(my/org-path "Inbox.org")))
-;; 									(org-agenda-text-search-extra-files nil)))))))
+(with-eval-after-load 'org
+	(setq
+	 org-default-notes-files my/org-notes
+	 org-agenda-start-with-log-mode t
+	 org-log-done 'time
+	 org-log-into-drawer t
+	 org-agenda-files (directory-files-recursively org-directory "\\.org$")
+	 org-todo-keywords '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE"))
+	 org-todo-keyword-faces '(("IN-PROGRESS" . (:foreground "orange red" :weight bold))
+														("WAITING" . (:foreground "HotPink2" :weight bold)))
+	 org-priority-default ?C
+	 ))
+
+(with-eval-after-load 'org
+	(setq org-agenda-custom-commands
+				'(("d" "Dashboard"
+					 ((agenda "" ((org-deadline-warning-days 7)))
+						(tags-todo "+PRIORITY=\"A\""
+											 ((org-agenda-overriding-header "High Priority")))
+						(todo "WAITING"
+									((org-agenda-text-search-extra-files nil)))
+						(todo "IN-PROGRESS"
+									((org-agenda-text-search-extra-files nil)))
+						(todo "TODO"
+									((org-agenda-text-search-extra-files nil))))
+					 ))
+				))
 
 (use-package evil-org
 	:after org
@@ -296,10 +304,19 @@
 	(require 'evil-org-agenda)
 	(evil-org-agenda-set-keys))
 
+(defun my/search-org-files ()
+	(interactive)
+	(counsel-rg "" my/org-directory nil "Search org-directory: "))
+
+(defun my/org-agenda-dashboard ()
+	(interactive)
+	(org-agenda nil "d"))
+
 (my/leader-key-def
 	"o"   '(:ignore t :which-key "org mode")
+	"oa"  '(my/org-agenda-dashboard :which-key "dashboard")
+	"od"  '(my/org-agenda-dashboard :which-key "dashboard")
 	"os"  '(my/search-org-files :which-key "search")
-	"oa"  '(org-agenda :which-key "status")
 	"oc"  '(org-capture t :which-key "capture")
 	"on"  '(org-toggle-narrow-to-subtree :which-key "toggle narrow")
 	"ot"  '(org-todo-list :which-key "todos"))
