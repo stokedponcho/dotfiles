@@ -259,13 +259,15 @@
 	(add-to-list 'org-structure-template-alist '("sh" . "src shell"))
 	(add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
 	(add-to-list 'org-structure-template-alist '("py" . "src python"))
+	(add-to-list 'org-structure-template-alist '("sc" . "src scheme"))
 	(add-to-list 'org-structure-template-alist '("json" . "src json"))
 	(add-to-list 'org-structure-template-alist '("yaml" . "src yaml")))
 
 (with-eval-after-load 'org
 	(org-babel-do-load-languages
 	 'org-babel-load-languages
-	 '((emacs-lisp . t))))
+	 '((emacs-lisp . t)
+		 (scheme . t))))
 
 (with-eval-after-load 'org
 	(setq
@@ -290,7 +292,7 @@
 									((org-agenda-text-search-extra-files nil)))
 						(todo "IN-PROGRESS"
 									((org-agenda-text-search-extra-files nil)))
-						(todo "TODO"
+						(tags-todo "+PRIORITY=\"B\"|+PRIORITY=\"C\""
 									((org-agenda-text-search-extra-files nil))))
 					 ))
 				))
@@ -376,7 +378,9 @@
 			(org-babel-tangle))
 		))
 
-(add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'my/org-babel-tangle-config)))
+(add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'my/org-babel-tangle-config
+																							'run-at-end
+																							'only-in-org-mode)))
 
 (use-package dap-mode
 	:commands dap-debug dap-debug-last dap-debug-recent)
@@ -448,6 +452,11 @@
 	:hook (
 				 ;; (python-mode . pyvenv-mode)
 				 (before-save . py-isort-before-save)))
+
+(use-package geiser-mit
+	:custom
+	(geiser-default-implementation 'mit)
+	(geiser-mit-binary "scheme"))
 
 (use-package company
 	:after lsp-mode
