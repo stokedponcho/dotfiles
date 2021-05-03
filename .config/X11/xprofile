@@ -16,3 +16,4 @@ pgrep mullvad-vpn || mullvad-vpn &      # vpn connection
 wallp restore &                         # set wallpaper
 clipmenud &                             # clipmenu daemon
 remapkeys                               # set capslock as control/escape
+emacs --daemon													# emacs server

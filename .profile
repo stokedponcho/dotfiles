@@ -21,6 +21,7 @@ export LAUNCHER_ALT="rofi -show combi"
 export LOCKER="slock"
 export PAGER="less --quit-if-one-screen"
 export TERMINAL="st"
+export VISUAL="emacsclient -nc"
 export WM="bspwm"
 
 # global program settings

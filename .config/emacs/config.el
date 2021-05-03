@@ -78,7 +78,6 @@
 
 (setq visible-bell t)	; Set up the visible bell
 
-(set-frame-parameter (selected-frame) 'alpha my/frame-transparency)
 (set-face-attribute 'default nil :font my/default-font :height my/default-font-size)
 
 (column-number-mode t)
@@ -92,6 +91,12 @@
 								term-mode-hook
 								shell-mode-hook))
 	(add-hook mode #'my/disable-display-line-numbers))
+
+(defun my/set-frame-transparency (frame)
+	(set-frame-parameter frame 'alpha my/frame-transparency))
+
+(add-to-list 'after-make-frame-functions #'my/set-frame-transparency)
+(my/set-frame-transparency (selected-frame))
 
 ;; NOTE: The first time you load your configuration on a new machine, you'll
 ;; need to run the following command interactively so that mode line icons
@@ -349,17 +354,13 @@
 								 :type plain
 								 :template ("%?	| "))))))
 
-(defun my/org-capture-delete-frame (&rest _)
-	"Delete frame with its name frame-parameter set to 'capture'."
-	(if (equal "capture" (frame-parameter nil 'name))
-			(delete-frame)))
-(advice-add 'org-capture-finalize :after #'my/org-capture-delete-frame)
-
-(defun my/org-capture-open-frame ()
+(defun my/org-capture-open-frame (frame-name)
 	"Run org-capture in its own frame."
 	(interactive)
 	(require 'cl-lib)
-	(select-frame-by-name "capture")
+	(setq capture/frame-name frame-name)
+	(select-frame-by-name frame-name)
+	(set-frame-parameter (selected-frame) 'alpha 100)
 	(delete-other-windows)
 	(cl-letf (((symbol-function 'switch-to-buffer-other-window) #'switch-to-buffer))
 		(condition-case err
@@ -368,6 +369,12 @@
 			;; delete the newly created frame in this scenario.
 			(user-error (when (string= (cadr err) "Abort")
 										(delete-frame))))))
+
+(defun my/org-capture-delete-frame (&rest _)
+	"Delete frame with its name frame-parameter set to 'capture'."
+	(if (equal capture/frame-name (frame-parameter nil 'name))
+			(delete-frame)))
+(advice-add 'org-capture-finalize :after #'my/org-capture-delete-frame)
 
 ;; Automatically tangle .org config file .el file on save
 (defun my/org-babel-tangle-config ()
