@@ -4,8 +4,8 @@
 #	name =
 #	email =
 [core]
-		pager = delta
-		hooksPath = ~/.config/git/hooks
+  pager = delta
+  hooksPath = ~/.config/git/hooks
 [interactive]
     diffFilter = delta --color-only
 [pull]
