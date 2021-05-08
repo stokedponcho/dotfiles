@@ -1,3 +1,7 @@
+;;; init.el --- Init File -*- lexical-binding: t -*-
+;;; Commentary:
+;;; Code:
+
 (let ((default-directory user-emacs-directory)
       (file-name-handler-alist nil)
 			(gc-cons-percentage .6)
@@ -8,3 +12,5 @@
 
 	;; Collect garbage when all else is done
 	(garbage-collect))
+
+;;; init.el ends here

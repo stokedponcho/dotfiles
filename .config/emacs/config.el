@@ -1,7 +1,10 @@
 ;;; config.el -*- lexical-binding: t; -*-
+;;; Commentary:
+;;; Code:
 
 (defun my/display-startup-time ()
-	(message "Emacs loaded in %s with %d garbage collections."
+	(message "Emacs loaded %d packages in %s with %d garbage collections."
+					 (length package-activated-list)
 					 (format "%.2f seconds"
 									 (float-time
 										(time-subtract after-init-time before-init-time)))
@@ -23,11 +26,10 @@
 
 (require 'use-package)
 (setq use-package-always-ensure t)
-(setq use-package-always-defer t)
+(setq use-package-always-defer nil)
 (setq use-package-verbose nil)
 
-(use-package no-littering
-	:demand t)
+(use-package no-littering)
 
 (setq auto-save-file-name-transforms
 			`((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
@@ -77,16 +79,13 @@
 	 (unless (frame-focus-state) (garbage-collect))))
 
 (setq visible-bell t)	; Set up the visible bell
-
 (set-face-attribute 'default nil :font my/default-font :height my/default-font-size)
-
 (column-number-mode t)
 (global-display-line-numbers-mode t)
 
 ;; Disable line numbers for some modes
 (defun my/disable-display-line-numbers ()
 	(display-line-numbers-mode 0))
-
 (dolist (mode '(treemacs-mode-hook
 								term-mode-hook
 								shell-mode-hook))
@@ -103,20 +102,21 @@
 ;; display correctly:
 ;;
 ;; M-x all-the-icons-install-fonts
-(use-package all-the-icons)
+(use-package all-the-icons
+	:defer t)
 
 (use-package doom-themes
-	:demand t
+	:defer t
 	:init (load-theme 'doom-palenight t))
 
 (use-package doom-modeline
-	:demand t
 	:init (doom-modeline-mode 1)
-	:custom ((doom-modeline-height 15)))
+	:custom
+	(doom-modeline-height 15)
+	(doom-modeline-lsp t)
+	(doom-modeline-buffer-file-name-style 'truncate-except-project))
 
 (use-package ivy
-	:demand t
-	:diminish
 	:bind (("C-s" . swiper)
 				 :map ivy-minibuffer-map
 				 ;; ("TAB" . ivy-alt-done)
@@ -130,11 +130,11 @@
 				 :map ivy-reverse-i-search-map
 				 ("C-k" . ivy-previous-line)
 				 ("C-d" . ivy-reverse-i-search-kill))
-	:config (ivy-mode 1))
-
-(use-package ivy-rich
-	:after ivy
-	:init (ivy-rich-mode 1))
+	:config
+	(ivy-mode 1)
+	:custom
+	(ivy-wrap t)
+	(ivy-use-virtual-buffers t))
 
 (use-package counsel
 	:bind
@@ -142,29 +142,21 @@
 	("C-x b" . 'counsel-switch-buffer)
 	:config (counsel-mode 1))
 
-(use-package helpful
-	:commands (helpful-callable helpful-variable helpful-command helpful-key)
-	:custom
-	(counsel-describe-function-function #'helpful-callable)
-	(counsel-describe-variable-function #'helpful-variable)
-	:bind
-	([remap describe-function] . counsel-describe-function)
-	([remap describe-command] . helpful-command)
-	([remap describe-variable] . counsel-describe-variable)
-	([remap describe-key] . helpful-key))
+(use-package ivy-rich
+	:defer 1
+	:after (ivy counsel)
+	:config (ivy-rich-mode 1))
 
-;; Make ESC quit prompts
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
 (global-set-key (kbd "C-M-u") 'universal-argument)
 
 (use-package undo-tree
 	:after evil
-	:init
+	:config
 	(global-undo-tree-mode 1))
 
 (use-package evil
-	:demand t
 	:init
 	(setq evil-want-integration t)
 	(setq evil-want-keybinding nil)
@@ -183,8 +175,7 @@
 	(evil-set-initial-state 'dashboard-mode 'normal))
 
 (use-package evil-collection
-	:demand t
-	:after (evil general)
+	:after (evil)
 	:config
 	(evil-collection-init))
 
@@ -225,8 +216,6 @@
 
 (use-package which-key
 	:defer 1
-	:demand t
-	:diminish which-key-mode
 	:config
 	(which-key-mode)
 	(setq which-key-idle-delay 0.3))
@@ -241,38 +230,53 @@
 ;; Automatically clean whitespace
 (use-package ws-butler
 	:defer 1
-	:demand t
 	:config
 	(ws-butler-global-mode 1))
 
 (defun my/org-mode-setup ()
 	(visual-line-mode 1))
 
+(defun my/search-org-files ()
+	(interactive)
+	(counsel-rg "" my/org-directory nil "Search org-directory: "))
+
+(defun my/org-agenda-dashboard ()
+	(interactive)
+	(org-agenda nil "n"))
+
 (use-package org
 	:commands
 	(org-capture
 	 org-agenda
-	 my/search-org-files)
-	:hook (org-mode . my/org-mode-setup)
+	 my/search-org-files
+	 my/org-agenda-dashboard)
+	:hook
+	(org-mode . my/org-mode-setup)
+	:config
+	(require 'org-tempo)
 	:custom
 	(org-directory my/org-directory)
 	(org-startup-folded 'nofold)
+	(org-src-tab-acts-natively t)
 	(org-catch-invisible-edits 'smart))
 
 (with-eval-after-load 'org
-	(require 'org-tempo)
-	(add-to-list 'org-structure-template-alist '("sh" . "src shell"))
-	(add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
-	(add-to-list 'org-structure-template-alist '("py" . "src python"))
-	(add-to-list 'org-structure-template-alist '("sc" . "src scheme"))
-	(add-to-list 'org-structure-template-alist '("json" . "src json"))
-	(add-to-list 'org-structure-template-alist '("yaml" . "src yaml")))
+	(org-babel-do-load-languages
+	 'org-babel-load-languages '(
+															 (emacs-lisp . t)
+															 (scheme . t)
+															 )))
 
 (with-eval-after-load 'org
-	(org-babel-do-load-languages
-	 'org-babel-load-languages
-	 '((emacs-lisp . t)
-		 (scheme . t))))
+	(defun my/org-add-structure-template (alias language)
+		(add-to-list 'org-structure-template-alist `(,alias . ,(format "src %s" language))))
+
+	(my/org-add-structure-template "sh" "shell")
+	(my/org-add-structure-template "el" "emacs-lisp")
+	(my/org-add-structure-template "py" "python")
+	(my/org-add-structure-template "sc" "scheme")
+	(my/org-add-structure-template "json" "json")
+	(my/org-add-structure-template "yaml" "yaml"))
 
 (with-eval-after-load 'org
 	(setq
@@ -289,7 +293,7 @@
 
 (with-eval-after-load 'org
 	(setq org-agenda-custom-commands
-				'(("d" "Dashboard"
+				'(("n" "Dashboard - combines agenda and notes"
 					 ((agenda "" ((org-deadline-warning-days 7)))
 						(tags-todo "+PRIORITY=\"A\""
 											 ((org-agenda-overriding-header "High Priority")))
@@ -298,12 +302,11 @@
 						(todo "IN-PROGRESS"
 									((org-agenda-text-search-extra-files nil)))
 						(tags-todo "+PRIORITY=\"B\"|+PRIORITY=\"C\""
-									((org-agenda-text-search-extra-files nil))))
+											 ((org-agenda-text-search-extra-files nil))))
 					 ))
 				))
 
 (use-package evil-org
-	:after org
 	:hook
 	(org-mode . evil-org-mode)
 	(org-agenda-mode . evil-org-mode)
@@ -311,24 +314,17 @@
 	(require 'evil-org-agenda)
 	(evil-org-agenda-set-keys))
 
-(defun my/search-org-files ()
-	(interactive)
-	(counsel-rg "" my/org-directory nil "Search org-directory: "))
-
-(defun my/org-agenda-dashboard ()
-	(interactive)
-	(org-agenda nil "d"))
-
 (my/leader-key-def
 	"o"   '(:ignore t :which-key "org mode")
-	"oa"  '(my/org-agenda-dashboard :which-key "dashboard")
-	"od"  '(my/org-agenda-dashboard :which-key "dashboard")
+	"oa"  '(my/org-agenda-dashboard :which-key "agenda")
+	"on"  '(my/org-agenda-dashboard :which-key "dashboard")
 	"os"  '(my/search-org-files :which-key "search")
 	"oc"  '(org-capture t :which-key "capture")
-	"on"  '(org-toggle-narrow-to-subtree :which-key "toggle narrow")
+	;; "on"  '(org-toggle-narrow-to-subtree :which-key "toggle narrow")
 	"ot"  '(org-todo-list :which-key "todos"))
 
-(use-package doct)
+(use-package doct
+	:defer t)
 
 (with-eval-after-load 'org
 	(setq org-capture-templates
@@ -436,8 +432,28 @@
 (add-hook 'elixir-mode-hook
 					(lambda () (add-hook 'before-save-hook 'elixir-format nil t)))
 
+(add-hook 'emacs-lisp-mode-hook #'flycheck-mode)
+
+(use-package helpful
+	:commands (helpful-callable helpful-variable helpful-command helpful-key)
+	:custom
+	(counsel-describe-function-function #'helpful-callable)
+	(counsel-describe-variable-function #'helpful-variable)
+	:bind
+	([remap describe-function] . counsel-describe-function)
+	([remap describe-command] . helpful-command)
+	([remap describe-variable] . counsel-describe-variable)
+	([remap describe-key] . helpful-key))
+
+(my/leader-key-def
+ "e"   '(:ignore t :which-key "eval")
+ "eb"  '(eval-buffer :which-key "eval buffer"))
+
+(my/leader-key-def
+ :keymaps '(visual)
+ "er" '(eval-region :which-key "eval region"))
+
 (use-package markdown-mode
-	:ensure t
 	:mode (("\\.md\\'" . markdown-mode)
 				 ("\\.markdown\\'" . markdown-mode)
 				 ("README\\.md\\'" . gfm-mode))
@@ -461,6 +477,7 @@
 				 (before-save . py-isort-before-save)))
 
 (use-package geiser-mit
+	:defer t
 	:custom
 	(geiser-default-implementation 'mit)
 	(geiser-mit-binary "scheme"))
@@ -480,25 +497,24 @@
 	:hook (company-mode . company-box-mode))
 
 (use-package projectile
-	:diminish projectile-mode
-	:config (projectile-mode)
 	:bind-keymap
 	("C-c p" . projectile-command-map)
-	:custom
-	(projectile-completion-system 'ivy)
-	(projectile-enable-caching t)
-	:init
+	:config
 	(setq projectile-switch-project-action #'projectile-dired
 				projectile-project-search-path my/projects
-				projectile-sort-order 'access-time))
+				projectile-sort-order 'access-time)
+	(projectile-mode)
+	:custom
+	(projectile-completion-system 'ivy)
+	(projectile-enable-caching t))
 
-(with-eval-after-load 'projectile
-	(projectile-discover-projects-in-directory my/projects-root)
-	(projectile-discover-projects-in-directory my/org-directory))
+	(with-eval-after-load 'projectile
+		(projectile-discover-projects-in-directory my/projects-root)
+		(projectile-discover-projects-in-directory my/org-directory))
 
-(use-package counsel-projectile
-	:after projectile
-	:config (counsel-projectile-mode 1))
+	(use-package counsel-projectile
+		:after (counsel projectile)
+		:config (counsel-projectile-mode 1))
 
 (use-package magit
 	:commands (magit-status magit-get-current-branch)
@@ -506,6 +522,7 @@
 	(magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 
 (use-package plantuml-mode
+	:defer t
 	:custom
 	(plantunl-server-url nil)
 	(plantuml-default-exec-mode 'executable)
@@ -528,6 +545,9 @@
 	(require 'flycheck-plantuml)
 	(flycheck-plantuml-setup))
 
+(use-package flycheck
+	:hook (lsp-mode . flycheck-mode))
+
 (use-package smartparens
 	:hook
 	(org-mode . smartparens-mode)
@@ -536,8 +556,13 @@
 (use-package rainbow-delimiters
 	:hook (prog-mode . rainbow-delimiters-mode))
 
+(use-package all-the-icons-dired
+ :defer t
+ :hook (dired-mode . all-the-icons-dired-mode))
+
 (use-package dired
 	:ensure nil
+	:defer t
 	:commands (dired dired-jump)
 	:bind (("C-x C-j" . dired-jump))
 	:custom ((dired-listing-switches "-agho --group-directories-first"))
