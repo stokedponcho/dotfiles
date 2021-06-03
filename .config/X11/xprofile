@@ -17,3 +17,4 @@ wallp restore &                         # set wallpaper
 clipmenud &                             # clipmenu daemon
 remapkeys                               # set capslock as control/escape
 emacs --daemon													# emacs server
+protonmail-bridge &

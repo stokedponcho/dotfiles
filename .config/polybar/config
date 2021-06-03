@@ -106,7 +106,7 @@ initial = 1
 type = custom/script
 interval = 60
 exec = datetime
-click-left = sh -c 'protonmail-bridge; org.mozilla.Thunderbird;'
+click-left = sh -c 'org.mozilla.Thunderbird'
 
 [module/pulseaudio]
 type = internal/pulseaudio

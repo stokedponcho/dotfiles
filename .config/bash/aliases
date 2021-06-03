@@ -9,6 +9,7 @@ alias ls="ls -hNA --color=auto --group-directories-first"
 alias ll="ls -lhFA --color=auto --group-directories-first"
 alias cd=cdls
 alias cp="cp -iv"
+alias grep="grep --color=auto"
 alias mv="mv -iv"
 alias rm="rm -vI"
 alias mkdir="mkdir -pv"
@@ -18,7 +19,7 @@ mkcd() { mkdir $@ && cdls $@ && pwd; }
 
 # frequent use programs
 alias diff=delta
-alias mpv="setsid -f mpv"
+#alias mpv="devour mpv"
 alias p="sudo pacman"
 alias pidgin="pidgin --config=${XDG_DATA_HOME:-$HOME/.local/share}/purple"
 alias top=htop
@@ -32,7 +33,7 @@ alias dof="dotfiles"
 alias dofa="dotfiles add"
 alias dofs="dotfiles status"
 alias dofc="dof commit"
-alias dofl="dof log"
+alias dofl="dof log --oneline"
 alias dofd="dof diff"
 alias dofds="dof diff --staged"
 
@@ -62,6 +63,7 @@ sic() { search_inside_and "$PAGER" "${1}"; }
 # youtube-dl
 alias ytdl="youtube-dl"
 alias ytdla="youtube-dl -x -format bestaudio[ext=m4a] --embed-thumbnail"
+alias ytdla-playlist="youtube-dl -x --audio-format mp3 -o '%(playlist)s/%(playlist_index)s.%(title)s.%(ext)s'"
 
 play-yt() { \mpv --ytdl-format="bestvideo[ext=mp4][height<=480]+bestaudio" ytdl://ytsearch:"$*"; }
 play-yt-audio() { \mpv --ytdl-format=bestaudio ytdl://ytsearch:"$*"; }

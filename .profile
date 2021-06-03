@@ -22,7 +22,7 @@ export LAUNCHER_ALT="rofi -show combi"
 export LOCKER="slock"
 export PAGER="less --quit-if-one-screen"
 export TERMINAL="st"
-export VISUAL="emacsclient -nc"
+#export VISUAL="emacsclient -nc"
 export WM="bspwm"
 
 # global program settings
@@ -51,6 +51,7 @@ export PYTHONHISTORY="$XDG_DATA_HOME/python_history"
 export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
 export SSH_ASKPASS="/usr/lib/ssh/ssh-askpass"
 export VSCODE_PORTABLE="$XDG_DATA_HOME/vscode"
+export VIMINIT='let $MYVIMRC = !has("nvim") ? "$XDG_CONFIG_HOME/vim/vimrc" : "$XDG_CONFIG_HOME/nvim/init.vim" | so $MYVIMRC'
 export WGETRC="$XDG_CONFIG_HOME/wget/wgetrc"
 export XINITRC="$XDG_CONFIG_HOME/X11/xinitrc"
 export XSERVERRC="$XDG_CONFIG_HOME/X11/xserverrc"
