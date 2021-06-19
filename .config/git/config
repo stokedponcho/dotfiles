@@ -21,3 +21,5 @@
   file-style = bold cyan box ul
   file-decoration-style = none
   hunk-header-decoration-style = cyan ul
+[init]
+	defaultBranch = main

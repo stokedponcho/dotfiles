@@ -142,16 +142,8 @@ call plug#end()
 " UI Customisations -------------------------------- {{{
 
 set background=dark
-"set termguicolors
-"colorscheme solarized
-colorscheme wal
-
-function! SwapTheme()
-  colorscheme solarized
-  set termguicolors
-endfunction
-
-command! -nargs=0 SwapTheme :call SwapTheme()
+set termguicolors
+colorscheme solarized
 
 " }}}
 

@@ -27,6 +27,7 @@ export WM="bspwm"
 
 # global program settings
 export CM_IGNORE_WINDOW="KeePassXC"
+export DOTNET_CLI_TELEMETRY_OPTOUT="true"
 export FZF_DEFAULT_OPTS="--height=40% --reverse"
 export QT_QPA_PLATFORMTHEME="gtk3"
 export SKIM_DEFAULT_OPTIONS="--height 40% --reverse"
@@ -35,6 +36,7 @@ export _Z_DATA="$XDG_DATA_HOME/z"
 # Clean up ~:
 export ANSIBLE_CONFIG="$XDG_CONFIG_HOME/ansible/ansible.cfg"
 export CARGO_HOME="$XDG_DATA_HOME/cargo"
+export DOTNET_CLI_HOME="$XDG_DATA_HOME/dotnetcli"
 export GOPATH="$XDG_DATA_HOME/go"
 export GNUPGHOME="$XDG_DATA_HOME/gnupg"
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc"
@@ -45,6 +47,7 @@ export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME"/java
 export LESSHISTFILE=-
 export MIX_HOME="$XDG_DATA_HOME/mix"
 export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
+export NUGET_PACKAGES="$XDG_CACHE_HOME/nuget"
 export NVM_DIR="$XDG_DATA_HOME/nvm"
 export PYLINTHOME="$XDG_CACHE_HOME/pylint"
 export PYTHONHISTORY="$XDG_DATA_HOME/python_history"
