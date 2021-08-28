@@ -56,6 +56,7 @@ export SSH_ASKPASS="/usr/lib/ssh/ssh-askpass"
 export VSCODE_PORTABLE="$XDG_DATA_HOME/vscode"
 export VIMINIT='let $MYVIMRC = !has("nvim") ? "$XDG_CONFIG_HOME/vim/vimrc" : "$XDG_CONFIG_HOME/nvim/init.vim" | so $MYVIMRC'
 export WGETRC="$XDG_CONFIG_HOME/wget/wgetrc"
+export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
 export XINITRC="$XDG_CONFIG_HOME/X11/xinitrc"
 export XSERVERRC="$XDG_CONFIG_HOME/X11/xserverrc"
 

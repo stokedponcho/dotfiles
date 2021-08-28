@@ -1,18 +1,27 @@
 #!/bin/bash
 
+# Note on fd and .gitignore files: for fd to take .gitignore into account, the directory must have a .git.
+
+FD_OUTPUT="$(mktemp "${TMPDIR:-/tmp/}$(basename $0).XXXXXXXXXX")"
+
+echo "" > "$FD_OUTPUT"
+fd . ~/Documents/org/ -t f >> "$FD_OUTPUT"
+fd . ~/Documents/Knowledge/ -t f >> "$FD_OUTPUT"
+fd . ~/Projects/ -t f --exclude dotfiles >> "$FD_OUTPUT"
+
 INITIAL_QUERY="${*:-}"
-RG_PREFIX="fd . ~/Documents/org/ -t f | xargs rg --column --line-number --no-heading --color=always --smart-case "
+RG_PREFIX="cat $FD_OUTPUT | xargs rg --column --line-number --no-heading --color=always --smart-case"
 
 IFS=: read -ra selected < <(
-  FZF_DEFAULT_COMMAND="$RG_PREFIX '$INITIAL_QUERY'" \
-  fzf --ansi \
-      --disabled --query "$INITIAL_QUERY" \
-      --bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
-      --bind "alt-enter:unbind(change,alt-enter)+change-prompt(2. fzf> )+enable-search+clear-query" \
-      --prompt '1. ripgrep> ' \
-      --delimiter : \
-      --preview 'bat --color=always {1} --highlight-line {2}' \
-      --preview-window 'bottom,60%,border-top,+{2}+3/3,~3'
+FZF_DEFAULT_COMMAND="$RG_PREFIX '$INITIAL_QUERY'" \
+fzf --ansi \
+    --disabled --query "$INITIAL_QUERY" \
+    --bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
+    --bind "alt-enter:unbind(change,alt-enter)+change-prompt(2. fzf> )+enable-search+clear-query" \
+    --prompt '1. ripgrep> ' \
+    --delimiter : \
+    --preview 'bat --color=always {1} --highlight-line {2}' \
+    --preview-window 'bottom,60%,border-top,+{2}+3/3,~3'
 )
 
-[ -n "${selected[0]}" ] && $EDITOR "${selected[0]}" "+${selected[1]}"
+[[ -n "${selected[0]}" ]] && $EDITOR "${selected[0]}" "+${selected[1]}"
