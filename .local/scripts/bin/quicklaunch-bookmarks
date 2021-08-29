@@ -1,14 +1,18 @@
 #!/bin/bash
 
-bookmarks="${XDG_CONFIG_HOME:-HOME/.config}/bookmarks.txt"
+BOOKMARKS_PATH="${XDG_CONFIG_HOME:-HOME/.config}/bookmarks.txt"
 
 main () {
-	[ $# -eq 0 ] && open && exit
-	[ "$1" = "--add" ] && add && exit
+	choice=$(echo -e "Open\nAdd" | dmenu -p "Bookmarks menu:")
+
+	case "$choice" in
+		Open) open;;
+		Add) add;;
+	esac
 }
 
 open () {
-	url=$(awk 'BEGIN { FS = "|" } ; {print $2"\t"$1}' "$bookmarks" \
+	url=$(awk 'BEGIN { FS = "|" } ; {print $2"\t"$1}' "$BOOKMARKS_PATH" \
 			| column -t -s $'\t' \
 			| dmenu -l 15 -p "Open bookmark: " \
 			| awk '{print $NF}')
@@ -19,7 +23,7 @@ open () {
 }
 
 add () {
-	eval "scratchpad nvim $bookmarks" >> /dev/null
+	eval "scratchpad nvim $BOOKMARKS_PATH" >> /dev/null
 }
 
 main $@

@@ -3,20 +3,22 @@
 # Credits to and inspiration from https://github.com/gotbletu/dotfiles_v2/blob/master/normal_user/rofi/.config/rofi/launchers/rofi-bangs
 
 name="$(basename $0)"
-websearch="${name}-websearch"
 
+# a regular array 'LABELS' is used for conserving custom order
 declare -A COMMANDS
 
-COMMANDS["web-search(tor)"]="BROWSER=torbrowser $websearch"
+COMMANDS["web-search(tor)"]="BROWSER=torbrowser ${name}-websearch"
 LABELS+=("web-search(tor)")
-COMMANDS["web-search(default)"]="$websearch"
+COMMANDS["web-search(default)"]="${name}-websearch"
 LABELS+=("web-search(default)")
-COMMANDS["web-add-bookmark"]="${name}-bookmarks --add"
-LABELS+=("web-add-bookmark")
+COMMANDS["bookmarks"]="${name}-bookmarks"
+LABELS+=("bookmarks")
+COMMANDS["knowledge-base"]="scratchpad kb"
+LABELS+=("knowledge-base")
 COMMANDS["org-capture"]="org-capture"
 LABELS+=("org-capture")
-COMMANDS["snipshot"]="maim -s | xclip -selection clipboard -t image/png"
-LABELS+=("snipshot")
+COMMANDS["screenshots"]="${name}-screenshot"
+LABELS+=("screenshots")
 COMMANDS["system-kill"]="${name}-kill"
 LABELS+=("system-kill")
 COMMANDS["system-reboot"]="confirm 'Reboot' && systemctl reboot"
@@ -26,17 +28,28 @@ LABELS+=("system-shutdown")
 COMMANDS["help"]="sxhkd-help"
 LABELS+=("help")
 
-menu() {
-  # a regular array 'LABELS' is used for conserving custom order
-  for key in ${LABELS[@]}; do echo $key; done
+main() {
+  columns=3
+  rows=$(rows $columns)
+  for key in ${LABELS[@]}; do options="$options$key\n"; done
+
+  choice=$(echo -e "${options%\\n}" | dmenu -l $rows -g $columns -p "$name:")
+
+  [[ -z ${choice} ]] && exit
+  [[ ${COMMANDS[$choice]+isset} ]] && eval ${COMMANDS[$choice]} >> /dev/null
 }
 
-choice=$(menu | dmenu -l 3 -g 3 -p "$name: ")
+rows () {
+  columns=$1
+  acc=`expr ${#LABELS[@]} - 1`
+  acc=`expr $acc / $columns`
+  echo `expr $acc + 1`
+}
 
 confirm () {
   confirm="$(printf "Yes\nNo" | dmenu -p "${1}?")"
   [ "$confirm" = "Yes" ] || exit 0
 }
 
-[[ -z ${choice} ]] && exit
-[[ ${COMMANDS[$choice]+isset} ]] && eval ${COMMANDS[$choice]} >> /dev/null
+
+main $@

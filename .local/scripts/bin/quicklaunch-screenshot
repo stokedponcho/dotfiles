@@ -1,0 +1,18 @@
+#!/bin/bash
+
+TARGET_FOLDER="${HOME:-~/}/Pictures/screenshots"
+
+main () {
+	choice=$(echo -e "Snipshot to clipboard\nSnipshot to file" | dmenu -p "Screenshot menu:")
+
+	case "$choice" in
+		"Snipshot to clipboard")
+			maim -s | xclip -selection clipboard -t image/png
+			;;
+		"Snipshot to file")
+			mkdir -p "$TARGET_FOLDER" && maim -s "$TARGET_FOLDER/$(date '+%Y%m%d%H%M%S').png"
+			;;
+	esac
+}
+
+main $@
