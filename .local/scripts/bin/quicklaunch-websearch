@@ -9,11 +9,10 @@ surfraw $( \
   | sed '/:/d' \
   | awk '{ print $1 " " }' \
   | dmenu -l 6 -g 4 -p "websearch ($BROWSER):" \
+  #| rofi \
+    #-show-icons false \
+    #-kb-row-select "Tab" \
+    #-kb-row-tab "Control+space" \
+    #-dmenu -mesg ">>> Tab = Autocomplete" \
+    #-i -p "websearch ($BROWSER)" \
 )
-
-#| rofi \
-  #-show-icons false \
-  #-kb-row-select "Tab" \
-  #-kb-row-tab "Control+space" \
-  #-dmenu -mesg ">>> Tab = Autocomplete" \
-  #-i -p "websearch ($BROWSER)")

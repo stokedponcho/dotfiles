@@ -25,12 +25,15 @@ bspc rule -a Emacs state=tiled
 bspc rule -a Emacs:*:capture sticky=on state=floating
 
 bspc rule -a Slack desktop='^4'
+bspc rule -a Signal desktop='^4'
 bspc rule -a firefox desktop='^6'
 bspc rule -a Firefox desktop='^6'
 bspc rule -a "Tor Browser" desktop='^6'
+bspc rule -a Lutris desktop='^5'
 bspc rule -a Steam desktop='^5'
-bspc rule -a Thunderbird desktop='^8'
 bspc rule -a Virt-manager desktop='^7'
+bspc rule -a "ProtonMail Bridge" desktop='^8'
+bspc rule -a Thunderbird desktop='^8'
 
 # pywal
 # source the colors.
