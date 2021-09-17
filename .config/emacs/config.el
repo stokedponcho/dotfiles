@@ -385,6 +385,12 @@
 																							'run-at-end
 																							'only-in-org-mode)))
 
+(defun org-insert-clipboard-image (&optional file)
+  (interactive "F")
+  (shell-command (concat (format "xclip -selection clipboard -t image/png -o > %s.png " file) file))
+  (insert (concat "[[" file ".png" "]]"))
+  (org-display-inline-images))
+
 (use-package dap-mode
 	:commands dap-debug dap-debug-last dap-debug-recent)
 
@@ -475,6 +481,38 @@
 	:hook (
 				 ;; (python-mode . pyvenv-mode)
 				 (before-save . py-isort-before-save)))
+
+(use-package rustic
+	:ensure
+	:bind (:map rustic-mode-map
+							("M-j" . lsp-ui-imenu)
+							("M-?" . lsp-find-references)
+							("C-c C-c l" . flycheck-list-errors)
+							("C-c C-c a" . lsp-execute-code-action)
+							("C-c C-c r" . lsp-rename)
+							("C-c C-c q" . lsp-workspace-restart)
+							("C-c C-c Q" . lsp-workspace-shutdown)
+							("C-c C-c s" . lsp-rust-analyzer-status))
+	:config
+	;; uncomment for less flashiness
+	;; (setq lsp-eldoc-hook nil)
+	;; (setq lsp-enable-symbol-highlighting nil)
+	;; (setq lsp-signature-auto-activate nil)
+
+	;; comment to disable rustfmt on save
+	(setq rustic-format-on-save t)
+	(add-hook 'rustic-mode-hook 'rk/rustic-mode-hook)
+	custom:
+	(lsp-rust-analyzer-cargo-watch-command "clippy")
+	(lsp-rust-analyzer-server-display-inlay-hints t))
+
+(defun rk/rustic-mode-hook ()
+	;; so that run C-c C-c C-r works without having to confirm, but don't try to
+	;; save rust buffers that are not file visiting. Once
+	;; https://github.com/brotzeit/rustic/issues/253 has been resolved this should
+	;; no longer be necessary.
+	(when buffer-file-name
+		(setq-local buffer-save-without-query t)))
 
 (use-package geiser-mit
 	:defer t
