@@ -9,7 +9,8 @@
 #+AUTHOR:
 #+EMAIL:
 
-* Configuration file headers
+* Bootstrap
+** Configuration file headers
 
 #+begin_src emacs-lisp :tangle config.el
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
@@ -153,9 +154,9 @@
 ;;(unpin! t)
 #+end_src
 
-* Doom modules
+** Doom modules
 
-This code is written to =init.el= to select which modules to load. Straight copy of the default =init.el= with modules of choice on or off.
+This code is written to ~init.el~ to select which modules to load. Straight copy of the default ~init.el~ with modules of choice on or off.
 
 #+begin_src emacs-lisp :tangle init.el
 (doom! :input
@@ -180,20 +181,20 @@ This code is written to =init.el= to select which modules to load. Straight copy
        ;;hydra
        ;;indent-guides     ; highlighted indent columns
        ;;(ligatures +extra +fira)         ; ligatures and symbols to make your code pretty again
-       ;;minimap           ; show a map of the code on the side
-       modeline          ; snazzy, Atom-inspired modeline, plus API
-       ;;nav-flash         ; blink cursor line after big motions
-       ;;neotree           ; a project drawer, like NERDTree for vim
-       ophints           ; highlight the region an operation acts on
-       (popup +defaults)   ; tame sudden yet inevitable temporary windows
-       tabs              ; a tab bar for Emacs
-       ;;treemacs          ; a project drawer, like neotree but cooler
-       ;;unicode           ; extended unicode support for various languages
-       vc-gutter         ; vcs diff in the fringe
-       vi-tilde-fringe   ; fringe tildes to mark beyond EOB
-       ;;window-select     ; visually switch windows
-       workspaces        ; tab emulation, persistence & separate workspaces
-       ;;zen               ; distraction-free coding or writing
+       ;;minimap            ; show a map of the code on the side
+       modeline             ; snazzy, Atom-inspired modeline, plus API
+       ;;nav-flash          ; blink cursor line after big motions
+       ;;neotree            ; a project drawer, like NERDTree for vim
+       ophints              ; highlight the region an operation acts on
+       (popup +defaults)    ; tame sudden yet inevitable temporary windows
+       (tabs +centaur)			; a tab bar for Emacs
+       ;;treemacs           ; a project drawer, like neotree but cooler
+       ;;unicode            ; extended unicode support for various languages
+       vc-gutter            ; vcs diff in the fringe
+       vi-tilde-fringe      ; fringe tildes to mark beyond EOB
+       ;;window-select      ; visually switch windows
+       workspaces           ; tab emulation, persistence & separate workspaces
+       ;;zen                ; distraction-free coding or writing
 
        :editor
        (evil +everywhere); come to the dark side, we have cookies
@@ -293,8 +294,8 @@ This code is written to =init.el= to select which modules to load. Straight copy
        ;;nix               ; I hereby declare "nix geht mehr!"
        ;;ocaml             ; an objective camel
        (org               ; organize your plain life in plain text
-	+pretty
-	+dragndrop)			; drag & drop files/images into org buffers
+  +pretty
+  +dragndrop)			; drag & drop files/images into org buffers
        ;;php               ; perl's insecure younger brother
        plantuml           ; diagrams for confusing people more
        ;;purescript        ; javascript, but functional
@@ -334,6 +335,8 @@ This code is written to =init.el= to select which modules to load. Straight copy
        literate
        (default +bindings +smartparens))
 #+end_src
+
+#+RESULTS:
 
 * Better Defaults
 ** Settings
@@ -416,7 +419,7 @@ Prefer splitting below and to the right.
 #+begin_src emacs-lisp
 (after! evil
   (setq evil-vsplit-window-right t
-	evil-split-window-below t))
+  evil-split-window-below t))
 #+end_src
 
 Ask which buffer to display when splitting windows.
@@ -431,12 +434,29 @@ Ask which buffer to display when splitting windows.
   (consult-buffer))
 #+end_src
 
+** Dashboard
+
+Emacs Dashboard is an extensible startup screen showing you recent files, bookmarks, agenda items and an Emacs banner.
+
+#+begin_src emacs-lisp :tangle packages.el
+(package! dashboard)
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package! dashboard
+  :init
+  (setq dashboard-items '(
+        (recents . 5)
+        (agenda . 5)
+        )))
+#+end_src
+
 * User Interface Configuration
 
 #+begin_src emacs-lisp
 (setq doom-font (font-spec :family "JetBrains Mono" :size 15)
       doom-big-font (font-spec :family "JetBrains Mono" :size 26)
-      doom-variable-pitch-font (font-spec :family "Overpass" :size 17)
+      doom-variable-pitch-font (font-spec :family "Overpass" :size 16)
       ;;doom-unicode-font (font-spec :family "JuliaMono")
       ;;doom-serif-font (font-spec :family "IBM Plex Mono" :weight 'light)
       )
@@ -455,7 +475,7 @@ Ask which buffer to display when splitting windows.
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type 'relative)
 
-		;;;; Disable line numbers for some modes
+    ;;;; Disable line numbers for some modes
 ;; (defun my/disable-display-line-numbers ()
 ;; 	(display-line-numbers-mode 0))
 ;; (dolist (mode '(treemacs-mode-hook
@@ -483,15 +503,30 @@ Make ESC quit prompts.
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 #+end_src
 
+** Open specific files
+
+#+begin_src emacs-lisp
+(map! :leader
+      (:prefix ("-" . "open file")
+       :desc "Edit doom config.org" "c" #'(lambda () (interactive) (find-file "~/.config/doom/config.org"))
+       :desc "Edit doom init.el" "i" #'(lambda () (interactive) (find-file "~/.config/doom/init.el"))
+       :desc "Edit doom packages.el" "p" #'(lambda () (interactive) (find-file "~/.config/doom/packages.el"))))
+#+end_src
+
 * Packages
 ** Projectile
 
 #+begin_src emacs-lisp
-(after! projectile
+(use-package! projectile
+  :config
   (setq
    projectile-project-search-path my/projects
-   projectile-sort-order 'access-time
-   projectile-enable-caching t)
+   projectile-sort-order 'access-time)
+  :custom
+  (projectile-enable-caching t)
+  )
+
+(after! projectile
   (projectile-discover-projects-in-directory my/projects-root)
   (projectile-discover-projects-in-directory my/org-directory))
 #+end_src
@@ -504,25 +539,7 @@ Make ESC quit prompts.
 ** Configuration
 
 #+begin_src emacs-lisp
-(defun my/org-mode-setup ()
-  (visual-line-mode 1))
-
-(defun my/search-org-files ()
-  (interactive)
-  (counsel-rg "" my/org-directory nil "Search org-directory: "))
-
-(defun my/org-agenda-dashboard ()
-  (interactive)
-  (org-agenda nil "n"))
-
-(use-package org
-  :commands
-  (org-capture
-   org-agenda
-   my/search-org-files
-   my/org-agenda-dashboard)
-  :hook
-  (org-mode . my/org-mode-setup)
+(use-package! org
   :config
   (require 'org-tempo)
   :custom
@@ -550,3 +567,90 @@ Make ESC quit prompts.
   (my/org-add-structure-template "json" "json")
   (my/org-add-structure-template "yaml" "yaml"))
 #+end_src
+
+** Babel languages
+
+~Babel~ is Org-mode's ability to execute source code within Org-mode documents.
+
+[https://orgmode.org/worg/org-contrib/babel/index.html]
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'org
+  (org-babel-do-load-languages
+   'org-babel-load-languages '(
+             (emacs-lisp . t)
+             (scheme . t)
+             )))
+#+end_src
+
+** Agenda
+*** Defaults
+
+#+begin_src emacs-lisp
+(after! org
+  (setq
+   org-default-notes-files my/org-notes
+   org-agenda-start-with-log-mode t
+   org-ellipsis " ▼ "
+   org-log-done 'time
+   org-log-into-drawer t
+   org-agenda-files (directory-files org-directory t "\\.org$")
+   ;; org-agenda-files (directory-files-recursively org-directory "\\.org$")
+   org-priority-default ?C
+   ))
+#+end_src
+
+*** Custom dashboard
+
+#+begin_src emacs-lisp
+(after! org
+  (setq org-agenda-custom-commands
+  '(("n" "Dashboard - combines agenda and notes"
+     ((agenda "" ((org-deadline-warning-days 7)))
+      (tags-todo "+PRIORITY=\"A\""
+           ((org-agenda-overriding-header "High Priority")))
+      (tags-todo "+PRIORITY=\"B\"|+PRIORITY=\"C\""
+           ((org-agenda-text-search-extra-files nil))))
+     ))
+  ))
+#+end_src
+
+** Capture
+
+`doct`(Declarative Org Capture Templates) is a function that provides an alternative, declarative syntax for describing Org capture templates.
+
+[https://github.com/progfolio/doct]
+
+#+begin_src emacs-lisp :noweb-ref none :tangle packages.el
+(package! doct)
+#+end_src
+
+Functions for running org-capture from shell and closing.
+
+[https://gist.github.com/progfolio/af627354f87542879de3ddc30a31adc1]
+
+#+begin_src emacs-lisp
+(defun my/org-capture-open-frame (frame-name)
+  "Run org-capture in its own frame."
+  (interactive)
+  (require 'cl-lib)
+  (setq capture/frame-name frame-name)
+  (select-frame-by-name frame-name)
+  (set-frame-parameter (selected-frame) 'alpha 100)
+  (delete-other-windows)
+  (cl-letf (((symbol-function 'switch-to-buffer-other-window) #'switch-to-buffer))
+    (condition-case err
+  (org-capture)
+      ;; "q" signals (error "Abort") in 'org-capture'
+      ;; delete the newly created frame in this scenario.
+      (user-error (when (string= (cadr err) "Abort")
+        (delete-frame))))))
+
+(defun my/org-capture-delete-frame (&rest _)
+  "Delete frame with its name frame-parameter set to 'capture'."
+  (setq capture/frame-name nil)
+  (if (equal capture/frame-name (frame-parameter nil 'name))
+      (delete-frame)))
+(advice-add 'org-capture-finalize :after #'my/org-capture-delete-frame)
+#+end_src
+

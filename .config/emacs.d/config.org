@@ -375,13 +375,13 @@
 			 (org-startup-folded 'nofold)
 			 (org-src-tab-acts-natively t)
 			 (org-catch-invisible-edits 'smart))
-
-
 	 #+end_src
 
 ** Babel languages
 
-	 [https://orgmode.org/worg/org-contrib/babel/languages/index.html]
+~Babel~ is Org-mode's ability to execute source code within Org-mode documents.
+
+[https://orgmode.org/worg/org-contrib/babel/index.html]
 
 	 #+begin_src emacs-lisp
 		 (with-eval-after-load 'org
@@ -412,7 +412,6 @@
 	 #+end_src
 
 ** Agenda
-
 *** Defaults
 
 	 #+begin_src emacs-lisp

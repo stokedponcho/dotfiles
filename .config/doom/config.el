@@ -109,7 +109,7 @@
 
 (after! evil
   (setq evil-vsplit-window-right t
-	evil-split-window-below t))
+  evil-split-window-below t))
 
 ;; (after! evil
 ;; 			(advice-add 'evil-window-split :after 'counsel-switch-buffer)
@@ -119,9 +119,16 @@
   :after '(evil-window-split evil-window-vsplit)
   (consult-buffer))
 
+(use-package! dashboard
+  :init
+  (setq dashboard-items '(
+        (recents . 5)
+        (agenda . 5)
+        )))
+
 (setq doom-font (font-spec :family "JetBrains Mono" :size 15)
       doom-big-font (font-spec :family "JetBrains Mono" :size 26)
-      doom-variable-pitch-font (font-spec :family "Overpass" :size 17)
+      doom-variable-pitch-font (font-spec :family "Overpass" :size 16)
       ;;doom-unicode-font (font-spec :family "JuliaMono")
       ;;doom-serif-font (font-spec :family "IBM Plex Mono" :weight 'light)
       )
@@ -138,7 +145,7 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type 'relative)
 
-		;;;; Disable line numbers for some modes
+    ;;;; Disable line numbers for some modes
 ;; (defun my/disable-display-line-numbers ()
 ;; 	(display-line-numbers-mode 0))
 ;; (dolist (mode '(treemacs-mode-hook
@@ -154,33 +161,26 @@
 
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
-(after! projectile
+(map! :leader
+      (:prefix ("-" . "open file")
+       :desc "Edit doom config.org" "c" #'(lambda () (interactive) (find-file "~/.config/doom/config.org"))
+       :desc "Edit doom init.el" "i" #'(lambda () (interactive) (find-file "~/.config/doom/init.el"))
+       :desc "Edit doom packages.el" "p" #'(lambda () (interactive) (find-file "~/.config/doom/packages.el"))))
+
+(use-package! projectile
+  :config
   (setq
    projectile-project-search-path my/projects
-   projectile-sort-order 'access-time
-   projectile-enable-caching t)
+   projectile-sort-order 'access-time)
+  :custom
+  (projectile-enable-caching t)
+  )
+
+(after! projectile
   (projectile-discover-projects-in-directory my/projects-root)
   (projectile-discover-projects-in-directory my/org-directory))
 
-(defun my/org-mode-setup ()
-  (visual-line-mode 1))
-
-(defun my/search-org-files ()
-  (interactive)
-  (counsel-rg "" my/org-directory nil "Search org-directory: "))
-
-(defun my/org-agenda-dashboard ()
-  (interactive)
-  (org-agenda nil "n"))
-
-(use-package org
-  :commands
-  (org-capture
-   org-agenda
-   my/search-org-files
-   my/org-agenda-dashboard)
-  :hook
-  (org-mode . my/org-mode-setup)
+(use-package! org
   :config
   (require 'org-tempo)
   :custom
@@ -199,3 +199,56 @@
   (my/org-add-structure-template "sc" "scheme")
   (my/org-add-structure-template "json" "json")
   (my/org-add-structure-template "yaml" "yaml"))
+
+(with-eval-after-load 'org
+  (org-babel-do-load-languages
+   'org-babel-load-languages '(
+             (emacs-lisp . t)
+             (scheme . t)
+             )))
+
+(after! org
+  (setq
+   org-default-notes-files my/org-notes
+   org-agenda-start-with-log-mode t
+   org-ellipsis " ▼ "
+   org-log-done 'time
+   org-log-into-drawer t
+   org-agenda-files (directory-files org-directory t "\\.org$")
+   ;; org-agenda-files (directory-files-recursively org-directory "\\.org$")
+   org-priority-default ?C
+   ))
+
+(after! org
+  (setq org-agenda-custom-commands
+  '(("n" "Dashboard - combines agenda and notes"
+     ((agenda "" ((org-deadline-warning-days 7)))
+      (tags-todo "+PRIORITY=\"A\""
+           ((org-agenda-overriding-header "High Priority")))
+      (tags-todo "+PRIORITY=\"B\"|+PRIORITY=\"C\""
+           ((org-agenda-text-search-extra-files nil))))
+     ))
+  ))
+
+(defun my/org-capture-open-frame (frame-name)
+  "Run org-capture in its own frame."
+  (interactive)
+  (require 'cl-lib)
+  (setq capture/frame-name frame-name)
+  (select-frame-by-name frame-name)
+  (set-frame-parameter (selected-frame) 'alpha 100)
+  (delete-other-windows)
+  (cl-letf (((symbol-function 'switch-to-buffer-other-window) #'switch-to-buffer))
+    (condition-case err
+  (org-capture)
+      ;; "q" signals (error "Abort") in 'org-capture'
+      ;; delete the newly created frame in this scenario.
+      (user-error (when (string= (cadr err) "Abort")
+        (delete-frame))))))
+
+(defun my/org-capture-delete-frame (&rest _)
+  "Delete frame with its name frame-parameter set to 'capture'."
+  (setq capture/frame-name nil)
+  (if (equal capture/frame-name (frame-parameter nil 'name))
+      (delete-frame)))
+(advice-add 'org-capture-finalize :after #'my/org-capture-delete-frame)
