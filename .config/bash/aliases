@@ -27,6 +27,9 @@ alias tmux="tmux -f ${XDG_CONFIG_HOME:-$HOME/.config}/tmux/tmux.conf"
 alias vim=nvim
 alias v=vim
 
+# doom emacs
+alias doom="$HOME/.local/src/doom-emacs/bin/doom --localdir=${XDG_DATA_HOME:-$HOME/.local/share}/doom"
+
 # dotfiles
 alias dotfiles="/usr/bin/git --git-dir=$HOME/Projects/dotfiles --work-tree=$HOME"
 alias dof="dotfiles"

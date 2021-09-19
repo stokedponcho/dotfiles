@@ -150,7 +150,6 @@
 	#+end_src
 
 * Advanced UI Configuration
-
 ** Theming
 
 	 #+begin_src emacs-lisp
@@ -210,7 +209,6 @@
 	 #+end_src
 
 * Key bindings
-
 ** ESC to cancel them all
 
 	 Make ESC quit prompts.
@@ -859,7 +857,6 @@
 		#+end_src
 
 * File Management
-
 ** Dired
 
 	 Dired is a built-in file manager for Emacs that does some pretty amazing things!
