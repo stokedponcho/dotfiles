@@ -36,6 +36,7 @@ export _Z_DATA="$XDG_DATA_HOME/z"
 # Clean up ~:
 export ANSIBLE_CONFIG="$XDG_CONFIG_HOME/ansible/ansible.cfg"
 export CARGO_HOME="$XDG_DATA_HOME/cargo"
+export CUDA_CACHE_PATH="$XDG_CACHE_HOME/nv"
 export DOTNET_CLI_HOME="$XDG_DATA_HOME/dotnetcli"
 export GOPATH="$XDG_DATA_HOME/go"
 export GNUPGHOME="$XDG_DATA_HOME/gnupg"
