@@ -211,7 +211,7 @@ This code is written to ~init.el~ to select which modules to load. Straight copy
        ;;word-wrap         ; soft wrapping with language-aware indent
 
        :emacs
-       (dired +icons)             ; making dired pretty [functional]
+       (dired +icons +ranger)             ; making dired pretty [functional]
        electric          ; smarter, keyword-based electric-indent
        ;;ibuffer         ; interactive buffer management
        undo              ; persistent, smarter undo for your inevitable mistakes
@@ -336,8 +336,6 @@ This code is written to ~init.el~ to select which modules to load. Straight copy
        (default +bindings +smartparens))
 #+end_src
 
-#+RESULTS:
-
 * Better Defaults
 ** Settings
 
@@ -439,16 +437,16 @@ Ask which buffer to display when splitting windows.
 Emacs Dashboard is an extensible startup screen showing you recent files, bookmarks, agenda items and an Emacs banner.
 
 #+begin_src emacs-lisp :tangle packages.el
-(package! dashboard)
+;; (package! dashboard)
 #+end_src
 
 #+begin_src emacs-lisp
-(use-package! dashboard
-  :init
-  (setq dashboard-items '(
-        (recents . 5)
-        (agenda . 5)
-        )))
+;; (use-package! dashboard
+;;   :init
+;;   (setq dashboard-items '(
+;;         (recents . 5)
+;;         (agenda . 5)
+;;         )))
 #+end_src
 
 * User Interface Configuration
@@ -540,8 +538,6 @@ Make ESC quit prompts.
 
 #+begin_src emacs-lisp
 (use-package! org
-  :config
-  (require 'org-tempo)
   :custom
   (org-directory my/org-directory)
   (org-startup-folded 'nofold)
@@ -617,40 +613,16 @@ Make ESC quit prompts.
 
 ** Capture
 
-`doct`(Declarative Org Capture Templates) is a function that provides an alternative, declarative syntax for describing Org capture templates.
+~doct~ (Declarative Org Capture Templates) is a function that provides an alternative, declarative syntax for describing Org capture templates.
 
 [https://github.com/progfolio/doct]
 
 #+begin_src emacs-lisp :noweb-ref none :tangle packages.el
-(package! doct)
+;;(package! doct)
 #+end_src
 
-Functions for running org-capture from shell and closing.
-
-[https://gist.github.com/progfolio/af627354f87542879de3ddc30a31adc1]
+~bspwm~ rules do not allow/work with '-' in the window name, hence renaming the org-capture frame from 'doom-capture' to 'capture' so custom rules can target it.
 
 #+begin_src emacs-lisp
-(defun my/org-capture-open-frame (frame-name)
-  "Run org-capture in its own frame."
-  (interactive)
-  (require 'cl-lib)
-  (setq capture/frame-name frame-name)
-  (select-frame-by-name frame-name)
-  (set-frame-parameter (selected-frame) 'alpha 100)
-  (delete-other-windows)
-  (cl-letf (((symbol-function 'switch-to-buffer-other-window) #'switch-to-buffer))
-    (condition-case err
-  (org-capture)
-      ;; "q" signals (error "Abort") in 'org-capture'
-      ;; delete the newly created frame in this scenario.
-      (user-error (when (string= (cadr err) "Abort")
-        (delete-frame))))))
-
-(defun my/org-capture-delete-frame (&rest _)
-  "Delete frame with its name frame-parameter set to 'capture'."
-  (setq capture/frame-name nil)
-  (if (equal capture/frame-name (frame-parameter nil 'name))
-      (delete-frame)))
-(advice-add 'org-capture-finalize :after #'my/org-capture-delete-frame)
+(setcdr (assq `name +org-capture-frame-parameters) "capture")
 #+end_src
-

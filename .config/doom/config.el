@@ -119,12 +119,12 @@
   :after '(evil-window-split evil-window-vsplit)
   (consult-buffer))
 
-(use-package! dashboard
-  :init
-  (setq dashboard-items '(
-        (recents . 5)
-        (agenda . 5)
-        )))
+;; (use-package! dashboard
+;;   :init
+;;   (setq dashboard-items '(
+;;         (recents . 5)
+;;         (agenda . 5)
+;;         )))
 
 (setq doom-font (font-spec :family "JetBrains Mono" :size 15)
       doom-big-font (font-spec :family "JetBrains Mono" :size 26)
@@ -181,8 +181,6 @@
   (projectile-discover-projects-in-directory my/org-directory))
 
 (use-package! org
-  :config
-  (require 'org-tempo)
   :custom
   (org-directory my/org-directory)
   (org-startup-folded 'nofold)
@@ -230,25 +228,4 @@
      ))
   ))
 
-(defun my/org-capture-open-frame (frame-name)
-  "Run org-capture in its own frame."
-  (interactive)
-  (require 'cl-lib)
-  (setq capture/frame-name frame-name)
-  (select-frame-by-name frame-name)
-  (set-frame-parameter (selected-frame) 'alpha 100)
-  (delete-other-windows)
-  (cl-letf (((symbol-function 'switch-to-buffer-other-window) #'switch-to-buffer))
-    (condition-case err
-  (org-capture)
-      ;; "q" signals (error "Abort") in 'org-capture'
-      ;; delete the newly created frame in this scenario.
-      (user-error (when (string= (cadr err) "Abort")
-        (delete-frame))))))
-
-(defun my/org-capture-delete-frame (&rest _)
-  "Delete frame with its name frame-parameter set to 'capture'."
-  (setq capture/frame-name nil)
-  (if (equal capture/frame-name (frame-parameter nil 'name))
-      (delete-frame)))
-(advice-add 'org-capture-finalize :after #'my/org-capture-delete-frame)
+(setcdr (assq `name +org-capture-frame-parameters) "capture")
