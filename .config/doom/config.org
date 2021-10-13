@@ -5,7 +5,7 @@
 #+STARTUP: fold
 :END:
 
-#+TITLE: Master
+#+TITLE:   Configuration
 #+AUTHOR:
 #+EMAIL:
 
@@ -188,7 +188,7 @@ This code is written to ~init.el~ to select which modules to load. Straight copy
        ophints              ; highlight the region an operation acts on
        (popup +defaults)    ; tame sudden yet inevitable temporary windows
        (tabs +centaur)			; a tab bar for Emacs
-       ;;treemacs           ; a project drawer, like neotree but cooler
+       (treemacs +lsp)			; a project drawer, like neotree but cooler
        ;;unicode            ; extended unicode support for various languages
        vc-gutter            ; vcs diff in the fringe
        vi-tilde-fringe      ; fringe tildes to mark beyond EOB
@@ -218,7 +218,7 @@ This code is written to ~init.el~ to select which modules to load. Straight copy
        vc                ; version-control and Emacs, sitting in a tree
 
        :term
-       ;;eshell            ; the elisp shell that works everywhere
+       eshell            ; the elisp shell that works everywhere
        ;;shell             ; simple shell REPL for Emacs
        ;;term              ; basic terminal emulator for Emacs
        ;;vterm             ; the best terminal emulation in Emacs
@@ -472,14 +472,6 @@ Emacs Dashboard is an extensible startup screen showing you recent files, bookma
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type 'relative)
-
-    ;;;; Disable line numbers for some modes
-;; (defun my/disable-display-line-numbers ()
-;; 	(display-line-numbers-mode 0))
-;; (dolist (mode '(treemacs-mode-hook
-;; 								term-mode-hook
-;; 								shell-mode-hook))
-;; 	(add-hook mode #'my/disable-display-line-numbers))
 #+end_src
 
 Sets transparency upon new frame creation for `emacsclient -nc` use case.

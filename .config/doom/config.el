@@ -145,14 +145,6 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type 'relative)
 
-    ;;;; Disable line numbers for some modes
-;; (defun my/disable-display-line-numbers ()
-;; 	(display-line-numbers-mode 0))
-;; (dolist (mode '(treemacs-mode-hook
-;; 								term-mode-hook
-;; 								shell-mode-hook))
-;; 	(add-hook mode #'my/disable-display-line-numbers))
-
 (defun my/set-frame-transparency (frame)
   (set-frame-parameter frame 'alpha my/frame-transparency))
 
