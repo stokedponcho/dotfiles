@@ -54,7 +54,8 @@ alias gba="git branch -a"
 alias s="fuzzysearch"
 alias si="fuzzysearch --inside"
 
-search_and() { s ~/.config/ ~/.local/scripts/ ~/.w3m "${@:2}" | xargs -r -I % sh -c "$1 %"; }
+search_and() { s ~/.dotfiles "${@:2}" | xargs -r -I % sh -c "$1 %"; }
+
 se() { search_and "$EDITOR" "${1}"; }
 sc() { search_and "$PAGER" "${1}"; }
 

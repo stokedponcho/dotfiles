@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Saving master process of the X session. Allows to exit by killing it.
+export XSESSION_PID="$$"
+
 userresources="${XDG_CONFIG_HOME:-$HOME/.config}/X11/Xresources"
 usermodmap="${XDG_CONFIG_HOME:-$HOME/.config}/.Xmodmap"
 sysresources=/etc/X11/xinit/.Xresources

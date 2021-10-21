@@ -3,18 +3,19 @@
 eval "$(ssh-agent)"
 
 screens																	# set screens configuration
-xautolock -time 10 -locker "$LOCKER" &
+xautolock -time 30 -locker "$LOCKER" &
 xsetroot -cursor_name left_ptr &
-"$XDG_CONFIG_HOME"/sxhkd/launch.sh
+pgrep -x sxhkd > /dev/null || sxhkd &
 
 pgrep picom || picom &                  # compositor for opacity
 pgrep dunst || dunst &                  # notification-daemons
-pgrep nm-applet || nm-applet &          # network applet
+pgrep nm-applet \
+	|| nm-applet --indicator &						# network applet
 pgrep redshift-gtk || redshift-gtk &    # colour temperate adjustment
 pgrep unclutter || unclutter &          # hides mouse cursor when idle
 pgrep mullvad-vpn || mullvad-vpn &      # vpn connection
 wallp restore &                         # set wallpaper
 clipmenud &                             # clipmenu daemon
-remapkeys                               # set capslock as control/escape
-emacs --daemon													# emacs server
+remapkeys &                             # set capslock as control/escape
+pgrep emacs || emacs --daemon &					# emacs server
 protonmail-bridge &
