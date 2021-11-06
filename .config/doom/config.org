@@ -1,16 +1,15 @@
 :DOC-CONFIG:
 # Tangle by default to config.el, which is the most common case
-#+PROPERTY: header-args:emacs-lisp :tangle config.el
-#+PROPERTY: header-args :mkdirp yes :comments no
-#+STARTUP: fold
+#+property: header-args:emacs-lisp :tangle config.el
+#+property: header-args :mkdirp yes :comments no
+#+startup: overview
 :END:
 
-#+TITLE:   Configuration
-#+AUTHOR:
-#+EMAIL:
+#+title:   Configuration
+#+author:
+#+email:
 
-* Bootstrap
-** Configuration file headers
+* Configuration file headers
 
 #+begin_src emacs-lisp :tangle config.el
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
@@ -154,9 +153,27 @@
 ;;(unpin! t)
 #+end_src
 
-** Doom modules
+* My variables and overrides
 
-This code is written to ~init.el~ to select which modules to load. Straight copy of the default ~init.el~ with modules of choice on or off.
+Here I define the variables controlling my preferences, according to my system setup.
+
+#+begin_src emacs-lisp
+(defvar my/frame-transparency '(95 . 95))
+;;(defvar my/default-font "Fira Code Retina")
+;;(defvar my/default-font-size 125)
+
+;; Moving the org directory to ~/Documents, keeping ~ clean.
+(defvar my/org-directory (file-name-as-directory "~/Documents/org"))
+(defvar my/org-agenda-directories '("~/Documents/org"))
+
+;; Where my projects live
+(defvar my/projects-root "~/Projects")
+(defvar my/projects '("~/Documents/org" "~/Projects" "~/Projects/00_learning"))
+#+end_src
+
+* Doom modules
+
+This code is tangled to ~init.el~ to select which modules to load. Straight copy of the default ~init.el~ with modules of choice on or off.
 
 #+begin_src emacs-lisp :tangle init.el
 (doom! :input
@@ -212,7 +229,7 @@ This code is written to ~init.el~ to select which modules to load. Straight copy
 
        :emacs
        (dired +icons +ranger)             ; making dired pretty [functional]
-       electric          ; smarter, keyword-based electric-indent
+       ;; electric          ; smarter, keyword-based electric-indent
        ;;ibuffer         ; interactive buffer management
        undo              ; persistent, smarter undo for your inevitable mistakes
        vc                ; version-control and Emacs, sitting in a tree
@@ -251,7 +268,7 @@ This code is written to ~init.el~ to select which modules to load. Straight copy
        ;;upload            ; map local to remote projects via ssh/ftp
 
        :os
-       ;;(:if IS-MAC macos)  ; improve compatibility with macOS
+       (:if IS-MAC macos)  ; improve compatibility with macOS
        ;;tty               ; improve the terminal Emacs experience
 
        :lang
@@ -294,8 +311,8 @@ This code is written to ~init.el~ to select which modules to load. Straight copy
        ;;nix               ; I hereby declare "nix geht mehr!"
        ;;ocaml             ; an objective camel
        (org               ; organize your plain life in plain text
-  +pretty
-  +dragndrop)			; drag & drop files/images into org buffers
+	+pretty
+	+dragndrop)			; drag & drop files/images into org buffers
        ;;php               ; perl's insecure younger brother
        plantuml           ; diagrams for confusing people more
        ;;purescript        ; javascript, but functional
@@ -339,18 +356,6 @@ This code is written to ~init.el~ to select which modules to load. Straight copy
 * Better Defaults
 ** Settings
 
-#+begin_src emacs-lisp
-(defvar my/frame-transparency '(95 . 95))
-;;(defvar my/default-font "Fira Code Retina")
-;;(defvar my/default-font-size 125)
-(defvar my/config (expand-file-name "~/.config/emacs/config.org"))
-(defvar my/org-directory (file-name-as-directory "~/Documents/org"))
-(defvar my/org-notes (concat my/org-directory "notes.org"))
-(defvar my/bookmarks (concat (expand-file-name "~/.config/") "bookmarks.txt"))
-(defvar my/projects-root "~/Projects/")
-(defvar my/projects '("~/Documents/org" "~/Projects" "~/Projects/00_learning"))
-#+end_src
-
 A curated list of default settings.
 
 [https://github.com/angrybacon/dotemacs/blob/master/dotemacs.org#use-better-defaults]
@@ -359,31 +364,31 @@ A curated list of default settings.
 #+begin_src emacs-lisp
 (setq-default
  indent-tabs-mode t									; Use tabs to indent
- tab-width 2  						  					; Set width for tabs
- cursor-in-non-selected-windows nil   ; Hide the cursor in inactive windows
- cursor-type '(hbar . 2)				      ; Underline-shaped cursor
- custom-unlispify-menu-entries nil    ; Prefer kebab-case for titles
- custom-unlispify-tag-names nil	  	; Prefer kebab-case for symbols
- delete-by-moving-to-trash t		    	; Delete files to trash
- fill-column 80				        	  	; Set width for automatic line breaks
- gc-cons-threshold (* 8 1024 1024)  	; We're not using Game Boys anymore
- help-window-select t				      	; Focus new help windows when opened
+ tab-width 2													; Set width for tabs
+ cursor-in-non-selected-windows nil	; Hide the cursor in inactive windows
+ cursor-type '(hbar . 2)							; Underline-shaped cursor
+ custom-unlispify-menu-entries nil		; Prefer kebab-case for titles
+ custom-unlispify-tag-names nil			; Prefer kebab-case for symbols
+ delete-by-moving-to-trash t					; Delete files to trash
+ fill-column 80											; Set width for automatic line breaks
+ gc-cons-threshold (* 8 1024 1024)		; We're not using Game Boys anymore
+ help-window-select t								; Focus new help windows when opened
  uniquify-buffer-name-style 'forward	; Uniquify buffer names
- window-combination-resize t			    ; Resize windows proportionally
- x-stretch-cursor t					        ; Stretch cursor to the glyph width
+ window-combination-resize t					; Resize windows proportionally
+ x-stretch-cursor t									; Stretch cursor to the glyph width
  delete-by-moving-to-trash t)				; Delete files to trash
 
 (setq
  undo-limit 80000000									; Raise undo-limit to 80 Mb
- evil-want-fine-undo t					      ; By default while in insert all changes are one big blob. Be more granular.
- auto-save-default t					        ; Auto... save...
- auto-save-list-file-prefix nil       ; Prevent tracking for auto-saves
- truncate-string-ellipsis "…")        ; Nice ellipsis
+ evil-want-fine-undo t								; By default while in insert all changes are one big blob. Be more granular.
+ auto-save-default t									; Auto... save...
+ auto-save-list-file-prefix nil			; Prevent tracking for auto-saves
+ truncate-string-ellipsis "…")				; Nice ellipsis
 
 (blink-cursor-mode 0)								; Prefer a still cursor
-(fset 'yes-or-no-p 'y-or-n-p)         ; Replace yes/no prompts with y/n
-(global-subword-mode 1)               ; Iterate through CamelCase words
-(set-default-coding-systems 'utf-8)   ; Default to utf-8 encoding
+(fset 'yes-or-no-p 'y-or-n-p)				; Replace yes/no prompts with y/n
+(global-subword-mode 1)							; Iterate through CamelCase words
+(set-default-coding-systems 'utf-8)	; Default to utf-8 encoding
 
 (global-subword-mode 1)							; Iterate through CamelCase words
 
@@ -416,17 +421,14 @@ Prefer splitting below and to the right.
 
 #+begin_src emacs-lisp
 (after! evil
-  (setq evil-vsplit-window-right t
-  evil-split-window-below t))
+  (setq
+   evil-vsplit-window-right t
+   evil-split-window-below t))
 #+end_src
 
 Ask which buffer to display when splitting windows.
 
 #+begin_src emacs-lisp
-;; (after! evil
-;; 			(advice-add 'evil-window-split :after 'counsel-switch-buffer)
-;; 			(advice-add 'evil-window-vsplit :after 'counsel-switch-buffer))
-
 (defadvice! prompt-for-buffer (&rest _)
   :after '(evil-window-split evil-window-vsplit)
   (consult-buffer))
@@ -447,6 +449,14 @@ Emacs Dashboard is an extensible startup screen showing you recent files, bookma
 ;;         (recents . 5)
 ;;         (agenda . 5)
 ;;         )))
+#+end_src
+
+** ESC to cancel them all
+
+Make ESC quit prompts.
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 #+end_src
 
 * User Interface Configuration
@@ -474,7 +484,7 @@ Emacs Dashboard is an extensible startup screen showing you recent files, bookma
 (setq display-line-numbers-type 'relative)
 #+end_src
 
-Sets transparency upon new frame creation for `emacsclient -nc` use case.
+Sets transparency upon new frame creation for =emacsclient -nc= use case.
 
 #+begin_src emacs-lisp
 (defun my/set-frame-transparency (frame)
@@ -484,36 +494,18 @@ Sets transparency upon new frame creation for `emacsclient -nc` use case.
 (my/set-frame-transparency (selected-frame))
 #+end_src
 
-* Key bindings
-** ESC to cancel them all
-
-Make ESC quit prompts.
-
-#+begin_src emacs-lisp
-(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-#+end_src
-
-** Open specific files
-
-#+begin_src emacs-lisp
-(map! :leader
-      (:prefix ("-" . "open file")
-       :desc "Edit doom config.org" "c" #'(lambda () (interactive) (find-file "~/.config/doom/config.org"))
-       :desc "Edit doom init.el" "i" #'(lambda () (interactive) (find-file "~/.config/doom/init.el"))
-       :desc "Edit doom packages.el" "p" #'(lambda () (interactive) (find-file "~/.config/doom/packages.el"))))
-#+end_src
-
 * Packages
 ** Projectile
 
 #+begin_src emacs-lisp
 (use-package! projectile
+  :defer t
   :config
   (setq
    projectile-project-search-path my/projects
    projectile-sort-order 'access-time)
   :custom
-  (projectile-enable-caching t)
+  (projectile-enable-caching nil)
   )
 
 (after! projectile
@@ -521,42 +513,330 @@ Make ESC quit prompts.
   (projectile-discover-projects-in-directory my/org-directory))
 #+end_src
 
+** Rainbow Mode
+
+#+begin_quote
+This minor mode sets background color to strings that match color names, e.g. #0000ff is displayed in white with a blue background.
+#+end_quote
+
+#+begin_src emacs-lisp :tangle packages.el
+(package! rainbow-mode)
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package! rainbow-mode
+  :hook (org-mode
+         emacs-lisp-mode
+         web-mode
+         typescript-mode
+         js2-mode))
+#+end_src
+
 * Org Mode
 
+#+begin_quote
+A GNU Emacs major mode for keeping notes, authoring documents, computational notebooks, literate programming, maintaining to-do lists, planning projects, and more — in a fast and effective plain text system.
+#+end_quote
+
+[https://orgmode.org/]
+
+Originally written by Carsten Dominik, Org-Mode is distributed as part of Emacs.
+
+My setup is *heavily* inspired by the amazingly detailed [[http://doc.norang.ca/org-mode.html][Guide by Bernt Hansen]] - along with other sources listed below.
+
+[https://tecosaur.github.io/emacs-config/config.html]
 [https://github.com/daviwil/dotfiles/blob/master/Emacs.org#org-mode]
 [https://github.com/daviwil/dotfiles/blob/master/Workflow.org]
 
-** Configuration
+** Getting Started
+*** System Configuration
+**** Mime types
 
-#+begin_src emacs-lisp
-(use-package! org
-  :custom
-  (org-directory my/org-directory)
-  (org-startup-folded 'nofold)
-  (org-src-tab-acts-natively t)
-  (org-catch-invisible-edits 'smart))
+Org mode is not recognised by default. To change this, add the following XML to ~$HOME/.local/share/mime/packages/org.xml~ (or ~/usr/share/mime/packages/org.xml~ for system wide changes).
+
+#+begin_src xml :noweb-ref none :tangle ~/.local/share/mime/packages/org.xml
+<?xml version="1.0" encoding="utf-8"?>
+<mime-info xmlns='http://www.freedesktop.org/standards/shared-mime-info'>
+  <mime-type type="text/org">
+    <comment>Emacs Org-mode File</comment>
+    <glob pattern="*.org"/>
+    <alias type="text/org"/>
+  </mime-type>
+</mime-info>
 #+end_src
 
-** Structure Templates
+Refresh mime database and set Emacs as the default editor.
 
-'With just a few keystrokes, it is possible to insert empty structural blocks, such as ‘#+BEGIN_SRC’ … ‘#+END_SRC’, or to wrap existing text in such a block. '
-
-[https://orgmode.org/manual/Structure-Templates.html]
-
-#+begin_src emacs-lisp
-(with-eval-after-load 'org
-  (defun my/org-add-structure-template (alias language)
-    (add-to-list 'org-structure-template-alist `(,alias . ,(format "src %s" language))))
-
-  (my/org-add-structure-template "sh" "shell")
-  (my/org-add-structure-template "el" "emacs-lisp")
-  (my/org-add-structure-template "py" "python")
-  (my/org-add-structure-template "sc" "scheme")
-  (my/org-add-structure-template "json" "json")
-  (my/org-add-structure-template "yaml" "yaml"))
+#+begin_src shell :tangle no
+update-mime-database ~/.local/share/mime
+xdg-mime default emacs.desktop text/org
 #+end_src
 
-** Babel languages
+**** Org Capture & bspwm
+
+~bspwm~ rules do not allow/work with '-' in the window name, hence renaming the org-capture frame from ~doom-capture~ to 'capture' so custom rules can target it.
+
+#+begin_src emacs-lisp
+(setcdr (assq `name +org-capture-frame-parameters) "capture")
+#+end_src
+
+*** Org-Mode & Agenda Setup
+
+Org-Mode package is loaded in the Doom modules section, here I just set some preferences.
+
+#+begin_src emacs-lisp
+(setq org-directory my/org-directory)
+
+(after! org
+  (setq
+   org-startup-folded 'overview
+   org-src-tab-acts-natively t
+   org-ellipsis " ▼ "
+   org-priority-default ?C
+   org-catch-invisible-edits 'smart
+   org-agenda-start-with-log-mode t
+   org-log-done 'time
+   org-log-into-drawer t
+   org-agenda-files my/org-agenda-directories
+   )
+  )
+#+end_src
+
+I set =org-agenda-files= to an explicit list of directories, so the agenda can pick up all ~.org~ files within them.
+
+org-mode manages the =org-agenda-files= variable using ~C-c [~ and ~C-c ]~ to add and remove files. To avoid them messing up the list of directories, I remove the bindings and the functions.
+
+#+begin_src emacs-lisp
+(after! org
+  (map!
+   :map org-mode-map
+   "C-c [" nil
+   "C-c ]" nil)
+  (defun org-agenda-file-to-front nil)
+  (defun org-remove-file nil)
+  )
+#+end_src
+*** My Org Files
+
+The mainstay files are the following:
+
+| Filename    | Description                                 |
+|-------------+---------------------------------------------|
+| todo.org    | Personal tasks and things to keep track of. |
+| refile.org  | Capture task bucket, to be sorted later.    |
+| journal.org | Attempt at writing daily stuff.             |
+
+Dedicated files for a topic/event/project are created when needed.
+
+**** todo.org structure
+
+- Special Dates
+  - Birthdays
+  - Anniversaries
+  - Holidays
+- Health
+- Notes
+- Tasks
+- Other
+
+#+begin_src org :tangle no
+,* Special Dates
+,:PROPERTIES:
+,:CATEGORY: Special Dates
+,:END:
+...
+,* Health
+,:PROPERTIES:
+,:CATEGORY: Health
+,:END:
+#+end_src
+
+** Task and States
+*** Keywords
+
+#+begin_src emacs-lisp
+(after! org
+  (setq org-todo-keywords
+	'((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+	  (sequence "WAIT(w@/!)" "HOLD(h@/!)" "|" "CANCEL(k@/!)")
+	  ))
+  )
+#+end_src
+
+Re-using existing colour scheme for custom tasks: this will keep in line with the selected theme.
+
+#+begin_src emacs-lisp
+(after! org
+  (setq org-todo-keyword-faces
+	'(("NEXT" +org-todo-active)
+	  ("WAIT" +org-todo-onhold)
+	  ("HOLD" +org-todo-onhold)
+	  ("CANCEL" +org-todo-cancel)
+	  ))
+  )
+#+end_src
+
+*** State triggers
+
+The following triggers automatically assign tags to tasks based on state changes. The tags allow to filter tags in agenda view.
+
+- Moving a task to CANCEL adds a CANCELLED tag
+- Moving a task to WAIT adds a WAITING tag
+- Moving a task to HOLD adds WAITING and HOLDING tags
+- Moving a task to a done state removes WAITING and HOLDING tags
+- Moving a task to TODO removes WAITING, CANCELLED and HOLDING tags
+- Moving a task to NEXT removes WAITING, CANCELLED and HOLDING tags
+- Moving a task to DONE removes WAITING, CANCELLED and HOLDING tags
+
+#+begin_src emacs-lisp
+(after! org
+  (setq org-todo-state-tags-triggers
+	(quote (("CANCEL" ("CANCELLED" . t))
+		("WAIT" ("WAITING" . t))
+		("HOLD" ("WAITING") ("HOLDING" . t))
+		(done ("WAITING") ("HOLDING"))
+		("TODO" ("WAITING") ("CANCELLED") ("HOLDING"))
+		("NEXT" ("WAITING") ("CANCELLED") ("HOLDING"))
+		("DONE" ("WAITING") ("CANCELLED") ("HOLDING")))))
+  )
+#+end_src
+
+** Org Capture
+*** Capture templates
+
+A newly added task falls into one of these categories:
+- A new to do task (t)
+- A new note (n)
+- A new journal entry (j)
+
+#+begin_src emacs-lisp
+(after! org-capture
+  (setq org-default-notes-file +org-capture-todo-file)
+
+  (setq org-capture-templates
+	'(("t" "Personal todo" entry
+	   (file+headline +org-capture-todo-file "Inbox")
+	   "* TODO %?\n%U\n%i\n%a" :prepend t)
+	  ("n" "Personal notes" entry
+	   (file+headline +org-capture-notes-file "Inbox")
+	   "* %u %? :NOTE: \n%i\n%a" :prepend t)
+	  ("j" "Journal" entry
+	   (file+olp+datetree +org-capture-journal-file)
+	   "* %U %?\n%i\n%a" :prepend t)
+	  ))
+  )
+#+end_src
+
+*** Dedicated file for tasks
+
+To keep things simple, org-capture puts all tasks in one file and refiled at a later time.
+
+#+begin_src emacs-lisp
+(setq +org-capture-todo-file "refile.org")
+(setq +org-capture-notes-file "refile.org")
+#+end_src
+
+The file has a single permanent line at the top:
+
+#+begin_src org :tangle no
+,#+FILETAGS: REFILE
+#+end_src
+
+** Refiling Tasks
+*** Refile Setup
+
+To refile tasks in org you need to tell it where you want to refile things.
+
+#+begin_src emacs-lisp
+(after! org
+  ;; Targets include this file and any file contributing to the agenda - up to 9 levels deep
+  (setq org-refile-targets
+        '((nil :maxlevel . 9)
+          (org-agenda-files :maxlevel . 9)))
+
+  ;; Use full outline paths for refile targets - we file directly with completion tool
+  (setq org-refile-use-outline-path t)
+
+  ;; Allow refile to create parent tasks with confirmation
+  (setq org-refile-allow-creating-parent-nodes (quote confirm))
+
+  ;; Add timestamp when an entry is refiled
+  (setq org-log-refile t)
+
+;;;; Refile settings
+  ;; Exclude DONE state tasks from refile targets
+  (defun bh/verify-refile-target ()
+    "Exclude todo keywords with a done state from refile targets"
+    (not (member (nth 2 (org-heading-components)) org-done-keywords)))
+  (setq org-refile-target-verify-function 'bh/verify-refile-target)
+  )
+#+end_src
+
+*** Refiling Tasks
+
+To bulk refile, mark the tasks with =m= and then =x r= to put them in a new location.
+
+** Org Agenda
+
+[https://github.com/alphapapa/org-super-agenda]
+
+#+begin_src emacs-lisp :tangle packages.el
+(package! org-super-agenda)
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package! org-super-agenda :commands org-super-agenda-mode)
+
+(after! org-agenda
+  (org-super-agenda-mode)
+
+  (setq
+   org-agenda-skip-scheduled-if-done t
+   mrg-agenda-skip-deadline-if-done t
+   org-agenda-include-deadlines t
+   org-agenda-block-separator t
+   ;; org-agenda-tags-column 100 ;; from testing this seems to be a good value
+   org-agenda-compact-blocks t)
+
+  (setq org-agenda-custom-commands
+        '(("N" "Notes" tags "NOTE"
+           ((org-agenda-overriding-header "Notes")
+            (org-tags-match-list-sublevels t)))
+          ("n" "Agenda and all TODOs"
+           ((agenda "" nil)
+            (alltodo "" ((org-agenda-overriding-header "")
+                         (org-super-agenda-groups
+                          '((:name "Next to do"
+                             :todo "NEXT"
+                             :order 1)
+                            (:name "Overdue"
+                             :deadline past
+                             :face error
+                             :order 2)
+                            (:name "Due Today"
+                             :deadline today
+                             :order 3)
+                            (:name "Important"
+                             :tag "IMPORTANT"
+                             :priority "A"
+                             :order 6)
+                            (:name "Tasks to refile"
+                             :tag "REFILE"
+                             :order 8)
+                            (:name "Tasks"
+                             :not (:tag ("PROJECT" "project" "REFILE"))
+                             :order 9)
+                            (:name "Projects"
+                             :children t
+                             :tag ("PROJECT" "project")
+                             :order 10)
+                            (:name "Due Soon"
+                             :deadline future
+                             :order 18)))))))))
+  )
+#+end_src
+
+** Babel Languages
 
 ~Babel~ is Org-mode's ability to execute source code within Org-mode documents.
 
@@ -571,50 +851,30 @@ Make ESC quit prompts.
              )))
 #+end_src
 
-** Agenda
-*** Defaults
+** Structure Templates
+
+/With just a few keystrokes, it is possible to insert empty structural blocks, such as ‘#+BEGIN_SRC’ … ‘#+END_SRC’, or to wrap existing text in such a block./
+
+[https://orgmode.org/manual/Structure-Templates.html]
+
+Structure templates allow to quickly insert code blocks in Org files with =<= followed by the template name and then press TAB (provided by org-tempo), for example =<el= will create an Emacs lisp source block as per configuration below.
+
+Add block templates with the function below: the first argument is the template name, the second is the language as known by Org Babel.
 
 #+begin_src emacs-lisp
 (after! org
-  (setq
-   org-default-notes-files my/org-notes
-   org-agenda-start-with-log-mode t
-   org-ellipsis " ▼ "
-   org-log-done 'time
-   org-log-into-drawer t
-   org-agenda-files (directory-files org-directory t "\\.org$")
-   ;; org-agenda-files (directory-files-recursively org-directory "\\.org$")
-   org-priority-default ?C
-   ))
-#+end_src
+  (defun my/org-add-structure-template (alias language)
+    (add-to-list 'org-structure-template-alist `(,alias . ,(format "src %s" language))))
+  )
 
-*** Custom dashboard
-
-#+begin_src emacs-lisp
-(after! org
-  (setq org-agenda-custom-commands
-  '(("n" "Dashboard - combines agenda and notes"
-     ((agenda "" ((org-deadline-warning-days 7)))
-      (tags-todo "+PRIORITY=\"A\""
-           ((org-agenda-overriding-header "High Priority")))
-      (tags-todo "+PRIORITY=\"B\"|+PRIORITY=\"C\""
-           ((org-agenda-text-search-extra-files nil))))
-     ))
-  ))
-#+end_src
-
-** Capture
-
-~doct~ (Declarative Org Capture Templates) is a function that provides an alternative, declarative syntax for describing Org capture templates.
-
-[https://github.com/progfolio/doct]
-
-#+begin_src emacs-lisp :noweb-ref none :tangle packages.el
-;;(package! doct)
-#+end_src
-
-~bspwm~ rules do not allow/work with '-' in the window name, hence renaming the org-capture frame from 'doom-capture' to 'capture' so custom rules can target it.
-
-#+begin_src emacs-lisp
-(setcdr (assq `name +org-capture-frame-parameters) "capture")
+(use-package! org-tempo
+  :after org
+  :init
+  (my/org-add-structure-template "sh" "shell")
+  (my/org-add-structure-template "el" "emacs-lisp")
+  (my/org-add-structure-template "py" "python")
+  (my/org-add-structure-template "sc" "scheme")
+  (my/org-add-structure-template "json" "json")
+  (my/org-add-structure-template "xml" "xml")
+  (my/org-add-structure-template "yaml" "yaml"))
 #+end_src
