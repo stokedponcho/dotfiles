@@ -1,0 +1,11 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Operation = Remove
+Type = Package
+Target = *
+[Action]
+Description = Removing unused Flatpak...
+Depends = flatpak
+When = PostTransaction
+Exec =/usr/bin/flatpak remove --unused -y --noninteractive

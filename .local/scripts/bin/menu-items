@@ -1,0 +1,5 @@
+#!/bin/dash
+
+menu_file="${XDG_MENU_ITEMS:-/home/jb/.cache/xdg-xmenu/items}"
+echo "Writing menu items to $menu_file..."
+xdg-xmenu > "$menu_file"

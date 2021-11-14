@@ -1,3 +1,6 @@
 --ignore src/*
+--ignore pacman-hooks/*
 --ignore .gitmodules
 --ignore .stowrc
+--ignore dotfiles.sh
+--ignore README.md

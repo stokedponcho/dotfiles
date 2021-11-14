@@ -70,3 +70,7 @@ pacman -S redshift
 pacman -S dash checkbashisms
 pacman -S cronie
 ```
+
+```sh
+paru -S xmenu xdg-xmenu-git
+```

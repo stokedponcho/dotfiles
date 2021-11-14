@@ -1,0 +1,11 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Operation = Remove
+Type = Package
+Target = *
+
+[Action]
+Description = Updating menu...
+When = PostTransaction
+Exec = /bin/dash -c '/home/jb/.local/scripts/bin/menu-items'

@@ -1,0 +1,3 @@
+#!/bin/dash
+
+ xmenu < "${XDG_MENU_ITEMS:-$HOME/.cache/xdg-xmenu/items}" | sh &

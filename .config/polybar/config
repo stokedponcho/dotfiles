@@ -56,7 +56,7 @@ module-margin-right = 1
 font-0 = Fira Code:pixelsize=11:style=Bold;2
 font-1 = Font Awesome 5 Free Solid:size=11:;antialias=true;2
 
-modules-left = bspwm xwindow
+modules-left = menu bspwm xwindow
 modules-center =
 modules-right = packages temperature memory cpu pulseaudio microphone xbacklight battery datetime powermenu
 
@@ -66,6 +66,18 @@ tray-position = none
 
 cursor-click = pointer
 cursor-scroll = ns-resize
+
+[module/menu]
+type = custom/script
+interval = 1200
+;exec = echo " "
+exec = echo " "
+;exec = echo " "
+;exec = echo " "
+;exec = echo " "
+click-left = "menu"
+format-foreground = ${colors.foreground}
+format-background = ${colors.background}
 
 [module/bspwm]
 type = internal/bspwm
