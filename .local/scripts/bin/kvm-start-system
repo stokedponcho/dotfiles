@@ -2,3 +2,5 @@
 
 sudo systemctl start libvirtd
 sudo virsh net-start default
+sudo virsh net-start Whonix-External
+sudo virsh net-start Whonix-Internal

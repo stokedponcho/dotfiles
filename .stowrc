@@ -1,5 +1,5 @@
---ignore src/*
 --ignore pacman-hooks/*
+--ignore .disabled
 --ignore .gitmodules
 --ignore .stowrc
 --ignore dotfiles.sh

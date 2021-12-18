@@ -58,7 +58,7 @@ font-1 = Font Awesome 5 Free Solid:size=11:;antialias=true;2
 
 modules-left = menu bspwm xwindow
 modules-center =
-modules-right = packages temperature memory cpu pulseaudio microphone xbacklight battery datetime powermenu
+modules-right = packages temperature memory cpu pulseaudio microphone xbacklight datetime powermenu
 
 tray-foreground = ${colors.foreground}
 tray-background = ${colors.background-alt}

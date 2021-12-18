@@ -28,8 +28,8 @@ set -o vi
 
 #
 # git configuration
-. /usr/share/git/completion/git-completion.bash
-. /usr/share/git/git-prompt.sh
+[[ -f /usr/share/git/completion/git-completion.bash ]] && . /usr/share/git/completion/git-completion.bash
+[[ -f /usr/share/git/git-prompt.sh ]] && . /usr/share/git/git-prompt.sh
 
 export GIT_PS1_SHOWDIRTYSTATE=1
 export GIT_PS1_SHOWSTASHSTATE=1
@@ -41,7 +41,7 @@ export GIT_PS1_SHOWUPSTREAM=1
 # Import colorscheme from 'wal' asynchronously
 # &   # Run the process in the background.
 # ( ) # Hide shell job control messages.
-(cat ~/.cache/wal/sequences &)
+[[ -f "$HOME"/.cache/wal/sequences ]] && cat "$HOME"/.cache/wal/sequences &
 
 #
 # custom prompt - or starship
@@ -52,7 +52,7 @@ eval "$(starship init bash)"
 
 #
 # shell greeting
-[[ "$(tty)" != "/dev/tty1" ]] && "${SCRIPTS:-$HOME/.local/scripts}/quote_of_the_day.py"
+[[ "$(tty)" != "/dev/tty1" ]] && "${SCRIPTS:-$HOME/.local/scripts}"/quote_of_the_day.py 2>/dev/null
 
 #
 # https://github.com/rupa/z/

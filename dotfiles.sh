@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/bash
 
 stow . -v
-stow pacman-hooks --target="/usr/share/libalpm/hooks" -v
+[[ -d "/usr/share/libalpm/hooks" ]] && stow pacman-hooks --target="/usr/share/libalpm/hooks" -v

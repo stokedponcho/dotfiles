@@ -8,12 +8,6 @@ export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
 export XDG_MENU_ITEMS="$HOME/.cache/xdg-xmenu/items"
 export SCRIPTS="$HOME/.local/scripts"
 
-
-# Adds `~/.local/script/bin` to $PATH
-! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]] && export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
-! [[ "$PATH" =~ "$XDG_DATA_HOME/cargo/bin" ]] && export PATH="$XDG_DATA_HOME/cargo/bin:$PATH"
-! [[ "$PATH" =~ "$SCRIPTS/bin" ]] && export PATH="$PATH:$(du "$SCRIPTS/bin" | cut -f2 | paste -sd ':')"
-
 # Default programs:
 export BROWSER="firefox"
 export BROWSER_CLI="w3m"
@@ -26,17 +20,22 @@ export PAGER="less --quit-if-one-screen"
 export TERMINAL="st"
 #export VISUAL="emacsclient -nc"
 export WM="bspwm"
+#export WM="awesome"
 
 # global program settings
 export CM_IGNORE_WINDOW="KeePassXC"
+export DOOMDIR="$HOME/.config/doom"
 export DOTNET_CLI_TELEMETRY_OPTOUT="true"
 export FZF_DEFAULT_OPTS="--height=40% --reverse"
 export QT_QPA_PLATFORMTHEME="gtk3"
 export SKIM_DEFAULT_OPTIONS="--height 40% --reverse"
 export _Z_DATA="$XDG_DATA_HOME/z"
+export _ZL_DATA="$XDG_DATA_HOME/z"
 
 # Clean up ~:
 export ANSIBLE_CONFIG="$XDG_CONFIG_HOME/ansible/ansible.cfg"
+export AWS_CONFIG_FILE="$XDG_CONFIG_HOME/aws/config"
+export AWS_SHARED_CREDENTIALS_FILE="$XDG_CONFIG_HOME/aws/credentials"
 export CARGO_HOME="$XDG_DATA_HOME/cargo"
 export CUDA_CACHE_PATH="$XDG_CACHE_HOME/nv"
 export DOTNET_CLI_HOME="$XDG_DATA_HOME/dotnetcli"
@@ -49,6 +48,7 @@ export INPUTRC="$XDG_CONFIG_HOME/bash/inputrc"
 export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME"/java
 export LESSHISTFILE=-
 export MIX_HOME="$XDG_DATA_HOME/mix"
+export NODE_REPL_HISTORY="$XDG_DATA_HOME/node_repl_history"
 export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
 export NUGET_PACKAGES="$XDG_CACHE_HOME/nuget"
 export NVM_DIR="$XDG_DATA_HOME/nvm"
@@ -63,9 +63,22 @@ export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
 export XINITRC="$XDG_CONFIG_HOME/X11/xinitrc"
 export XSERVERRC="$XDG_CONFIG_HOME/X11/xserverrc"
 
-[ -f "$HOME/.bashrc" ] && . "$HOME/.bashrc"
-[ -f "$XDG_CONFIG_HOME/profile_secrets" ] && . "$XDG_CONFIG_HOME/profile_secrets"
-[ -f "$XDG_CONFIG_HOME/lf/icons.sh" ] && . "$XDG_CONFIG_HOME/lf/icons.sh"
+# Adds custom bin paths to $PATH
+! [[ "$PATH" =~ "$HOME"/.local/bin:"$HOME"/bin: ]] && export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+! [[ "$PATH" =~ "$CARGO_HOME"/bin ]] && export PATH="$XDG_DATA_HOME/cargo/bin:$PATH"
+! [[ "$PATH" =~ "$HOME"/.local/src/adr-tools/src ]] && export PATH="$HOME/.local/src/adr-tools/src:$PATH"
+
+if ! [[ "$PATH" =~ "$SCRIPTS"/bin ]]; then
+	bins=$(find "$SCRIPTS"/bin -type d | paste -sd ':')
+	echo $bins
+	export PATH="$bins:$PATH"
+fi
+
+[ -f "$HOME"/.bashrc ] && . "$HOME/.bashrc"
+[ -f "$XDG_CONFIG_HOME"/profile_secrets ] && . "$XDG_CONFIG_HOME/profile_secrets"
+[ -f "$XDG_CONFIG_HOME"/lf/icons.sh ] && . "$XDG_CONFIG_HOME/lf/icons.sh"
+
+pgrep ssh-agent || eval "$(ssh-agent)"
 
 # Start WM
 if [[ "$(tty)" = "/dev/tty1" ]]; then

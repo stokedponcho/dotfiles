@@ -1,19 +1,20 @@
 #!/bin/dash
 
-eval "$(ssh-agent)"
 
-screens																	# set screens configuration
+screens 																# set screens configuration
 xautolock -time 30 -locker "$LOCKER" &
 xsetroot -cursor_name left_ptr &
 pgrep -x sxhkd > /dev/null || sxhkd &
 
-pgrep picom || picom &                  # compositor for opacity
-pgrep dunst || dunst &                  # notification-daemons
+pgrep xfce4-power-manager \
+	|| xfce4-power-manager --daemon &			# power manager
 pgrep nm-applet \
 	|| nm-applet --indicator &						# network applet
+pgrep picom || picom &                  # compositor for opacity
+pgrep dunst || dunst &                  # notification-daemons
+pgrep mullvad-vpn || mullvad-vpn &      # vpn connection
 pgrep redshift-gtk || redshift-gtk &    # colour temperate adjustment
 pgrep unclutter || unclutter &          # hides mouse cursor when idle
-pgrep mullvad-vpn || mullvad-vpn &      # vpn connection
 wallp restore &                         # set wallpaper
 clipmenud &                             # clipmenu daemon
 remapkeys &                             # set capslock as control/escape
