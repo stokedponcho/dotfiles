@@ -2,7 +2,7 @@
 
 pgrep bspswallow || bspswallow &
 pgrep bspcleanfullscreen || bspcleanfullscreen &
-$XDG_CONFIG_HOME/polybar/launch.sh
+"$XDG_CONFIG_HOME"/polybar/launch.sh
 
 bspc monitor eDP1		-d 1 2 3 4 5
 bspc monitor DP3		-d 6 7 8 9 10
@@ -24,8 +24,8 @@ bspc rule -a scratchpad sticky=on state=floating
 bspc rule -a Emacs state=tiled
 bspc rule -a Emacs:*:capture sticky=on state=floating
 
-bspc rule -a Slack desktop='^4'
-bspc rule -a Signal desktop='^4'
+bspc rule -a Slack desktop='^9'
+bspc rule -a Signal desktop='^9'
 bspc rule -a firefox desktop='^6'
 bspc rule -a Firefox desktop='^6'
 bspc rule -a "Tor Browser" desktop='^6'
