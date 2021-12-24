@@ -63,24 +63,20 @@ export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
 export XINITRC="$XDG_CONFIG_HOME/X11/xinitrc"
 export XSERVERRC="$XDG_CONFIG_HOME/X11/xserverrc"
 
+# Adds ~/.local/scripts/bin to $PATH
+export PATH="$(find "$SCRIPTS"/bin -type d | paste -sd ':'):$PATH"
+
 # Adds custom bin paths to $PATH
 ! [[ "$PATH" =~ "$HOME"/.local/bin:"$HOME"/bin: ]] && export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
-! [[ "$PATH" =~ "$CARGO_HOME"/bin ]] && export PATH="$XDG_DATA_HOME/cargo/bin:$PATH"
+! [[ "$PATH" =~ "$CARGO_HOME"/bin ]] && export PATH="$CARGO_HOME/bin:$PATH"
 ! [[ "$PATH" =~ "$HOME"/.local/src/adr-tools/src ]] && export PATH="$HOME/.local/src/adr-tools/src:$PATH"
 
-if ! [[ "$PATH" =~ "$SCRIPTS"/bin ]]; then
-	bins=$(find "$SCRIPTS"/bin -type d | paste -sd ':')
-	echo $bins
-	export PATH="$bins:$PATH"
-fi
+[ -f "$XDG_CONFIG_HOME"/lf/icons.sh ] && source "$XDG_CONFIG_HOME/lf/icons.sh"
 
 [ -f "$HOME"/.bashrc ] && . "$HOME/.bashrc"
-[ -f "$XDG_CONFIG_HOME"/profile_secrets ] && . "$XDG_CONFIG_HOME/profile_secrets"
-[ -f "$XDG_CONFIG_HOME"/lf/icons.sh ] && . "$XDG_CONFIG_HOME/lf/icons.sh"
+[ -f "$XDG_CONFIG_HOME"/profile_secrets ] && source "$XDG_CONFIG_HOME/profile_secrets"
 
 pgrep ssh-agent || eval "$(ssh-agent)"
 
 # Start WM
-if [[ "$(tty)" = "/dev/tty1" ]]; then
-	pgrep "$WM" || startx "$XDG_CONFIG_HOME/X11/xinitrc"
-fi
+[ "$(tty)" = "/dev/tty1" ] && ! pgrep -x Xorg >/dev/null 2>&1 && exec startx "$XINITRC"

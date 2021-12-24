@@ -7,6 +7,9 @@
 # the commit is aborted.
 #
 
+# disabling hook
+exit
+
 branch=$(git symbolic-ref --short -q HEAD)
 message=$(cat $1)
 
