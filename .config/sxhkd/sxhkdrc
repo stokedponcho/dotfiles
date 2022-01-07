@@ -5,7 +5,7 @@
 #
 
 # make sxhkd reload its configuration files:
-super + Escape
+super + ctrl + Escape
   pkill -USR1 -x sxhkd; notify-send 'sxhkd' 'Reload configuration.'
 
 # terminal emulator
