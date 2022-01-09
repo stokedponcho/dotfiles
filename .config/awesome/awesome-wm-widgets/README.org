@@ -1,0 +1,7 @@
+* awesome-wm-widgets
+
+This is a selection of widgets pulled from https://github.com/streetturtle/awesome-wm-widgets.
+
+They have been reviewed and stripped down to the minimum files needed for my use case.
+
+All credit to https://pavelmakhov.com/awesome-wm-widgets/.

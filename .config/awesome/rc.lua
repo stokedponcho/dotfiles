@@ -30,8 +30,8 @@ require("layouts")
 -- Create a launcher widget and a main menu
 mymainmenu = require("menu")
 local mylauncher = awful.widget.launcher({
-        image = beautiful.awesome_icon,
-        menu = mymainmenu })
+		image = beautiful.awesome_icon,
+		menu = mymainmenu })
 
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
@@ -83,71 +83,75 @@ local tasklist_buttons = gears.table.join(
 			awful.client.focus.byidx(-1)
 end))
 
--- systray
 local mysystray = wibox.widget.systray()
 mysystray:set_horizontal(true)
 
+local myvolume = require('awesome-wm-widgets.volume-widget.volume'){ widget_type = 'arc' }
+
+local wibox_container = function(widget)
+	local dpi = require("beautiful.xresources").apply_dpi
+	return wibox.container.margin(widget, dpi(3), dpi(3), dpi(6), dpi(3))
+end
+
 -- Setup screen
 awful.screen.connect_for_each_screen(function(s)
-    -- Each screen has its own tag table.
-    awful.tag({ " 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 " }, s, awful.layout.layouts[2])
-    --awful.tag({ " ❶ ", " ❷ ", " ❸ ", " ❹ ", " ❺ ", " ❻ ", " ❼ ", " ❽ ", " ❾ " }, s, awful.layout.layouts[2])
+		-- Each screen has its own tag table.
+		awful.tag({ " 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 " }, s, awful.layout.layouts[2])
 
-    -- Create a promptbox for each screen
-    s.mypromptbox = awful.widget.prompt()
-    -- Create an imagebox widget which will contain an icon indicating which layout we're using.
-    -- We need one layoutbox per screen.
-    s.mylayoutbox = awful.widget.layoutbox(s)
-    s.mylayoutbox:buttons(gears.table.join(
-		awful.button({ }, 1, function () awful.layout.inc( 1) end),
-		awful.button({ }, 3, function () awful.layout.inc(-1) end),
-		awful.button({ }, 4, function () awful.layout.inc( 1) end),
-		awful.button({ }, 5, function () awful.layout.inc(-1) end)))
-    -- Create a taglist widget
-    s.mytaglist = awful.widget.taglist {
-		screen  = s,
-		filter  = awful.widget.taglist.filter.all,
-		buttons = taglist_buttons
-    }
+		-- Create a promptbox for each screen
+		s.mypromptbox = awful.widget.prompt()
+		-- Create an imagebox widget which will contain an icon indicating which layout we're using.
+		-- We need one layoutbox per screen.
+		s.mylayoutbox = awful.widget.layoutbox(s)
+		s.mylayoutbox:buttons(gears.table.join(
+														awful.button({ }, 1, function () awful.layout.inc( 1) end),
+														awful.button({ }, 3, function () awful.layout.inc(-1) end),
+														awful.button({ }, 4, function () awful.layout.inc( 1) end),
+														awful.button({ }, 5, function () awful.layout.inc(-1) end)))
+		-- Create a taglist widget
+		s.mytaglist = awful.widget.taglist {
+			screen  = s,
+			filter  = awful.widget.taglist.filter.all,
+			buttons = taglist_buttons
+		}
 
-    -- Create a tasklist widget
-    s.mytasklist = awful.widget.tasklist {
-		screen  = s,
-		filter  = awful.widget.tasklist.filter.currenttags,
-		buttons = tasklist_buttons,
-		widget_template = {
-			forced_width = 300,
-			id     = 'background_role',
-			widget = wibox.container.background,
-			{
-				left = 5,
-				right = 5,
-				widget = wibox.container.margin,
+		-- Create a tasklist widget
+		s.mytasklist = awful.widget.tasklist {
+			screen  = s,
+			filter  = awful.widget.tasklist.filter.currenttags,
+			buttons = tasklist_buttons,
+			widget_template = {
+				forced_width = 300,
+				id     = 'background_role',
+				widget = wibox.container.background,
 				{
-					layout = wibox.layout.fixed.horizontal,
+					left = 5,
+					right = 5,
+					widget = wibox.container.margin,
 					{
-						margins = 5,
-						widget  = wibox.container.margin,
+						layout = wibox.layout.fixed.horizontal,
 						{
-							id     = 'icon_role',
-							widget = wibox.widget.imagebox,
+							margins = 5,
+							widget  = wibox.container.margin,
+							{
+								id     = 'icon_role',
+								widget = wibox.widget.imagebox,
+							},
 						},
-					},
-					{
-						id     = 'text_role',
-						widget = wibox.widget.textbox,
+						{
+							id     = 'text_role',
+							widget = wibox.widget.textbox,
+						},
 					},
 				},
 			},
-		},
-    }
+		}
 
-    -- Create the wibox
-    s.mywibox = awful.wibar({ position = "top", height = 28, border_width = 0, border_color = beautiful.bg_normal, screen = s })
+		-- Create the wibox
+		s.mywibox = awful.wibar({ position = "top", height = 28, border_width = 0, border_color = beautiful.bg_normal, screen = s })
 
-local dpi = require("beautiful.xresources").apply_dpi
-    -- Add widgets to the wibox
-    s.mywibox:setup {
+		-- Add widgets to the wibox
+		s.mywibox:setup {
 			layout = wibox.layout.align.horizontal,
 			{ -- Left widgets
 				layout = wibox.layout.fixed.horizontal,
@@ -162,11 +166,12 @@ local dpi = require("beautiful.xresources").apply_dpi
 			},
 			{ -- Right widgets
 				layout = wibox.layout.fixed.horizontal,
-        wibox.container.margin(mysystray, dpi(3), dpi(3), dpi(6), dpi(3)),
-				s.mylayoutbox,
+				wibox_container(myvolume),
+				wibox_container(mysystray),
+				wibox_container(s.mylayoutbox),
 				mytextclock,
 			},
-    }
+		}
 end)
 
 require("bindings")
