@@ -1,97 +1,78 @@
----------------------------
--- https://github.com/shagu/dotfiles/blob/master/awesome/theme.lua
----------------------------
-
 local theme_assets = require("beautiful.theme_assets")
 local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
-
 local gfs = require("gears.filesystem")
+
 local themes_path = gfs.get_themes_dir()
 local theme_path = gfs.get_configuration_dir() .. "theme"
-
+local mat_colors = require('theme.mat-colors')
 local theme = {}
 
-theme.font          = "sans 8"
+theme.font_name = "FiraCode Mono medium"
+theme.font = theme.font_name .. " 10"
+theme.title_font = theme.font_name .. " 14"
 
--- backgrounds
-theme.bg_normal     = "#1a1a1a"
-theme.bg_focus      = "#212121"
-theme.bg_urgent     = theme.bg_normal
-theme.bg_minimize   = theme.bg_normal
-theme.bg_systray    = theme.bg_normal
+theme.primary = mat_colors.indigo
+theme.accent = mat_colors.pink
+theme.background = mat_colors.blue_grey
 
--- foregrounds
-theme.fg_normal     = "#888888"
-theme.fg_focus      = "#ffffff"
-theme.fg_urgent     = "#ffffff"
-theme.fg_minimize   = "#ffffff"
+theme.fg_normal = '#ffffffde'
+theme.fg_focus = '#e4e4e4'
+theme.fg_urgent = '#CC9393'
+theme.fg_minimize   = theme.fg_normal
 
--- borders
-theme.useless_gap   = dpi(8)
+theme.bg_normal = theme.background.hue_800
+theme.bg_focus = theme.background.hue_600
+theme.bg_urgent = theme.accent.hue_800
+theme.bg_systray = theme.background.hue_800
+theme.bg_minimize = theme.bg_normal
+
 theme.border_width  = dpi(2)
+theme.border_focus = theme.bg_focus
+theme.border_normal = theme.bg_normal
+theme.border_marked = '#CC9393'
+
+theme.useless_gap   = dpi(8)
 theme.gap_single_client = true
-theme.border_normal     = "#000000"
-theme.border_focus      = "#000000"
-theme.border_marked     = "#4A89C7"
 
--- There are other variable sets
--- overriding the default one when
--- defined, the sets are:
--- taglist_[bg|fg]_[focus|urgent|occupied|empty|volatile]
--- tasklist_[bg|fg]_[focus|urgent]
--- titlebar_[bg|fg]_[normal|focus]
--- tooltip_[font|opacity|fg_color|bg_color|border_width|border_color]
--- mouse_finder_[color|timeout|animate_timeout|radius|factor]
--- prompt_[fg|bg|fg_cursor|bg_cursor|font]
--- hotkeys_[bg|fg|border_width|border_color|shape|opacity|modifiers_fg|label_bg|label_fg|group_margin|font|description_font]
--- Example:
---theme.taglist_bg_focus = "#ff0000"
-
--- Generate taglist squares:
-local taglist_square_size = dpi(4)
-theme.taglist_squares_sel = theme_assets.taglist_squares_sel(
-    taglist_square_size, theme.fg_normal
-)
-theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
-    taglist_square_size, theme.fg_normal
-)
-
--- tasklist
-theme.tasklist_plain_task_name = true
-theme.tasklist_spacing = 2
-
--- titlebars
-theme.titlebar_bg_normal = theme.bg_normal
-theme.titlebar_fg_normal = "#888888"
-theme.titlebar_bg_focus = theme.bg_normal
-theme.titlebar_fg_focus = "#ffffff"
-theme.titlebar_bg_focus = { type = "linear",
-                            from = { 0, 0 },
-                            to = { 0, 1 },
-                            stops = { { 0, "#E59C19" }, { 1, theme.titlebar_bg_normal } }
-                          }
-
--- tray icon
-theme.systray_icon_spacing = 8
-
--- Variables set for theming notifications:
--- notification_font
--- notification_[bg|fg]
--- notification_[width|height|margin]
--- notification_[border_color|border_width|shape|opacity]
-
--- Variables set for theming the menu:
--- menu_[bg|fg]_[normal|focus]
--- menu_[border_color|border_width]
-theme.menu_submenu_icon = themes_path.."default/submenu.png"
+-- theme.menu_submenu_icon = themes_path.."default/submenu.png"
 theme.menu_height = dpi(25)
 theme.menu_width  = dpi(200)
 
--- You can add as many variables as
--- you wish and access them by using
--- beautiful.variable in your rc.lua
---theme.bg_widget = "#cc0000"
+-- Generate taglist squares:
+-- local taglist_square_size = dpi(4)
+-- theme.taglist_squares_sel = theme_assets.taglist_squares_sel(
+--     taglist_square_size, theme.fg_normal
+-- )
+-- theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
+--     taglist_square_size, theme.fg_normal
+-- )
+-- theme.taglist_bg_empty = theme.bg_normal
+theme.taglist_bg_occupied = theme.background.hue_700
+theme.taglist_bg_urgent = theme.bg_urgent
+theme.taglist_bg_focus = theme.bg_focus
+
+-- tasklist
+theme.tasklist_font = 'FiraCode Mono medium 11'
+theme.tasklist_fg_focus = theme.fg_focus
+theme.tasklist_fg_urgent = theme.fg_urgent
+theme.tasklist_fg_normal = theme.fg_normal
+theme.tasklist_fg_minimize = theme.fg_minimize
+theme.tasklist_bg_normal = theme.bg_normal
+theme.tasklist_bg_focus = theme.bg_focus
+theme.tasklist_bg_urgent = theme.bg_urgent
+theme.tasklist_bg_minimize = theme.bg_minimize
+-- theme.tasklist_plain_task_name = true
+-- theme.tasklist_spacing = 2
+
+-- titlebars
+theme.titlebar_fg_normal = theme.fg_normal
+theme.titlebar_fg_focus = theme.fg_focus
+theme.titlebar_bg_normal = theme.bg_normal
+theme.titlebar_bg_focus = theme.bg_focus
+
+-- tray icons
+theme.systray_icon_spacing = dpi(0)
 
 -- Define the image to load
 theme.titlebar_close_button_normal = theme_path.."close_normal.svg"
@@ -140,12 +121,12 @@ theme.layout_cornerse = themes_path.."default/layouts/cornersew.png"
 
 -- Generate Awesome icon:
 theme.awesome_icon = theme_assets.awesome_icon(
-    theme.menu_height, theme.bg_focus, theme.fg_focus
+    theme.menu_height, theme.bg_normal, theme.fg_normal
 )
 
 -- Define the icon theme for application icons. If not set then the icons
 -- from /usr/share/icons and /usr/share/icons/hicolor will be used.
-theme.icon_theme = nil
+theme.icon_theme = 'Papirus-Dark'
 
 return theme
 
