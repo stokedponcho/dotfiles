@@ -6,7 +6,6 @@ local gears = require("gears") -- Standard awesome library
 local awful = require("awful")
 require("awful.autofocus")
 local beautiful = require("beautiful") -- Theme handling library
-local naughty = require("naughty") -- Notification library
 local wibox = require("wibox") -- Widget and layout library
 local menubar = require("menubar")
 
@@ -88,6 +87,11 @@ mysystray:set_horizontal(true)
 
 local myvolume = require('awesome-wm-widgets.volume-widget.volume'){ widget_type = 'arc' }
 
+local mybrightness = require("awesome-wm-widgets.brightness-widget.brightness"){
+	timeout = 1,
+	program = 'xbacklight',
+}
+
 local wibox_container = function(widget)
 	local dpi = require("beautiful.xresources").apply_dpi
 	return wibox.container.margin(widget, dpi(3), dpi(3), dpi(6), dpi(3))
@@ -166,6 +170,7 @@ awful.screen.connect_for_each_screen(function(s)
 			},
 			{ -- Right widgets
 				layout = wibox.layout.fixed.horizontal,
+				wibox_container(mybrightness),
 				wibox_container(myvolume),
 				wibox_container(mysystray),
 				wibox_container(s.mylayoutbox),
