@@ -4,3 +4,6 @@ Inspirations:
 - https://github.com/ChrisTitusTech/titus-awesome
 - https://github.com/worron/awesome-config
 - https://github.com/streetturtle/awesome-wm-widgets
+
+Useful:
+- https://github.com/FortAwesome/Font-Awesome/

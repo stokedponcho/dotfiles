@@ -85,12 +85,9 @@ end))
 local mysystray = wibox.widget.systray()
 mysystray:set_horizontal(true)
 
-local myvolume = require('awesome-wm-widgets.volume-widget.volume'){ widget_type = 'arc' }
-
-local mybrightness = require("awesome-wm-widgets.brightness-widget.brightness"){
-	timeout = 1,
-	program = 'xbacklight',
-}
+local myvolume = require('awesome-wm-widgets.volume-widget.volume'){}
+local mybrightness = require("awesome-wm-widgets.brightness-widget.brightness"){}
+local mymicrophone = require('widgets.microphone-widget.microphone')
 
 local wibox_container = function(widget)
 	local dpi = require("beautiful.xresources").apply_dpi
@@ -172,6 +169,7 @@ awful.screen.connect_for_each_screen(function(s)
 				layout = wibox.layout.fixed.horizontal,
 				wibox_container(mybrightness),
 				wibox_container(myvolume),
+				wibox_container(mymicrophone),
 				wibox_container(mysystray),
 				wibox_container(s.mylayoutbox),
 				mytextclock,

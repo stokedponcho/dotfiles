@@ -4,11 +4,11 @@ local dpi = xresources.apply_dpi
 local gfs = require("gears.filesystem")
 
 local themes_path = gfs.get_themes_dir()
-local theme_path = gfs.get_configuration_dir() .. "theme"
+local theme_path = gfs.get_configuration_dir() .. "theme/"
 local mat_colors = require('theme.mat-colors')
 local theme = {}
 
-theme.font_name = "FiraCode Mono medium"
+theme.font_name = "FiraCode Mono Bold"
 theme.font = theme.font_name .. " 10"
 theme.title_font = theme.font_name .. " 14"
 
@@ -53,7 +53,7 @@ theme.taglist_bg_urgent = theme.bg_urgent
 theme.taglist_bg_focus = theme.bg_focus
 
 -- tasklist
-theme.tasklist_font = 'FiraCode Mono medium 11'
+theme.tasklist_font = theme.font_name .. ' 11'
 theme.tasklist_fg_focus = theme.fg_focus
 theme.tasklist_fg_urgent = theme.fg_urgent
 theme.tasklist_fg_normal = theme.fg_normal
