@@ -301,7 +301,7 @@ This code is tangled to ~init.el~ to select which modules to load. Straight copy
        ;;(java +meghanada) ; the poster child for carpal tunnel syndrome
        (javascript +lsp)       ; all(hope(abandon(ye(who(enter(here))))))
        ;;julia             ; a better, faster MATLAB
-       ;;kotlin            ; a better, slicker Java(Script)
+       (kotlin +lsp)            ; a better, slicker Java(Script)
        ;;latex             ; writing papers in Emacs has never been so fun
        ;;lean              ; for folks with too much to prove
        ;;ledger            ; be audit you can be
@@ -530,6 +530,21 @@ This minor mode sets background color to strings that match color names, e.g. #0
          web-mode
          typescript-mode
          js2-mode))
+#+end_src
+
+** TRAMP
+
+Additional configuration is required for LSPs.
+
+https://emacs-lsp.github.io/lsp-mode/page/remote/
+
+#+begin_src emacs-lisp
+(after! lsp-mode
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-tramp-connection "kotlin-language-server")
+                    :major-modes '(kotlin-mode)
+                    :remote? t
+                    :server-id 'kotlinls-remote)))
 #+end_src
 
 * Org Mode
