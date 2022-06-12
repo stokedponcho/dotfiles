@@ -35,12 +35,15 @@ awful.rules.rules = {
           "Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
           "Wpa_gui",
           "veromix",
-          "xtightvncviewer"},
+          "xtightvncviewer",
+          "wrapper-2.0"
+        },
 
         -- Note that the name property shown in xprop might be set slightly after creation of the client
         -- and the name shown there might not match defined rules here.
         name = {
           "Event Tester",  -- xev.
+          "Whisker Menu" -- xfce4-whisker-menu
         },
         role = {
           "AlarmWindow",  -- Thunderbird's calendar.
@@ -55,6 +58,6 @@ awful.rules.rules = {
     },
 
     -- Set Firefox to always map on the tag named "2" on screen 1.
-    -- { rule = { class = "Firefox" },
-    --   properties = { screen = 1, tag = "2" } },
+     { rule = { class = "Firefox", "Tor Browser" },
+       properties = { screen = 2, tag = "1" } },
 }

@@ -2,7 +2,7 @@
 
 pgrep bspswallow || bspswallow &
 pgrep bspcleanfullscreen || bspcleanfullscreen &
-"$XDG_CONFIG_HOME"/polybar/launch.sh
+#"$XDG_CONFIG_HOME"/polybar/launch.sh
 
 displays=$(xrandr | awk '/ connected/ {print $0}')
 primary=$(echo "$displays" | grep "primary" | awk -F '[[:space:]]+' '{print $1}')

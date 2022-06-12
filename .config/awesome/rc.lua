@@ -82,12 +82,12 @@ local tasklist_buttons = gears.table.join(
 			awful.client.focus.byidx(-1)
 end))
 
-local mysystray = wibox.widget.systray()
-mysystray:set_horizontal(true)
+--local mysystray = wibox.widget.systray()
+--mysystray:set_horizontal(true)
 
-local myvolume = require('awesome-wm-widgets.volume-widget.volume'){}
-local mybrightness = require("awesome-wm-widgets.brightness-widget.brightness"){}
-local mymicrophone = require('widgets.microphone-widget.microphone')
+--local myvolume = require('awesome-wm-widgets.volume-widget.volume'){}
+--local mybrightness = require("awesome-wm-widgets.brightness-widget.brightness"){}
+--local mymicrophone = require('widgets.microphone-widget.microphone')
 
 local wibox_container = function(widget)
 	local dpi = require("beautiful.xresources").apply_dpi
@@ -101,6 +101,7 @@ awful.screen.connect_for_each_screen(function(s)
 
 		-- Create a promptbox for each screen
 		s.mypromptbox = awful.widget.prompt()
+
 		-- Create an imagebox widget which will contain an icon indicating which layout we're using.
 		-- We need one layoutbox per screen.
 		s.mylayoutbox = awful.widget.layoutbox(s)
@@ -156,10 +157,11 @@ awful.screen.connect_for_each_screen(function(s)
 			layout = wibox.layout.align.horizontal,
 			{ -- Left widgets
 				layout = wibox.layout.fixed.horizontal,
-				mylauncher,
+				--mylauncher,
+				--s.mypromptbox,
+				--mykeyboardlayout,
 				s.mytaglist,
-				s.mypromptbox,
-				mykeyboardlayout,
+				wibox_container(s.mylayoutbox),
 			},
 			{ -- Middle widget
 				layout = wibox.layout.fixed.horizontal,
@@ -167,12 +169,11 @@ awful.screen.connect_for_each_screen(function(s)
 			},
 			{ -- Right widgets
 				layout = wibox.layout.fixed.horizontal,
-				wibox_container(mybrightness),
-				wibox_container(myvolume),
-				wibox_container(mymicrophone),
-				wibox_container(mysystray),
-				wibox_container(s.mylayoutbox),
-				mytextclock,
+				---- wibox_container(mybrightness),
+				---- wibox_container(myvolume),
+				---- wibox_container(mymicrophone),
+				---- wibox_container(mysystray),
+				----mytextclock,
 			},
 		}
 end)

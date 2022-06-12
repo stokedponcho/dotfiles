@@ -21,7 +21,8 @@ export PAGER="less --quit-if-one-screen"
 export TERMINAL="alacritty"
 #export VISUAL="emacsclient -nc"
 #export WM="bspwm"
-export WM="awesome"
+#export WM="awesome"
+export WM="startxfce4"
 
 # global program settings
 export CM_IGNORE_WINDOW="KeePassXC"
@@ -34,6 +35,7 @@ export _Z_DATA="$XDG_DATA_HOME/z"
 export _ZL_DATA="$XDG_DATA_HOME/z"
 
 # Clean up ~:
+export _JAVA_OPTIONS="-Djava.util.prefs.userRoot=$XDG_CONFIG_HOME/java"
 export ANSIBLE_CONFIG="$XDG_CONFIG_HOME/ansible/ansible.cfg"
 export AWS_CONFIG_FILE="$XDG_CONFIG_HOME/aws/config"
 export AWS_SHARED_CREDENTIALS_FILE="$XDG_CONFIG_HOME/aws/credentials"
@@ -42,11 +44,11 @@ export CUDA_CACHE_PATH="$XDG_CACHE_HOME/nv"
 export DOTNET_CLI_HOME="$XDG_DATA_HOME/dotnetcli"
 export GOPATH="$XDG_DATA_HOME/go"
 export GNUPGHOME="$XDG_DATA_HOME/gnupg"
+export GRADLE_USER_HOME="$XDG_DATA_HOME/gradle"
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc"
 export HEX_HOME="$XDG_DATA_HOME/hex"
 export HISTFILE="$XDG_DATA_HOME/bash_history"
 export INPUTRC="$XDG_CONFIG_HOME/bash/inputrc"
-export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME"/java
 export LESSHISTFILE=-
 export MIX_HOME="$XDG_DATA_HOME/mix"
 export NODE_REPL_HISTORY="$XDG_DATA_HOME/node_repl_history"
