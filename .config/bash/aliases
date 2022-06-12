@@ -79,6 +79,10 @@ alias exercism="~/Projects/exercism/exercism.sh"
 # toolboxes comands
 #alias mix="toolbox --container elixir run mix"
 
+# foocli (home made football info tool)
+alias foo="foocli today"
+alias fooc="foocli current"
+
 # other stuff
 alias nvidia-smi="watch -n 1 nvidia-smi"
 alias nvidia-settings="nvidia-settings --config=$XDG_CONFIG_HOME/nvidia/settings"
