@@ -9,7 +9,7 @@ export XDG_MENU_ITEMS="$HOME/.cache/xdg-xmenu/items"
 export SCRIPTS="$HOME/.local/scripts"
 
 # Default programs:
-export BROWSER="firefox"
+export BROWSER="org.mozilla.firefox"
 export BROWSER_CLI="w3m"
 export EDITOR="nvim"
 export GIT_EDITOR="$EDITOR"

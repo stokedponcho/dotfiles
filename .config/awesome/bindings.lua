@@ -50,6 +50,7 @@ globalkeys = gears.table.join(
               {description = "focus the previous screen", group = "screen"}),
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto,
               {description = "jump to urgent client", group = "client"}),
+    --
     -- awful.key({ modkey,           }, "Tab",
     --     function ()
     --         awful.client.focus.history.previous()
@@ -59,9 +60,15 @@ globalkeys = gears.table.join(
     --     end,
     --     {description = "go back", group = "client"}),
 
+    awful.key({modkey, "Shift"   }, "d", awful.client.movetoscreen,
+              {description = "move to screen", group = "client"}),
+
+    --
     -- Standard program
     -- awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
     --           {description = "open a terminal", group = "launcher"}),
+    --
+
     awful.key({ modkey, "Control" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit,
@@ -94,21 +101,21 @@ globalkeys = gears.table.join(
                     )
                   end
               end,
-              {description = "restore minimized", group = "client"}),
+              {description = "restore minimized", group = "client"})
 
     -- Prompt
     -- Handled by sxhkd
 
-    awful.key({ modkey }, "x",
-              function ()
-                  awful.prompt.run {
-                    prompt       = "Run Lua code: ",
-                    textbox      = awful.screen.focused().mypromptbox.widget,
-                    exe_callback = awful.util.eval,
-                    history_path = awful.util.get_cache_dir() .. "/history_eval"
-                  }
-              end,
-              {description = "lua execute prompt", group = "awesome"})
+    --awful.key({ modkey }, "x",
+              --function ()
+                  --awful.prompt.run {
+                    --prompt       = "Run Lua code: ",
+                    --textbox      = awful.screen.focused().mypromptbox.widget,
+                    --exe_callback = awful.util.eval,
+                    --history_path = awful.util.get_cache_dir() .. "/history_eval"
+                  --}
+              --end,
+              --{description = "lua execute prompt", group = "awesome"})
 
     -- Menubar
     -- Handled by sxhkd

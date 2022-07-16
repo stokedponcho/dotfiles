@@ -1,0 +1,21 @@
+#!/bin/sh
+
+screens 																# set screens configuration
+xautolock -time 30 -locker "$LOCKER" &
+xsetroot -cursor_name left_ptr &
+"$XDG_CONFIG_HOME"/sxhkd/launch.sh &		# launch sxhkd hotkey daemon
+
+pgrep xfce4-power-manager \
+	|| xfce4-power-manager --daemon &			# power manager
+pgrep nm-applet \
+	|| nm-applet --indicator &						# network applet
+pgrep picom || picom &                  # compositor for opacity
+pgrep dunst || dunst &                  # notification-daemons
+pgrep mullvad-vpn || mullvad-vpn &      # vpn connection
+pgrep redshift-gtk || redshift-gtk &    # colour temperate adjustment
+pgrep unclutter || unclutter &          # hides mouse cursor when idle
+wallp restore &                         # set wallpaper
+clipmenud &                             # clipmenu daemon
+remapkeys &                             # set capslock as control/escape
+pgrep emacs || emacs --daemon &					# emacs server
+protonmail-bridge &

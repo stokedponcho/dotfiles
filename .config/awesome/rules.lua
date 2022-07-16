@@ -42,22 +42,89 @@ awful.rules.rules = {
         -- Note that the name property shown in xprop might be set slightly after creation of the client
         -- and the name shown there might not match defined rules here.
         name = {
-          "Event Tester",  -- xev.
-          "Whisker Menu" -- xfce4-whisker-menu
+          "Event Tester"  -- xev.
         },
         role = {
           "AlarmWindow",  -- Thunderbird's calendar.
           "ConfigManager",  -- Thunderbird's about:config.
           "pop-up",       -- e.g. Google Chrome's (detached) Developer Tools.
+        },
+        type = {
+          "dialog", "menu", "splash"
         }
-      }, properties = { floating = true }},
+      }, properties = { floating = true, titlebars_enabled = true }
+    },
 
     -- Add titlebars to normal clients and dialogs
-    { rule_any = {type = { "normal", "dialog" }
+    { rule_any = {
+        type = { "normal", "dialog" }
       }, properties = { titlebars_enabled = true }
     },
 
-    -- Set Firefox to always map on the tag named "2" on screen 1.
-     { rule = { class = "Firefox", "Tor Browser" },
-       properties = { screen = 2, tag = "1" } },
+    -- Remove titlebars to select applications
+    { rule_any = {
+        class = {
+          "Alacritty",
+          "st", "St"
+        }
+      }, properties = { titlebars_enabled = false }
+    },
+
+    -- Remove titlebars to XFCE windows
+    { rule_any = {
+        instance = { "xfce*", "wrapper-2.0" },
+        class = { "Xfce*", "Wrapper-2.0" },
+        type = { "menu" }
+      }, properties = { titlebars_enabled = false }
+    },
+    { rule_any = {
+        name = { "xfce4-panel" },
+        instance = { "xfce4-panel" },
+        class = { "Xfce4-panel" }
+      }, properties = { dockable = true, sticky = true, titlebars_enabled = false }
+    },
+
+    -- Set web browsers to assigned tag
+    { rule_any = {
+      role = { "browser" }, instance = { "Navigator" }
+    }, properties = { screen = 2, tag = " 1 " } },
+
+    -- Set mail clients to assigned tag
+    { rule_any = {
+      instance = { "Mail", "proton-bridge" }
+    }, properties = { screen = 2, tag = " 3 " } }
 }
+
+-- Titlebars only on floating windows
+client.connect_signal("property::floating", function(c)
+  if c.floating then awful.titlebar.show(c)
+  else awful.titlebar.hide(c)
+  end
+end)
+
+client.connect_signal("manage", function(c)
+  if not canShowTitleBar(c) then
+    awful.titlebar.hide(c)
+  end
+end)
+
+tag.connect_signal("property::layout", function(tag)
+  for _, c in pairs(tag:clients()) do
+    if canShowTitleBar(c) then
+      if c.floating or c.first_tag.layout.name == "floating" then
+        awful.titlebar.show(c)
+      else
+        awful.titlebar.hide(c)
+      end
+    end
+  end
+end)
+
+function canShowTitleBar(client)
+  return not (
+    (client.role ~= null and client.role == "Panel")
+    or (client.type ~= null and client.type == "dock")
+    or (client.type ~= null and client.type == "menu")
+    or (client.instance ~= null and client.instance == "xfce4-panel")
+  )
+end

@@ -82,8 +82,8 @@ local tasklist_buttons = gears.table.join(
 			awful.client.focus.byidx(-1)
 end))
 
---local mysystray = wibox.widget.systray()
---mysystray:set_horizontal(true)
+local mysystray = wibox.widget.systray()
+mysystray:set_horizontal(true)
 
 --local myvolume = require('awesome-wm-widgets.volume-widget.volume'){}
 --local mybrightness = require("awesome-wm-widgets.brightness-widget.brightness"){}
@@ -154,30 +154,69 @@ awful.screen.connect_for_each_screen(function(s)
 
 		-- Add widgets to the wibox
 		s.mywibox:setup {
-			layout = wibox.layout.align.horizontal,
 			{ -- Left widgets
-				layout = wibox.layout.fixed.horizontal,
 				--mylauncher,
 				--s.mypromptbox,
 				--mykeyboardlayout,
-				s.mytaglist,
-				wibox_container(s.mylayoutbox),
+				layout = wibox.layout.align.horizontal
 			},
 			{ -- Middle widget
-				layout = wibox.layout.fixed.horizontal,
-				s.mytasklist,
+				--s.mytasklist,
+				layout = wibox.layout.flex.horizontal
 			},
 			{ -- Right widgets
 				layout = wibox.layout.fixed.horizontal,
 				---- wibox_container(mybrightness),
 				---- wibox_container(myvolume),
 				---- wibox_container(mymicrophone),
-				---- wibox_container(mysystray),
-				----mytextclock,
+				s.mytaglist,
+				wibox_container(mysystray),
+				wibox_container(s.mylayoutbox),
+				mytextclock
 			},
+			layout = wibox.layout.align.horizontal
 		}
 end)
 
 require("bindings")
 require("rules")
 require("signals-base")
+
+
+local gears = require("gears")
+--local xresources = require("beautiful.xresources")
+--local dpi = xresources.apply_dpi
+--local gen_button_size = dpi(12)
+--local gen_button_margin = dpi(6)
+--local gen_button_color_unfocused = beautiful.transparent
+--local gen_button_shape = gears.shape.circle
+
+function recolor_icon(icon)
+	return gears.color.recolor_image(icon, beautiful.titlebar_fg_normal)
+end
+
+beautiful.titlebar_close_button_normal = recolor_icon(beautiful.titlebar_close_button_normal)
+beautiful.titlebar_close_button_focus  = recolor_icon(beautiful.titlebar_close_button_focus)
+
+beautiful.titlebar_minimize_button_normal           = recolor_icon(beautiful.titlebar_minimize_button_normal)
+beautiful.titlebar_minimize_button_focus            = recolor_icon(beautiful.titlebar_minimize_button_focus)
+
+beautiful.titlebar_maximized_button_normal_inactive = recolor_icon(beautiful.titlebar_maximized_button_normal_inactive)
+beautiful.titlebar_maximized_button_focus_inactive  = recolor_icon(beautiful.titlebar_maximized_button_focus_inactive )
+beautiful.titlebar_maximized_button_normal_active   = recolor_icon(beautiful.titlebar_maximized_button_normal_active  )
+beautiful.titlebar_maximized_button_focus_active    = recolor_icon(beautiful.titlebar_maximized_button_focus_active   )
+
+beautiful.titlebar_ontop_button_normal_inactive     = recolor_icon(beautiful.titlebar_ontop_button_normal_inactive    )
+beautiful.titlebar_ontop_button_focus_inactive      = recolor_icon(beautiful.titlebar_ontop_button_focus_inactive     )
+beautiful.titlebar_ontop_button_normal_active       = recolor_icon(beautiful.titlebar_ontop_button_normal_active      )
+beautiful.titlebar_ontop_button_focus_active        = recolor_icon(beautiful.titlebar_ontop_button_focus_active       )
+
+beautiful.titlebar_sticky_button_normal_inactive    = recolor_icon(beautiful.titlebar_sticky_button_normal_inactive   )
+beautiful.titlebar_sticky_button_focus_inactive     = recolor_icon(beautiful.titlebar_sticky_button_focus_inactive    )
+beautiful.titlebar_sticky_button_normal_active      = recolor_icon(beautiful.titlebar_sticky_button_normal_active     )
+beautiful.titlebar_sticky_button_focus_active       = recolor_icon(beautiful.titlebar_sticky_button_focus_active      )
+
+beautiful.titlebar_floating_button_normal_inactive  = recolor_icon(beautiful.titlebar_floating_button_normal_inactive )
+beautiful.titlebar_floating_button_focus_inactive   = recolor_icon(beautiful.titlebar_floating_button_focus_inactive  )
+beautiful.titlebar_floating_button_normal_active    = recolor_icon(beautiful.titlebar_floating_button_normal_active   )
+beautiful.titlebar_floating_button_focus_active     = recolor_icon(beautiful.titlebar_floating_button_focus_active    )

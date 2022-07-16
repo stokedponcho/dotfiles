@@ -1,6 +1,7 @@
 local theme_assets = require("beautiful.theme_assets")
 local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
+--local gears = require("gears")
 local gfs = require("gears.filesystem")
 
 local themes_path = gfs.get_themes_dir()
@@ -66,6 +67,7 @@ theme.tasklist_bg_minimize = theme.bg_minimize
 -- theme.tasklist_spacing = 2
 
 -- titlebars
+theme.titlebar_size = dpi(10)
 theme.titlebar_fg_normal = theme.fg_normal
 theme.titlebar_fg_focus = theme.fg_focus
 theme.titlebar_bg_normal = theme.bg_normal
@@ -75,31 +77,35 @@ theme.titlebar_bg_focus = theme.bg_focus
 theme.systray_icon_spacing = dpi(0)
 
 -- Define the image to load
-theme.titlebar_close_button_normal = theme_path.."close_normal.svg"
-theme.titlebar_close_button_focus  = themes_path.."default/titlebar/close_focus.png"
+-- https://github.com/worron/awesome-config/tree/master/themes/colorless/titlebar
+--
+local icon_dir = theme_path .. "icons/"
 
-theme.titlebar_minimize_button_normal = themes_path.."default/titlebar/minimize_normal.png"
-theme.titlebar_minimize_button_focus  = themes_path.."default/titlebar/minimize_focus.png"
+theme.titlebar_close_button_normal              = icon_dir .. "close.svg"
+theme.titlebar_close_button_focus               = icon_dir .. "close.svg"
 
-theme.titlebar_ontop_button_normal_inactive = themes_path.."default/titlebar/ontop_normal_inactive.png"
-theme.titlebar_ontop_button_focus_inactive  = themes_path.."default/titlebar/ontop_focus_inactive.png"
-theme.titlebar_ontop_button_normal_active = themes_path.."default/titlebar/ontop_normal_active.png"
-theme.titlebar_ontop_button_focus_active  = themes_path.."default/titlebar/ontop_focus_active.png"
+theme.titlebar_minimize_button_normal           = icon_dir .. "minimize.svg"
+theme.titlebar_minimize_button_focus            = icon_dir .. "minimize.svg"
 
-theme.titlebar_sticky_button_normal_inactive = themes_path.."default/titlebar/sticky_normal_inactive.png"
-theme.titlebar_sticky_button_focus_inactive  = themes_path.."default/titlebar/sticky_focus_inactive.png"
-theme.titlebar_sticky_button_normal_active = themes_path.."default/titlebar/sticky_normal_active.png"
-theme.titlebar_sticky_button_focus_active  = themes_path.."default/titlebar/sticky_focus_active.png"
+theme.titlebar_maximized_button_normal_inactive = icon_dir .. "maximize.svg"
+theme.titlebar_maximized_button_focus_inactive  = icon_dir .. "maximize.svg"
+theme.titlebar_maximized_button_normal_active   = icon_dir .. "maximized.svg"
+theme.titlebar_maximized_button_focus_active    = icon_dir .. "maximized.svg"
 
-theme.titlebar_floating_button_normal_inactive = themes_path.."default/titlebar/floating_normal_inactive.png"
-theme.titlebar_floating_button_focus_inactive  = themes_path.."default/titlebar/floating_focus_inactive.png"
-theme.titlebar_floating_button_normal_active = themes_path.."default/titlebar/floating_normal_active.png"
-theme.titlebar_floating_button_focus_active  = themes_path.."default/titlebar/floating_focus_active.png"
+theme.titlebar_ontop_button_normal_inactive     = icon_dir .. "ontop.svg"
+theme.titlebar_ontop_button_focus_inactive      = icon_dir .. "ontop.svg"
+theme.titlebar_ontop_button_normal_active       = icon_dir .. "ontop.svg"
+theme.titlebar_ontop_button_focus_active        = icon_dir .. "ontop.svg"
 
-theme.titlebar_maximized_button_normal_inactive = themes_path.."default/titlebar/maximized_normal_inactive.png"
-theme.titlebar_maximized_button_focus_inactive  = themes_path.."default/titlebar/maximized_focus_inactive.png"
-theme.titlebar_maximized_button_normal_active = themes_path.."default/titlebar/maximized_normal_active.png"
-theme.titlebar_maximized_button_focus_active  = themes_path.."default/titlebar/maximized_focus_active.png"
+theme.titlebar_sticky_button_normal_inactive    = icon_dir .. "pin.svg"
+theme.titlebar_sticky_button_focus_inactive     = icon_dir .. "pin.svg"
+theme.titlebar_sticky_button_normal_active      = icon_dir .. "pin.svg"
+theme.titlebar_sticky_button_focus_active       = icon_dir .. "pin.svg"
+
+theme.titlebar_floating_button_normal_inactive  = icon_dir .. "floating.svg"
+theme.titlebar_floating_button_focus_inactive   = icon_dir .. "floating.svg"
+theme.titlebar_floating_button_normal_active    = icon_dir .. "floating.svg"
+theme.titlebar_floating_button_focus_active     = icon_dir .. "floating.svg"
 
 -- You can use your own layout icons like this:
 theme.layout_fairh = themes_path.."default/layouts/fairhw.png"
