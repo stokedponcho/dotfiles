@@ -9,6 +9,12 @@ local beautiful = require("beautiful") -- Theme handling library
 local wibox = require("wibox") -- Widget and layout library
 local menubar = require("menubar")
 
+-- Global environment settings
+terminal = os.getenv("TERMINAL") or "alacritty"
+editor = os.getenv("EDITOR") or "nvim"
+editor_cmd = terminal .. " -e " .. editor
+modkey = "Mod4"
+
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
@@ -16,21 +22,19 @@ require("awful.hotkeys_popup.keys")
 require("error-handling-base")
 
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init(gears.filesystem.get_configuration_dir() .. "theme/theme.lua")
+beautiful.init(require('theme'))
+--beautiful.init(gears.filesystem.get_configuration_dir() .. "theme/theme.lua")
 
--- Global environment settings
-terminal = os.getenv("TERMINAL") or "alacritty"
-editor = os.getenv("EDITOR") or "nvim"
-editor_cmd = terminal .. " -e " .. editor
-modkey = "Mod4"
-
+require("module.menu")
 require("layouts")
 
--- Create a launcher widget and a main menu
-mymainmenu = require("menu")
-local mylauncher = awful.widget.launcher({
-		image = beautiful.awesome_icon,
-		menu = mymainmenu })
+local wibox_container = function(widget)
+	local dpi = require("beautiful.xresources").apply_dpi
+	return wibox.container.margin(widget, dpi(3), dpi(3), dpi(6), dpi(3))
+end
+
+-- Create a launcher widget
+local quicklaunch = require("module.quicklaunch")
 
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
@@ -88,11 +92,6 @@ mysystray:set_horizontal(true)
 --local myvolume = require('awesome-wm-widgets.volume-widget.volume'){}
 --local mybrightness = require("awesome-wm-widgets.brightness-widget.brightness"){}
 --local mymicrophone = require('widgets.microphone-widget.microphone')
-
-local wibox_container = function(widget)
-	local dpi = require("beautiful.xresources").apply_dpi
-	return wibox.container.margin(widget, dpi(3), dpi(3), dpi(6), dpi(3))
-end
 
 -- Setup screen
 awful.screen.connect_for_each_screen(function(s)
@@ -155,7 +154,7 @@ awful.screen.connect_for_each_screen(function(s)
 		-- Add widgets to the wibox
 		s.mywibox:setup {
 			{ -- Left widgets
-				--mylauncher,
+				wibox_container(quicklaunch),
 				--s.mypromptbox,
 				--mykeyboardlayout,
 				layout = wibox.layout.align.horizontal
@@ -170,8 +169,8 @@ awful.screen.connect_for_each_screen(function(s)
 				---- wibox_container(myvolume),
 				---- wibox_container(mymicrophone),
 				s.mytaglist,
-				wibox_container(mysystray),
 				wibox_container(s.mylayoutbox),
+				wibox_container(mysystray),
 				mytextclock
 			},
 			layout = wibox.layout.align.horizontal
