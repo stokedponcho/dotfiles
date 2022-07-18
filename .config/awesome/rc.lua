@@ -33,9 +33,6 @@ local wibox_container = function(widget)
 	return wibox.container.margin(widget, dpi(3), dpi(3), dpi(6), dpi(3))
 end
 
--- Create a launcher widget
-local quicklaunch = require("module.quicklaunch")
-
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 
@@ -92,6 +89,8 @@ mysystray:set_horizontal(true)
 --local myvolume = require('awesome-wm-widgets.volume-widget.volume'){}
 --local mybrightness = require("awesome-wm-widgets.brightness-widget.brightness"){}
 --local mymicrophone = require('widgets.microphone-widget.microphone')
+local quicklaunch = require("module.quicklaunch")
+local powermenu = require("module.powermenu")
 
 -- Setup screen
 awful.screen.connect_for_each_screen(function(s)
@@ -154,7 +153,7 @@ awful.screen.connect_for_each_screen(function(s)
 		-- Add widgets to the wibox
 		s.mywibox:setup {
 			{ -- Left widgets
-				wibox_container(quicklaunch),
+				wibox_container(require("module.quicklaunch")),
 				--s.mypromptbox,
 				--mykeyboardlayout,
 				layout = wibox.layout.align.horizontal
@@ -164,14 +163,15 @@ awful.screen.connect_for_each_screen(function(s)
 				layout = wibox.layout.flex.horizontal
 			},
 			{ -- Right widgets
-				layout = wibox.layout.fixed.horizontal,
 				---- wibox_container(mybrightness),
 				---- wibox_container(myvolume),
 				---- wibox_container(mymicrophone),
 				s.mytaglist,
 				wibox_container(s.mylayoutbox),
 				wibox_container(mysystray),
-				mytextclock
+				mytextclock,
+				wibox_container(require("module.powermenu")),
+				layout = wibox.layout.fixed.horizontal
 			},
 			layout = wibox.layout.align.horizontal
 		}

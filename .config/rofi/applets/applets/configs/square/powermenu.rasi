@@ -8,13 +8,13 @@
  */
 
 configuration {
-    show-icons:             false;
-	  font:                   "Comfortaa 12";
-    disable-history:        false;
-	  sidebar-mode: 					false;
-    hover-select:           true;
-    me-select-entry: "";
-    me-accept-entry: [ MousePrimary, MouseDPrimary ];
+    show-icons:                     false;
+	  font:                      		  "Comfortaa 12";
+    disable-history:                false;
+	  sidebar-mode: 					        false;
+    hover-select:                   true;
+    me-select-entry:                "";
+    me-accept-entry:                [ MousePrimary, MouseDPrimary ];
 }
 
 @import "../../../styles/colors.rasi"
@@ -27,9 +27,9 @@ configuration {
 window {
     transparency:                   "real";
     border-radius:                  0px;
-    location:                       northwest;
-	width:							500px;
-    x-offset:                       15px;
+    location:                       northeast;
+	width:							420px;
+    x-offset:                       -15px;
     y-offset:                       30px;
 }
 
@@ -45,7 +45,7 @@ prompt {
 
 textbox-prompt-colon {
 	expand: 						false;
-	str: 							" Apps ";
+	str: 							" System ";
 	background-color: 				@accent;
 	text-color: 					@background;
     padding:                        12px 10px 0px 10px;
@@ -66,7 +66,7 @@ inputbar {
 }
 
 listview {
-    columns:						6;
+    columns:						5;
     lines:							1;
     spacing:                        12px;
     cycle:                          true;
