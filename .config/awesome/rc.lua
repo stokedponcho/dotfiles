@@ -4,7 +4,6 @@ pcall(require, "luarocks.loader")
 
 local gears = require("gears") -- Standard awesome library
 local awful = require("awful")
-require("awful.autofocus")
 local beautiful = require("beautiful") -- Theme handling library
 local wibox = require("wibox") -- Widget and layout library
 local menubar = require("menubar")
@@ -13,34 +12,24 @@ local menubar = require("menubar")
 terminal = os.getenv("TERMINAL") or "alacritty"
 editor = os.getenv("EDITOR") or "nvim"
 editor_cmd = terminal .. " -e " .. editor
+browser = os.getenv("BROWSER") or "firefox"
 modkey = "Mod4"
+
+require("awful.autofocus")
 
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
-require("error-handling-base")
+require("error")
 
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(require('theme'))
---beautiful.init(gears.filesystem.get_configuration_dir() .. "theme/theme.lua")
+
+require("configuration")
 
 require("module.menu")
-require("layouts")
-
-local wibox_container = function(widget)
-	local dpi = require("beautiful.xresources").apply_dpi
-	return wibox.container.margin(widget, dpi(3), dpi(3), dpi(6), dpi(3))
-end
-
--- Menubar configuration
-menubar.utils.terminal = terminal -- Set the terminal for applications that require it
-
--- Keyboard map indicator and switcher
-local mykeyboardlayout = awful.widget.keyboardlayout()
-
--- Text clock
-local mytextclock = awful.widget.textclock()
+require("module.titlebar")
 
 -- Tag list
 local taglist_buttons = gears.table.join(
@@ -86,19 +75,10 @@ end))
 local mysystray = wibox.widget.systray()
 mysystray:set_horizontal(true)
 
---local myvolume = require('awesome-wm-widgets.volume-widget.volume'){}
---local mybrightness = require("awesome-wm-widgets.brightness-widget.brightness"){}
---local mymicrophone = require('widgets.microphone-widget.microphone')
-local quicklaunch = require("module.quicklaunch")
-local powermenu = require("module.powermenu")
-
 -- Setup screen
 awful.screen.connect_for_each_screen(function(s)
 		-- Each screen has its own tag table.
 		awful.tag({ " 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 " }, s, awful.layout.layouts[2])
-
-		-- Create a promptbox for each screen
-		s.mypromptbox = awful.widget.prompt()
 
 		-- Create an imagebox widget which will contain an icon indicating which layout we're using.
 		-- We need one layoutbox per screen.
@@ -147,75 +127,37 @@ awful.screen.connect_for_each_screen(function(s)
 			},
 		}
 
+		local wibox_container = function(widget)
+			local dpi = require("beautiful.xresources").apply_dpi
+			return wibox.container.margin(widget, dpi(3), dpi(3), dpi(6), dpi(6))
+		end
+
 		-- Create the wibox
-		s.mywibox = awful.wibar({ position = "top", height = 28, border_width = 0, border_color = beautiful.bg_normal, screen = s })
+		s.mywibox = awful.wibar({ position = "top", height = 28, border_width = 0, border_color = beautiful.bg_normal, screen = s, ontop = false, stretch = true })
 
 		-- Add widgets to the wibox
 		s.mywibox:setup {
 			{ -- Left widgets
+				mylauncher,
 				wibox_container(require("module.quicklaunch")),
-				--s.mypromptbox,
-				--mykeyboardlayout,
-				layout = wibox.layout.align.horizontal
-			},
-			{ -- Middle widget
-				--s.mytasklist,
-				layout = wibox.layout.flex.horizontal
-			},
-			{ -- Right widgets
-				---- wibox_container(mybrightness),
-				---- wibox_container(myvolume),
-				---- wibox_container(mymicrophone),
 				s.mytaglist,
 				wibox_container(s.mylayoutbox),
+				layout = wibox.layout.fixed.horizontal
+			},
+			{ -- Middle widget
+				s.mytasklist,
+				layout = wibox.layout.fixed.horizontal
+			},
+			{ -- Right widgets
+				wibox_container(require("awesome-wm-widgets.brightness-widget.brightness"){}),
+				wibox_container(require('awesome-wm-widgets.volume-widget.volume'){}),
+				wibox_container(require('widget.microphone')),
 				wibox_container(mysystray),
-				mytextclock,
+				wibox_container(awful.widget.keyboardlayout()),
+				wibox_container(awful.widget.textclock()),
 				wibox_container(require("module.powermenu")),
 				layout = wibox.layout.fixed.horizontal
 			},
 			layout = wibox.layout.align.horizontal
 		}
 end)
-
-require("bindings")
-require("rules")
-require("signals-base")
-
-
-local gears = require("gears")
---local xresources = require("beautiful.xresources")
---local dpi = xresources.apply_dpi
---local gen_button_size = dpi(12)
---local gen_button_margin = dpi(6)
---local gen_button_color_unfocused = beautiful.transparent
---local gen_button_shape = gears.shape.circle
-
-function recolor_icon(icon)
-	return gears.color.recolor_image(icon, beautiful.titlebar_fg_normal)
-end
-
-beautiful.titlebar_close_button_normal = recolor_icon(beautiful.titlebar_close_button_normal)
-beautiful.titlebar_close_button_focus  = recolor_icon(beautiful.titlebar_close_button_focus)
-
-beautiful.titlebar_minimize_button_normal           = recolor_icon(beautiful.titlebar_minimize_button_normal)
-beautiful.titlebar_minimize_button_focus            = recolor_icon(beautiful.titlebar_minimize_button_focus)
-
-beautiful.titlebar_maximized_button_normal_inactive = recolor_icon(beautiful.titlebar_maximized_button_normal_inactive)
-beautiful.titlebar_maximized_button_focus_inactive  = recolor_icon(beautiful.titlebar_maximized_button_focus_inactive )
-beautiful.titlebar_maximized_button_normal_active   = recolor_icon(beautiful.titlebar_maximized_button_normal_active  )
-beautiful.titlebar_maximized_button_focus_active    = recolor_icon(beautiful.titlebar_maximized_button_focus_active   )
-
-beautiful.titlebar_ontop_button_normal_inactive     = recolor_icon(beautiful.titlebar_ontop_button_normal_inactive    )
-beautiful.titlebar_ontop_button_focus_inactive      = recolor_icon(beautiful.titlebar_ontop_button_focus_inactive     )
-beautiful.titlebar_ontop_button_normal_active       = recolor_icon(beautiful.titlebar_ontop_button_normal_active      )
-beautiful.titlebar_ontop_button_focus_active        = recolor_icon(beautiful.titlebar_ontop_button_focus_active       )
-
-beautiful.titlebar_sticky_button_normal_inactive    = recolor_icon(beautiful.titlebar_sticky_button_normal_inactive   )
-beautiful.titlebar_sticky_button_focus_inactive     = recolor_icon(beautiful.titlebar_sticky_button_focus_inactive    )
-beautiful.titlebar_sticky_button_normal_active      = recolor_icon(beautiful.titlebar_sticky_button_normal_active     )
-beautiful.titlebar_sticky_button_focus_active       = recolor_icon(beautiful.titlebar_sticky_button_focus_active      )
-
-beautiful.titlebar_floating_button_normal_inactive  = recolor_icon(beautiful.titlebar_floating_button_normal_inactive )
-beautiful.titlebar_floating_button_focus_inactive   = recolor_icon(beautiful.titlebar_floating_button_focus_inactive  )
-beautiful.titlebar_floating_button_normal_active    = recolor_icon(beautiful.titlebar_floating_button_normal_active   )
-beautiful.titlebar_floating_button_focus_active     = recolor_icon(beautiful.titlebar_floating_button_focus_active    )

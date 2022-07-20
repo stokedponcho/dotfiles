@@ -10,7 +10,7 @@ local microphone = wibox.widget {
 awful.spawn.easy_async_with_shell(
 	"ps x | grep \"microphone-widget/microphone.sh\" | grep -v grep | awk '{print $1}' | xargs kill", function ()
 		awful.spawn.with_line_callback(
-			[[ sh -c '"${XDG_CONFIG_HOME:-$HOME}"/awesome/widgets/microphone-widget/microphone.sh' ]],
+			[[ sh -c '"${XDG_CONFIG_HOME:-$HOME}"/awesome/widget/microphone/microphone.sh' ]],
 			{
 				stdout = function(line)
 					awesome.emit_signal("microphone::status", line)
