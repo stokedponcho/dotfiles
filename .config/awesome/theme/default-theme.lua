@@ -44,6 +44,7 @@ theme.menu_width  = dpi(200)
 
 theme.quicklaunch_icon = theme.icon_dir .. "quicklaunch.svg"
 theme.powermenu_icon = theme.icon_dir .. "power.svg"
+theme.magnify_icon = theme.icon_dir .. "magnify.svg"
 
 
 -- Generate taglist squares:

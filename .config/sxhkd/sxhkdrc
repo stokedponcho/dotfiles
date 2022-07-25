@@ -22,7 +22,7 @@ super + shift + Return
 
 # window explorer
 super + Tab
-	rofi -show window
+	launcher_windows
 
 # slock
 ctrl + alt + l

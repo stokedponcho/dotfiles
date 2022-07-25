@@ -142,6 +142,7 @@ awful.screen.connect_for_each_screen(function(s)
 				wibox_container(require("module.quicklaunch")),
 				s.mytaglist,
 				wibox_container(s.mylayoutbox),
+				wibox_container(require("widget.windows")),
 				layout = wibox.layout.fixed.horizontal
 			},
 			{ -- Middle widget
