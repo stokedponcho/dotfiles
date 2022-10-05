@@ -28,7 +28,8 @@ alias vim=nvim
 alias v=vim
 
 # doom emacs
-alias doom="$HOME/.local/src/doom-emacs/bin/doom --localdir=${XDG_DATA_HOME:-$HOME/.local/share}/doom"
+#alias doom="$HOME/.local/src/doom-emacs/bin/doom --localdir=${XDG_DATA_HOME:-$HOME/.local/share}/doom"
+alias doom="$HOME/.local/src/doom-emacs/bin/doom"
 
 # dotfiles
 alias dotfiles="/usr/bin/git --git-dir=$HOME/.dotfiles/.git --work-tree=$HOME/.dotfiles/"
@@ -67,10 +68,12 @@ sic() { search_inside_and "$PAGER" "${1}"; }
 # youtube-dl
 alias ytdl="youtube-dl"
 alias ytdla="youtube-dl -x -format bestaudio[ext=m4a] --embed-thumbnail"
-alias ytdla-playlist="youtube-dl -x --audio-format mp3 -o '%(playlist)s/%(playlist_index)s.%(title)s.%(ext)s'"
+alias ytdl-playlist="youtube-dl -i --yes-playlist -o '%(playlist)s/%(playlist_index)s.%(title)s.%(ext)s'"
+alias ytdl-playlist-audio="youtube-dl -i --audio-format mp3 -o '%(playlist)s/%(playlist_index)s.%(title)s.%(ext)s'"
 
 play-yt() { \mpv --ytdl-format="bestvideo[ext=mp4][height<=480]+bestaudio" ytdl://ytsearch:"$*"; }
 play-yt-audio() { \mpv --ytdl-format=bestaudio ytdl://ytsearch:"$*"; }
+
 
 # working environments
 alias notebook="~/Projects/resources/notebook/notebook.sh"
@@ -79,9 +82,10 @@ alias exercism="~/Projects/exercism/exercism.sh"
 # toolboxes comands
 #alias mix="toolbox --container elixir run mix"
 
-# foocli (home made football info tool)
-alias foo="foocli today"
-alias fooc="foocli current"
+# clafooty (home made football info tool)
+alias cft="clafooty today | $PAGER"
+alias cfm="clafooty matchday -c 2021 -c 1602 | $PAGER"
+alias cfs="clafooty standings -c 2021 -c 1602 | $PAGER"
 
 # other stuff
 alias nvidia-smi="watch -n 1 nvidia-smi"
