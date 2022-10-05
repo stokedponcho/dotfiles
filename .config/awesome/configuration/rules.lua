@@ -86,13 +86,23 @@ awful.rules.rules = {
 
     -- Set web browsers to assigned tag
     { rule_any = {
-      role = { "browser" }, instance = { "Navigator" }
-    }, properties = { screen = 2, tag = " 1 " } },
+      class = { "firefox" }
+    }, properties = { screen = 1, tag = " 2 " } },
+
+    -- Set web browsers to assigned tag
+    { rule_any = {
+      instance = { "slack", "signal" }
+    }, properties = { screen = 1, tag = " 9 " } },
 
     -- Set mail clients to assigned tag
     { rule_any = {
       instance = { "Mail", "proton-bridge" }
-    }, properties = { screen = 2, tag = " 3 " } }
+    }, properties = { screen = 1, tag = " 3 " } },
+
+    --
+    { rule_any = {
+      instance = { "lutris", "steam" }
+    }, properties = { screen = 1, tag = " 8 " } }
 }
 
 -- Titlebars only on floating windows

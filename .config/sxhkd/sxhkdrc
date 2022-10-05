@@ -13,7 +13,7 @@ super + Return
 	$TERMINAL
 
 # program launchers
-super + {r,p}
+super + {r, shift + r}
   {$LAUNCHER, $LAUNCHER_ALT}
 
 # custom quick launch

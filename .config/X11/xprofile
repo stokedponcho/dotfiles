@@ -3,7 +3,24 @@
 xsetroot -cursor_name left_ptr &
 "$XDG_CONFIG_HOME"/sxhkd/launch.sh &		# launch sxhkd hotkey daemon
 
+remapkeys &                             # set capslock as control/escape
+wallp restore &                         # set wallpaper
+
 pgrep picom || picom &                  # compositor for opacity
 pgrep unclutter || unclutter &          # hides mouse cursor when idle
 pgrep emacs || emacs --daemon &					# emacs server
-wallp restore &                         # set wallpaper
+
+
+screens																	# set screens configuration
+xautolock -time 30 -locker "$LOCKER" &
+
+pgrep xfce4-power-manager \
+	|| xfce4-power-manager --daemon &			# power manager
+pgrep nm-applet \
+	|| nm-applet --indicator &						# network applet
+pgrep dunst || dunst &                  # notification-daemons
+pgrep mullvad-vpn || mullvad-vpn &      # vpn connection
+pgrep redshift-gtk || redshift-gtk &    # colour temperate adjustment
+#clipmenud &                             # clipmenu daemon
+protonmail-bridge &
+udiskie --tray &

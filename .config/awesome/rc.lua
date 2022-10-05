@@ -139,7 +139,7 @@ awful.screen.connect_for_each_screen(function(s)
 		s.mywibox:setup {
 			{ -- Left widgets
 				mylauncher,
-				wibox_container(require("module.quicklaunch")),
+				require("module.quicklaunch"),
 				s.mytaglist,
 				wibox_container(s.mylayoutbox),
 				wibox_container(require("widget.windows")),

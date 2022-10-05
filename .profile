@@ -6,23 +6,22 @@ export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
 
 export XDG_MENU_ITEMS="$HOME/.cache/xdg-xmenu/items"
-export SCRIPTS="$HOME/.local/scripts"
+export CUSTOM_SCRIPTS="$HOME/.local/scripts"
 
 # Default programs:
 export BROWSER="org.mozilla.firefox"
 export BROWSER_CLI="w3m"
 export EDITOR="nvim"
 export GIT_EDITOR="$EDITOR"
-export LAUNCHER="dmenu_run"
-export LAUNCHER_ALT="launcher_prompt"
+export LAUNCHER="launcher_prompt"
+export LAUNCHER_ALT="dmenu_run"
 export LOCKER="slock"
-export PAGER="less --quit-if-one-screen"
+export PAGER="less -R --quit-if-one-screen"
 #export TERMINAL="st"
 export TERMINAL="alacritty"
 #export VISUAL="emacsclient -nc"
 #export WM="bspwm"
-#export WM="awesome"
-export WM="startxfce4"
+export WM="awesome"
 
 # global program settings
 export CM_IGNORE_WINDOW="KeePassXC"
@@ -67,7 +66,7 @@ export XINITRC="$XDG_CONFIG_HOME/X11/xinitrc"
 export XSERVERRC="$XDG_CONFIG_HOME/X11/xserverrc"
 
 # Adds ~/.local/scripts/bin to $PATH
-export PATH="$(find "$SCRIPTS"/bin -type d | paste -sd ':'):$PATH"
+export PATH="$(find "$CUSTOM_SCRIPTS"/bin -type d | paste -sd ':'):$PATH"
 
 # Adds custom bin paths to $PATH
 ! [[ "$PATH" =~ "$HOME"/.local/bin:"$HOME"/bin: ]] && export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
