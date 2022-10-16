@@ -86,33 +86,34 @@ theme.systray_icon_spacing = dpi(0)
 -- Define the image to load
 -- https://github.com/worron/awesome-config/tree/master/themes/colorless/titlebar
 --
-local tid = theme.icon_dir .. "titlebar/"
+--local tid = theme.icon_dir .. "titlebar/"
+local tid = system_theme_dir .. "default/titlebar/"
 
-theme.titlebar_close_button_normal              = tid .. "close.svg"
-theme.titlebar_close_button_focus               = tid .. "close.svg"
+theme.titlebar_close_button_normal = tid .. "close_normal.png"
+theme.titlebar_close_button_focus  = tid .. "close_focus.png"
 
-theme.titlebar_minimize_button_normal           = tid .. "minimize.svg"
-theme.titlebar_minimize_button_focus            = tid .. "minimize.svg"
+theme.titlebar_minimize_button_normal = tid .. "minimize_normal.png"
+theme.titlebar_minimize_button_focus  = tid .. "minimize_focus.png"
 
-theme.titlebar_maximized_button_normal_inactive = tid .. "maximize.svg"
-theme.titlebar_maximized_button_focus_inactive  = tid .. "maximize.svg"
-theme.titlebar_maximized_button_normal_active   = tid .. "maximized.svg"
-theme.titlebar_maximized_button_focus_active    = tid .. "maximized.svg"
+theme.titlebar_ontop_button_normal_inactive = tid .. "ontop_normal_inactive.png"
+theme.titlebar_ontop_button_focus_inactive  = tid .. "ontop_focus_inactive.png"
+theme.titlebar_ontop_button_normal_active = tid .. "ontop_normal_active.png"
+theme.titlebar_ontop_button_focus_active  = tid .. "ontop_focus_active.png"
 
-theme.titlebar_ontop_button_normal_inactive     = tid .. "ontop.svg"
-theme.titlebar_ontop_button_focus_inactive      = tid .. "ontop.svg"
-theme.titlebar_ontop_button_normal_active       = tid .. "ontop.svg"
-theme.titlebar_ontop_button_focus_active        = tid .. "ontop.svg"
+theme.titlebar_sticky_button_normal_inactive = tid .. "sticky_normal_inactive.png"
+theme.titlebar_sticky_button_focus_inactive  = tid .. "sticky_focus_inactive.png"
+theme.titlebar_sticky_button_normal_active = tid .. "sticky_normal_active.png"
+theme.titlebar_sticky_button_focus_active  = tid .. "sticky_focus_active.png"
 
-theme.titlebar_sticky_button_normal_inactive    = tid .. "pin.svg"
-theme.titlebar_sticky_button_focus_inactive     = tid .. "pin.svg"
-theme.titlebar_sticky_button_normal_active      = tid .. "pin.svg"
-theme.titlebar_sticky_button_focus_active       = tid .. "pin.svg"
+theme.titlebar_floating_button_normal_inactive = tid .. "floating_normal_inactive.png"
+theme.titlebar_floating_button_focus_inactive  = tid .. "floating_focus_inactive.png"
+theme.titlebar_floating_button_normal_active = tid .. "floating_normal_active.png"
+theme.titlebar_floating_button_focus_active  = tid .. "floating_focus_active.png"
 
-theme.titlebar_floating_button_normal_inactive  = tid .. "floating.svg"
-theme.titlebar_floating_button_focus_inactive   = tid .. "floating.svg"
-theme.titlebar_floating_button_normal_active    = tid .. "floating.svg"
-theme.titlebar_floating_button_focus_active     = tid .. "floating.svg"
+theme.titlebar_maximized_button_normal_inactive = tid .. "maximized_normal_inactive.png"
+theme.titlebar_maximized_button_focus_inactive  = tid .. "maximized_focus_inactive.png"
+theme.titlebar_maximized_button_normal_active = tid .. "maximized_normal_active.png"
+theme.titlebar_maximized_button_focus_active  = tid .. "maximized_focus_active.png"
 
 -- You can use your own layout icons like this:
 theme.layout_fairh = system_theme_dir.."default/layouts/fairhw.png"

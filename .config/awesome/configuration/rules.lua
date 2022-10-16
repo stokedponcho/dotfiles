@@ -105,36 +105,36 @@ awful.rules.rules = {
     }, properties = { screen = 1, tag = " 8 " } }
 }
 
--- Titlebars only on floating windows
-client.connect_signal("property::floating", function(c)
-  if c.floating then awful.titlebar.show(c)
-  else awful.titlebar.hide(c)
-  end
-end)
+---- Titlebars only on floating windows
+--client.connect_signal("property::floating", function(c)
+  --if c.floating then awful.titlebar.show(c)
+  --else awful.titlebar.hide(c)
+  --end
+--end)
 
-client.connect_signal("manage", function(c)
-  if not canShowTitleBar(c) then
-    awful.titlebar.hide(c)
-  end
-end)
+--client.connect_signal("manage", function(c)
+  --if not canShowTitleBar(c) then
+    --awful.titlebar.hide(c)
+  --end
+--end)
 
-tag.connect_signal("property::layout", function(tag)
-  for _, c in pairs(tag:clients()) do
-    if canShowTitleBar(c) then
-      if c.floating or c.first_tag.layout.name == "floating" then
-        awful.titlebar.show(c)
-      else
-        awful.titlebar.hide(c)
-      end
-    end
-  end
-end)
+--tag.connect_signal("property::layout", function(tag)
+  --for _, c in pairs(tag:clients()) do
+    --if canShowTitleBar(c) then
+      --if c.floating or c.first_tag.layout.name == "floating" then
+        --awful.titlebar.show(c)
+      --else
+        --awful.titlebar.hide(c)
+      --end
+    --end
+  --end
+--end)
 
-function canShowTitleBar(client)
-  return not (
-    (client.role ~= null and client.role == "Panel")
-    or (client.type ~= null and client.type == "dock")
-    or (client.type ~= null and client.type == "menu")
-    or (client.instance ~= null and client.instance == "xfce4-panel")
-  )
-end
+--function canShowTitleBar(client)
+  --return not (
+    --(client.role ~= null and client.role == "Panel")
+    --or (client.type ~= null and client.type == "dock")
+    --or (client.type ~= null and client.type == "menu")
+    --or (client.instance ~= null and client.instance == "xfce4-panel")
+  --)
+--end

@@ -27,10 +27,10 @@ client.connect_signal("request::titlebars", function(c)
     top_titlebar : setup {
         { -- Left
             --awful.titlebar.widget.iconwidget(c),
-            buttons = buttons,
-            --awful.titlebar.widget.floatingbutton (c),
-            --awful.titlebar.widget.stickybutton   (c),
-            --awful.titlebar.widget.ontopbutton    (c),
+            --buttons = buttons,
+            awful.titlebar.widget.floatingbutton (c),
+            awful.titlebar.widget.stickybutton   (c),
+            awful.titlebar.widget.ontopbutton    (c),
             layout  = wibox.layout.fixed.horizontal
         },
         { -- Middle
@@ -54,8 +54,8 @@ function recolor_icon(icon)
 	return gears.color.recolor_image(icon, beautiful.titlebar_fg_normal)
 end
 
-beautiful.titlebar_close_button_normal = recolor_icon(beautiful.titlebar_close_button_normal)
-beautiful.titlebar_close_button_focus  = recolor_icon(beautiful.titlebar_close_button_focus)
+beautiful.titlebar_close_button_normal              = recolor_icon(beautiful.titlebar_close_button_normal)
+beautiful.titlebar_close_button_focus               = recolor_icon(beautiful.titlebar_close_button_focus)
 
 beautiful.titlebar_minimize_button_normal           = recolor_icon(beautiful.titlebar_minimize_button_normal)
 beautiful.titlebar_minimize_button_focus            = recolor_icon(beautiful.titlebar_minimize_button_focus)
