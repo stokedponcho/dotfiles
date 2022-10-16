@@ -9,9 +9,9 @@
 
 output() {
   defaultSource=$(pactl info | grep "Default Source" | cut -f3 -d" ")
-  volume=$(pacmd list-sources | grep -A 10 $defaultSource | awk -e '/volume/{ print $5 }' | head -n 1)
+  volume=$(pactl list sources | grep -A 10 $defaultSource | awk -e '/Volume:/{ print $5 }' | head -n 1)
   volume=${volume/"%"/""}
-  muted=$(pacmd list-sources | grep -A 10 $defaultSource | awk '/muted/{ print $2 }')
+  muted=$(pactl list sources | grep -A 10 $defaultSource | awk -e '/Mute:/{ print $2 }')
 
   if [ $muted = "yes" ]; then
     echo "<span color='#999'> $volume</span>"
