@@ -30,6 +30,7 @@ require("configuration")
 
 require("module.menu")
 require("module.titlebar")
+require("module.switcher")
 
 -- Tag list
 local taglist_buttons = gears.table.join(
