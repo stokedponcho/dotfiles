@@ -1,29 +1,29 @@
 #!/bin/bash
 
-BOOKMARKS_PATH="${XDG_CONFIG_HOME:-HOME/.config}/bookmarks.txt"
+BOOKMARKS_PATH="${XDG_DATA_HOME:-HOME/.local/share}/bookmarks.txt"
 
 main () {
-	choice=$(echo -e "Open\nAdd" | dmenu -p "Bookmarks menu:")
+	choice=$(echo -e "Open\nAdd\nEdit" | dmenu -p "Bookmarks menu:")
 
 	case "$choice" in
-		Open) open;;
-		Add) add;;
+		Open)
+			xdotool type "$(grep -v '^#' "$BOOKMARKS_PATH" \
+				| awk 'BEGIN { FS = "#" } ; {print $1"\t"$2}' \
+				| column -t -s $'\t' \
+				| dmenu -l 25 -p "Open bookmark: " \
+				| cut -d' ' -f1)"
+			;;
+		Add)
+			selection="$(xclip -o)"
+
+			grep -q "^$selection" "$BOOKMARKS_PATH" \
+				|| echo "$selection" >> "$BOOKMARKS_PATH"
+			notify-send "Added to bookmarks" "$selection"
+			;;
+		Edit)
+			eval "scratchpad nvim $BOOKMARKS_PATH" >> /dev/null
+			;;
 	esac
 }
 
-open () {
-	url=$(awk 'BEGIN { FS = "|" } ; {print $2"\t"$1}' "$BOOKMARKS_PATH" \
-			| column -t -s $'\t' \
-			| dmenu -l 15 -p "Open bookmark: " \
-			| awk '{print $NF}')
-
-	[ -z "$url" ] && exit
-
-	torbrowser "$url"
-}
-
-add () {
-	eval "scratchpad nvim $BOOKMARKS_PATH" >> /dev/null
-}
-
-main $@
+main "$@"
