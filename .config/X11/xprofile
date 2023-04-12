@@ -5,6 +5,7 @@ xsetroot -cursor_name left_ptr &
 
 remapkeys &                             # set capslock as control/escape
 wallp restore &                         # set wallpaper
+disable-mouse-acceleration &
 
 pgrep picom || picom &                  # compositor for opacity
 pgrep unclutter || unclutter &          # hides mouse cursor when idle

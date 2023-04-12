@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# master pointer
+xinput list | sed -n 's/.*Virtual Core.*id=\([0-9]*\).*pointer.*/\1/p' | while read id
+do
+    xinput set-prop "$id" 'libinput Accel Profile Enabled' 0, 1
+done
+
+
+# razer deathadder
+xinput list | sed -n 's/.*DeathAdder.*id=\([0-9]*\).*pointer.*/\1/p' | while read id
+do
+    echo "$id"
+    xinput set-prop "$id" 'libinput Accel Profile Enabled' 0, 1
+done
