@@ -1,8 +1,0 @@
---ignore etc/*
---ignore pacman-hooks/*
---ignore .disabled
---ignore .gitmodules
---ignore .stowrc
---ignore conf.sh
---ignore dotfiles.sh
---ignore README.md
