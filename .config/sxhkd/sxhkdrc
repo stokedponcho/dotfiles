@@ -28,8 +28,11 @@ super + Tab
 ctrl + alt + l
 	slock
 
-super + o ; {e,c,w,b,m}
-	{emacs,org-capture,quicklaunch-websearch,quicklaunch-bookmarks,thunderbird}
+super + o ; {e,c,f,w,b,m}
+	{emacs,org-capture,thunar,quicklaunch-websearch,quicklaunch-bookmarks,thunderbird}
+
+alt + m
+	amixer -D pulse sset Capture toggle
 
 #
 # System keys

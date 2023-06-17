@@ -87,7 +87,7 @@ awful.rules.rules = {
     -- Set web browsers to assigned tag
     { rule_any = {
       class = { "firefox" }
-    }, properties = { screen = 1, tag = " 2 " } },
+    }, properties = { screen = 1, tag = " 3 " } },
 
     -- Set web browsers to assigned tag
     { rule_any = {
@@ -97,7 +97,7 @@ awful.rules.rules = {
     -- Set mail clients to assigned tag
     { rule_any = {
       instance = { "Mail", "proton-bridge" }
-    }, properties = { screen = 1, tag = " 3 " } },
+    }, properties = { screen = 1, tag = " 2 " } },
 
     --
     { rule_any = {

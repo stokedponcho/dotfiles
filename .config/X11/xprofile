@@ -5,15 +5,15 @@ xsetroot -cursor_name left_ptr &
 
 remapkeys &                             # set capslock as control/escape
 wallp restore &                         # set wallpaper
-disable-mouse-acceleration &
 
 pgrep picom || picom &                  # compositor for opacity
 pgrep unclutter || unclutter &          # hides mouse cursor when idle
 pgrep emacs || emacs --daemon &					# emacs server
 
 
-screens																	# set screens configuration
-xautolock -time 30 -locker "$LOCKER" &
+#screens																	# set screens configuration
+autorandr -c
+xidlehook --timer 300 "$LOCKER" "" --not-when-fullscreen --detect-sleep &
 
 pgrep xfce4-power-manager \
 	|| xfce4-power-manager --daemon &			# power manager

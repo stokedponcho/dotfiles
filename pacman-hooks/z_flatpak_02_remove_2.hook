@@ -1,0 +1,11 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Operation = Remove
+Type = Package
+Target = *
+[Action]
+Description = Removing unused Flatpak...
+Depends = flatpak
+When = PostTransaction
+Exec = /bin/sh -c "/usr/bin/flatpak list | grep org.freedesktop.Platform.GL32.nvidia- | cut -f2 | grep -v $(/usr/bin/flatpak list | grep GL.nvidia | cut -f2 | cut -d '.' -f5) | xargs -o /usr/bin/flatpak uninstall -y --noninteractive"
